@@ -90,14 +90,7 @@
 			{
 				"name": "STG_DIM_FAMILIA_PRODUCTO",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "STG_DIM_EMPLEADO",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureInput": false
 				},
@@ -228,14 +221,7 @@
 			{
 				"name": "STG_DIM_ORGANIZACION",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "STG_DIM_LINEA_PRODUCTO",
-						"dependencyConditions": [
-							"Skipped"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureInput": false
 				},
@@ -274,14 +260,7 @@
 			{
 				"name": "STG_DIM_PROVINCIA",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "STG_DIM_PRODUCTO",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureInput": false
 				},
@@ -366,14 +345,7 @@
 			{
 				"name": "STG_DIM_TIPO_CLIENTE",
 				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "STG_DIM_TECNOLOGIA_PRODUCTO",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"secureInput": false
 				},
