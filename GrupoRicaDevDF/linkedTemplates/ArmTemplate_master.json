@@ -1,0 +1,344 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "GrupoRicaDevDF"
+		},
+		"AzureSqlDatabase1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase1'"
+		},
+		"AzureSqlDatabase_DWH_PROD_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase_DWH_PROD'"
+		},
+		"AzureSqlDatabase_MTD_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase_MTD'"
+		},
+		"AzureSqlDatabase_STG_PROD_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase_STG_PROD'"
+		},
+		"AzureSqlDatabase_TT_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase_TT'"
+		},
+		"GrupoRica_BlobStorage_Dev_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'GrupoRica_BlobStorage_Dev'"
+		},
+		"GrupoRica_LinkedService_Dev_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'GrupoRica_LinkedService_Dev'"
+		},
+		"ORACLE_SAP67_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ORACLE_SAP67'"
+		},
+		"SapHana1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "gruporica-dwhserver-desarrollo.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "GrupoRicaDevSTG"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "gruporicaadmin"
+		},
+		"AzureSqlDatabase_DWH_PROD_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase_DWH_PROD_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "GrupoRicaProdDWH"
+		},
+		"AzureSqlDatabase_DWH_PROD_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "gruporicaadmin"
+		},
+		"AzureSqlDatabase_MTD_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "gruporica-dwhserver-desarrollo.database.windows.net"
+		},
+		"AzureSqlDatabase_MTD_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "GrupoRicaDevMTD"
+		},
+		"AzureSqlDatabase_MTD_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "gruporicaadmin"
+		},
+		"AzureSqlDatabase_STG_PROD_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase_STG_PROD_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "GrupoRicaProdSTG"
+		},
+		"AzureSqlDatabase_STG_PROD_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "gruporicaadmin"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "gruporica-dwhserver-desarrollo.database.windows.net"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "GrupoRicaDevTT"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "gr_etl_tt"
+		},
+		"GrupoRica_LinkedService_Dev_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\gruporicastorageaccdev.file.core.windows.net\\gruporica-fileshare-dev"
+		},
+		"GrupoRica_LinkedService_Dev_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "Azure\\gruporicastorageaccdev"
+		},
+		"GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+			"type": "string",
+			"defaultValue": "gruporica-dwhserver-desarrollo.database.windows.net"
+		},
+		"GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+			"type": "string",
+			"defaultValue": "gruporicaadmin"
+		},
+		"GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"type": "secureString"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "GrupoRicaDevDF_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"GrupoRica_BlobStorage_Dev_connectionString": {
+						"value": "[parameters('GrupoRica_BlobStorage_Dev_connectionString')]"
+					},
+					"GrupoRica_LinkedService_Dev_password": {
+						"value": "[parameters('GrupoRica_LinkedService_Dev_password')]"
+					},
+					"ORACLE_SAP67_connectionString": {
+						"value": "[parameters('ORACLE_SAP67_connectionString')]"
+					},
+					"SapHana1_connectionString": {
+						"value": "[parameters('SapHana1_connectionString')]"
+					},
+					"AzureSqlDatabase1_password": {
+						"value": "[parameters('AzureSqlDatabase1_password')]"
+					},
+					"AzureSqlDatabase_DWH_PROD_password": {
+						"value": "[parameters('AzureSqlDatabase_DWH_PROD_password')]"
+					},
+					"AzureSqlDatabase_MTD_password": {
+						"value": "[parameters('AzureSqlDatabase_MTD_password')]"
+					},
+					"AzureSqlDatabase_STG_PROD_password": {
+						"value": "[parameters('AzureSqlDatabase_STG_PROD_password')]"
+					},
+					"AzureSqlDatabase_TT_password": {
+						"value": "[parameters('AzureSqlDatabase_TT_password')]"
+					},
+					"GrupoRica_LinkedService_Dev_properties_typeProperties_host": {
+						"value": "[parameters('GrupoRica_LinkedService_Dev_properties_typeProperties_host')]"
+					},
+					"GrupoRica_LinkedService_Dev_properties_typeProperties_userId": {
+						"value": "[parameters('GrupoRica_LinkedService_Dev_properties_typeProperties_userId')]"
+					},
+					"AzureSqlDatabase1_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase1_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase1_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_userName')]"
+					},
+					"AzureSqlDatabase_DWH_PROD_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase_DWH_PROD_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase_DWH_PROD_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase_DWH_PROD_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase_DWH_PROD_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase_DWH_PROD_properties_typeProperties_userName')]"
+					},
+					"AzureSqlDatabase_MTD_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase_MTD_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase_MTD_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase_MTD_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase_MTD_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase_MTD_properties_typeProperties_userName')]"
+					},
+					"AzureSqlDatabase_STG_PROD_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase_STG_PROD_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase_STG_PROD_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase_STG_PROD_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase_STG_PROD_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase_STG_PROD_properties_typeProperties_userName')]"
+					},
+					"AzureSqlDatabase_TT_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase_TT_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase_TT_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase_TT_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase_TT_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase_TT_properties_typeProperties_userName')]"
+					},
+					"GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+						"value": "[parameters('GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
+					},
+					"GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+						"value": "[parameters('GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]"
+					},
+					"GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+						"value": "[parameters('GrupoRica-IRSSIS-Dev_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "GrupoRicaDevDF_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'GrupoRicaDevDF_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "GrupoRicaDevDF_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'GrupoRicaDevDF_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "GrupoRicaDevDF_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'GrupoRicaDevDF_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "GrupoRicaDevDF_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'GrupoRicaDevDF_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "GrupoRicaDevDF_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'GrupoRicaDevDF_ArmTemplate_4')]"
+			]
+		}
+	]
+}

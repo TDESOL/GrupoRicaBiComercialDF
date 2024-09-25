@@ -1,0 +1,758 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "GrupoRicaDevDF"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_ATRIBUTOS_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_ATRIBUTOS_CLIENTE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT\t\n            A.KUNNR AS CD_CLIENTE,\n            B.VKORG AS CD_ORGANIZACION,\n            B.VWERK AS CD_CENTRO_DIST,\n            C.IND_SECTOR AS CD_TIPO_CLIENTE,\n            B.VTWEG AS CD_CANAL,\n            B.KVGR2 as CD_REGION_VENTA\n FROM \"SAPHANADB\".\"KNA1\" A\n              LEFT JOIN \"SAPHANADB\".\"KNVV\" B ON \n                                 B.KUNNR = A.KUNNR AND\n                                 B.MANDT = A.MANDT\n\t\t\tLEFT JOIN SAPHANADB.BUT0IS C ON\n\t\t\t\t\tC.CLIENT = A.MANDT AND\n\t\t\t\t\tC.PARTNER = A.KUNNR AND \n                                                                                C.ISTYPE = 'R001'  \t\t\t\t\t \nWHERE A.MANDT='400' AND A.SPRAS= 'S'\n              AND A.LOEVM <> 'X'\n              AND A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')\n\t\t\nORDER BY A.KUNNR",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_REL_ATRIBUTOS_CLIENTE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:16:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_CARTERA_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_CARTERA_CLIENTE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\n\tKUNNR AS COD_CLIENTE,\n\tCONDUCTOR1 AS COD_VENDEDOR,\n\tCONDUCTOR2 AS COD_ASISTENTE\n FROM \"SAPHANADB\".\"KNA1\" A\n\t  LEFT JOIN \"SAPHANADB\".\"ZSD_LIQ_INF_TRA\" B ON\n\t\tA.KUNNR = B.NUM_DOC\n WHERE A.MANDT= '400' AND A.SPRAS= 'S'\n\t\tAND A.LOEVM <> 'X' \n              AND A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')\n ORDER BY A.KUNNR",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "Truncate Table gr01.STG_REL_CARTERA_CLIENTE",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "COD_CLIENTE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CLIENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COD_VENDEDOR",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_VENDEDOR",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COD_ASISTENTE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ASISTENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_REL_CARTERA_CLIENTE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:16:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_COSTOS_VENTAS')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_COSTOS_VENTAS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \n    CONCAT(LEFT(A.ANIO,4), RIGHT(A.MES,2)) AS PERIODO,\n    A.ORGANIZACION,\n    A.CENTRO_COSTOS,\n    A.CENTRO_BENEFICIO,\n    A.MATERIAL,\n    A.DIF_INV,\n    A.COSTO_PROD,\n    A.OTROS_CV,\n    A.DECO_INT,\n    A.DECO_EXTERNO,\n    A.PUBLICIDAD,\n    A.DESCUENT,\n    A.VENTAS\nFROM \"SAPHANADB\".\"ZCDS_COSTOS\" A\nWHERE A.MANDT='400'",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_COSTOS_VENTAS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "PERIODO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ORGANIZACION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MATERIAL",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CENTRO_BENEFICIO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CENTRO_BENEFICIO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CENTRO_COSTOS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CENTRO_COSTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DESCUENT",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_DESCUENTOS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "DECO_EXTERNO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_DECOMISO_EXTERNO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "DECO_INT",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_DECOMISO_INTERNO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "DIF_INV",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_DIFERENCIA_INVENTARIO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "COSTO_PROD",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_COSTOS_PRODUCCION",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "OTROS_CV",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_OTROS_CV",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "PUBLICIDAD",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_PUBLICIDAD",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "VENTAS",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_VENTAS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_REL_COSTOS_VENTAS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:16:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_CUOTA_VENTA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_CUOTA_VENTA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \nbzirk as ruta,\t\nvkbur as centro,\t\nperiodo as periodo,\t\nsum(valor) monto_neto\nFROM \"SAPHANADB\".\"ZTCUOTASTD\"\nWHERE MANDT='400'\nGROUP BY bzirk, vkbur, periodo",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "Truncate Table gr01.STG_REL_CUOTA_VENTA",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RUTA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_RUTA_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIODO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PERIODO_CUOTA_VENTA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MONTO_NETO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_NETO_DE_VENTA_CUOTA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_REL_CUOTA_VENTA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:16:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_DIRECCION_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_DIRECCION_CLIENTE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \n\tKUNNR AS CD_CLIENTE,\n\tUPPER(CONCAT(CONCAT(CONCAT(CONCAT(STRAS,', '), ORT01), ', '), ORT02)) AS DIRECCION,\n\tREGIO AS CD_PROV,\n\tLAND1 AS CD_PAIS\nFROM \"SAPHANADB\".\"KNA1\" A\nWHERE A.MANDT= '400' AND A.SPRAS= 'S'  AND A.LOEVM <> 'X'\n\t   and A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')\nORDER BY LAND1, REGIO, KUNNR",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "Truncate Table gr01.STG_REL_DIRECCION_CLIENTE",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_PAIS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PAIS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_PROV",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PROVINCIA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_CLIENTE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CLIENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DIRECCION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DIRECCIÓN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_REL_DIRECCION_CLIENTE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:16:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_RUTA_ENTREGA_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_RUTA_ENTREGA_CLIENTE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT  \nDISTINCT\n    A.KUNNR AS CODIGO_CLIENTE,\n\t B.vkorg as CODIGO_ORGANIZACION,\n\t B.BZIRK as CODIGO_RUTA_DISTRIBUCION,\n     B.vwerk AS CODIGO_CENTRO_DISTRIBUCION,\n\tD.GERENCIA as CODIGO_GERENCIA_VENTA\nFROM \"SAPHANADB\".\"KNA1\" A\n        INNER JOIN \"SAPHANADB\".\"KNVV\" B ON \n\t\t    B.kunnr = A.kunnr and A.MANDT = b.MANDT\n\t\t\tAND B.loevm <> 'X'\n\t    INNER JOIN \"SAPHANADB\".\"ZSDCO_PARA_RUTA\" D ON D.vkorg = B.vkorg\n                       AND D.vtweg = B.vtweg\n                       AND D.werks = B.vwerk\n                       AND D.bzirk = B.bzirk\nWHERE A.LOEVM <> 'X'\nAND A.ktokd <> 'ZRSP' \n\t AND  A.MANDT='400' AND B.MANDT='400' AND D.MANDT='400'\n\t   and A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "Truncate Table gr01.STG_REL_RUTA_ENTREGA_CLIENTE",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CODIGO_CLIENTE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CLIENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CODIGO_ORGANIZACION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CODIGO_RUTA_DISTRIBUCION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_RUTA_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CODIGO_CENTRO_DISTRIBUCION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CENTRO_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CODIGO_GERENCIA_VENTA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_GERENCIA_VENTA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DTS_STG_REL_RUTA_ENTREGA_CLIENTE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-19T18:36:15Z"
+			},
+			"dependsOn": []
+		}
+	]
+}
