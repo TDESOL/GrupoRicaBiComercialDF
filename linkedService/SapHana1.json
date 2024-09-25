@@ -1,0 +1,16 @@
+{
+	"name": "SapHana1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=vhrics4pdb.hec.gruporica.com:30241;uid=TDSOL;database=S4P;current schema=SAPHANADB",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NzcyZGNlMi01NDZmLTRlNDUtYTc2Yy01NjJiMDM1MDg2YjciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "GrupoRica-IRSH-Dev",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
