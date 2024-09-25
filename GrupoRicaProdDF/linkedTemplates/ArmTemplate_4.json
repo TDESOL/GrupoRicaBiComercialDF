@@ -13,6 +13,98 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_TIPO_PRODUCTO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_TIPO_PRODUCTO",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\n\t\t SUBSTR(A.PRODH,2,11) AS COD_TP_PROD,\n\t\t UPPER(A.VTEXT) AS NOM_TP_PROD\n\tFROM \"SAPHANADB\".\"T179T\" A\n\tWHERE A.MANDT= '400' AND A.SPRAS= 'S' AND LENGTH(SUBSTR(A.PRODH,2,11)) = 2 AND LEFT(A.PRODH,1) = 'M'\n\tORDER BY SUBSTR(A.PRODH,2,11)",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_TIPO_PRODUCTO]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "COD_TP_PROD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_TIPO_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOM_TP_PROD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_TIPO_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DTS_STG_DIM_TIPO_PRODUCTO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:35Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_ZONA_VENTA')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -525,6 +617,8 @@
 					{
 						"name": "CARGAR STG FACT DESPACHO VENTA",
 						"type": "ExecuteSSISPackage",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA COSTO DESPACHO",
@@ -559,8 +653,6 @@
 					{
 						"name": "EXTRACT DATA COSTO DESPACHO",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA FACT DESPACHO",
@@ -3164,6 +3256,167 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_PRESUPUESTO_VENTA_ALL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \n    A.RUTA,\n    A.MATNR AS PRODUCTO,\n    A.VKORG AS ORGANIZACION,\n    A.PERIODO,\n       B.GERENCIA,\n    A.PRESUP_UND AS  CANTIDAD_ITEMS_PRESUPUESTO,\n    A.PRESUP_PES AS MONTO_NETO_DE_VENTA_PRESUPUESTO,\n    A.VTWEG AS CD_CANAL_DISTRIBUCION\nFROM SAPHANADB.ZPRESUPUEST_RUTB A\n\nJOIN SAPHANADB.ZSDCO_PARA_RUTA B\nON A.RUTA= B.BZIRK AND\nA.VKORG=B.VKORG\nWHERE A.MANDT = '400'\nORDER BY A.PERIODO",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_PRESUPUESTO_VENTA_ALL]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RUTA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_RUTA_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCTO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ORGANIZACION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIODO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PERIODO_PRESUPUESTO_VENTA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "GERENCIA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_GERENCIA_VENTAS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_CANAL_DISTRIBUCION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CANAL_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CANTIDAD_ITEMS_PRESUPUESTO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "CANTIDAD_ITEMS_PRESUPESTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "MONTO_NETO_DE_VENTA_PRESUPUESTO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_NETO_DE_VENTA_PRESUPESTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_REL_RUTA_ENTREGA_CLIENTE')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3725,6 +3978,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/STG_DIM_TIPO_PRODUCTO')]",
 				"[concat(variables('factoryId'), '/pipelines/STG_DIM_ZONA_VENTA')]"
 			]
 		},

@@ -5294,6 +5294,8 @@
 					{
 						"name": "CARGAR STG FACT DESPACHO VENTA",
 						"type": "ExecuteSSISPackage",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA COSTO DESPACHO",
@@ -5328,8 +5330,6 @@
 					{
 						"name": "EXTRACT DATA COSTO DESPACHO",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA FACT DESPACHO",
@@ -8064,6 +8064,170 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_PRESUPUESTO_VENTA_ALL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \n    A.RUTA,\n    A.MATNR AS PRODUCTO,\n    A.VKORG AS ORGANIZACION,\n    A.PERIODO,\n       B.GERENCIA,\n    A.PRESUP_UND AS  CANTIDAD_ITEMS_PRESUPUESTO,\n    A.PRESUP_PES AS MONTO_NETO_DE_VENTA_PRESUPUESTO,\n    A.VTWEG AS CD_CANAL_DISTRIBUCION\nFROM SAPHANADB.ZPRESUPUEST_RUTB A\n\nJOIN SAPHANADB.ZSDCO_PARA_RUTA B\nON A.RUTA= B.BZIRK AND\nA.VKORG=B.VKORG\nWHERE A.MANDT = '400'\nORDER BY A.PERIODO",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_PRESUPUESTO_VENTA_ALL]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RUTA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_RUTA_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCTO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ORGANIZACION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIODO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PERIODO_PRESUPUESTO_VENTA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "GERENCIA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_GERENCIA_VENTAS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_CANAL_DISTRIBUCION",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CANAL_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CANTIDAD_ITEMS_PRESUPUESTO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "CANTIDAD_ITEMS_PRESUPESTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "MONTO_NETO_DE_VENTA_PRESUPUESTO",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "MONTO_NETO_DE_VENTA_PRESUPESTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 20
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]",
+				"[concat(variables('factoryId'), '/datasets/STG_REL_PRESUPUESTO_VENTA_ALL')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_REL_RUTA_ENTREGA_CLIENTE')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -10456,6 +10620,70 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase_STG_PROD')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_PRESUPUESTO_VENTA_ALL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_RUTA_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_PRODUCTO",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_ORGANIZACION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_PERIODO_PRESUPUESTO_VENTA",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_GERENCIA_VENTAS",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CANAL_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CANTIDAD_ITEMS_PRESUPESTO",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "VOLUMEN_DE_VENTA_PRESUPESTO",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_NETO_DE_VENTA_PRESUPESTO",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_PRESUPUESTO_VENTA_ALL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		},
 		{
