@@ -1,0 +1,49 @@
+{
+	"name": "DST_STG_DIM_PERIODO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase_TT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_TIPO_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TIPO_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "FECHA_INICIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FECHA_FIN",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "COD_PERIODO_ANTERIOR",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TT_PERIODO"
+		}
+	}
+}
