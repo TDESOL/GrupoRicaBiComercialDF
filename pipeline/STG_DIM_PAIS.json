@@ -30,6 +30,41 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CODIGO_PAIS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PAIS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOMBRE_PAIS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_PAIS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOMBRE_NACIONALIDAD",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_NACIONALIDAD",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
