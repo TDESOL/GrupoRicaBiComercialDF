@@ -21,7 +21,7 @@
 					},
 					"environmentPath": null,
 					"connectVia": {
-						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"referenceName": "GrupoRica-IRSSIS-Prod",
 						"type": "IntegrationRuntimeReference"
 					},
 					"loggingLevel": "Basic"
@@ -52,10 +52,6 @@
 						"type": "SSISDB"
 					},
 					"environmentPath": null,
-					"connectVia": {
-						"referenceName": "GrupoRica-IRSSIS-Dev",
-						"type": "IntegrationRuntimeReference"
-					},
 					"loggingLevel": "Basic"
 				}
 			}
