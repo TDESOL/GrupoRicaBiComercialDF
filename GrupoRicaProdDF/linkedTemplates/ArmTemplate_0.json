@@ -656,7 +656,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "gr01",
-					"table": "STG_FACT_SUGERIDO_ALL"
+					"table": "STG_TASA_CAMBIO_ALL"
 				}
 			},
 			"dependsOn": [

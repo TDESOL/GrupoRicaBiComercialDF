@@ -3328,6 +3328,8 @@
 					{
 						"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -3464,6 +3466,103 @@
 						"outputs": [
 							{
 								"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_TASA_CAMBIARIA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \n\tFCURR AS CD_MONEDA_EXTRANJERA,\n\tTCURR AS CD_MONEDA_LOCAL,\n\tLEFT(cast((99999999 - GDATU) as varchar(8)),6)  AS CD_PERIODO,\n\tAVG(UKURS) AS TASA_CAMBIARIA\nFROM \"SAPHANADB\".\"TCURR\" A\nWHERE A.MANDT= '400'  AND FCURR = 'USD'\nGROUP BY TCURR, FCURR, LEFT(cast((99999999 - GDATU) as varchar(8)),6)  \nORDER BY 3",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE gr01.STG_TASA_CAMBIO_ALL",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_MONEDA_EXTRANJERA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_MONEDA_EXTRANJERA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_MONEDA_LOCAL",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_MONEDA_LOCAL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_PERIODO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PERIODO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TASA_CAMBIARIA",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "TASA_CAMBIARIA",
+											"type": "Decimal",
+											"physicalType": "decimal"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
