@@ -1,0 +1,6 @@
+{
+	"name": "GrupoRica-IRSH-Prod",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"name": "GrupoRicaProdDF",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9c6d412d-2964-4308-ad70-9dcfcfb5d422",
+		"tenantId": "72bc4c57-77ac-45a2-b5ac-eca13d391cb9"
+	}
+}

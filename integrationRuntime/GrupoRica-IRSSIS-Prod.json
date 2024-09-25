@@ -1,0 +1,28 @@
+{
+	"name": "GrupoRica-IRSSIS-Prod",
+	"properties": {
+		"type": "Managed",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "East US",
+				"nodeSize": "Standard_D8_v3",
+				"numberOfNodes": 2,
+				"maxParallelExecutionsPerNode": 16
+			},
+			"ssisProperties": {
+				"catalogInfo": {
+					"catalogServerEndpoint": "gruporica-dwhserver-produccion.database.windows.net",
+					"catalogAdminUserName": "gruporicaadmin",
+					"catalogAdminPassword": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"dualStandbyPairName": "GrupoRica-IRSSIS-Prod-Failover",
+					"catalogPricingTier": "ELASTIC_POOL(name=\"GrupoRicaProd\")"
+				},
+				"edition": "Standard",
+				"licenseType": "LicenseIncluded"
+			}
+		}
+	}
+}
