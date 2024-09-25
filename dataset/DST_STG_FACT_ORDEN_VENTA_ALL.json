@@ -1,0 +1,140 @@
+{
+	"name": "DST_STG_FACT_ORDEN_VENTA_ALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_ORDEN_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_ORDEN_VENTA_DETALLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FECHA_ORDEN_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FECHA_ENTREGA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_ORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_GERENCIA_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_ZONA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_RUTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_CANAL_DIST",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_CLIENTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_MONEDA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MONTO_TASA_CAMBIARIA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 5
+			},
+			{
+				"name": "CD_PRODUCTO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRECIO_UNIT",
+				"type": "decimal",
+				"precision": 11,
+				"scale": 2
+			},
+			{
+				"name": "CANT_ITEMS",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "VOLUMEN",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "DESCUENTO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MONTO_BONIFICACION",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ITBIS",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "MONTO_NETO",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "CD_VENDEDOR_SUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LADGR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AUART_ANA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ABSTK",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AUART",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MTART",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PARVW",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_FACT_ORDEN_VENTA_ALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

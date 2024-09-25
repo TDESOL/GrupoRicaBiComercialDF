@@ -1,0 +1,30 @@
+{
+	"name": "DST_STG_REL_CARTERA_CLIENTE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_CLIENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_VENDEDOR",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ASISTENTE",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REL_CARTERA_CLIENTE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

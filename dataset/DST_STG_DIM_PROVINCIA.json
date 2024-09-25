@@ -1,0 +1,34 @@
+{
+	"name": "DST_STG_DIM_PROVINCIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_PROVINCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_PROVINCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PAIS",
+				"type": "varchar"
+			},
+			{
+				"name": "SIGLA_PROVINCIA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr00",
+			"table": "STG_DIM_PROVINCIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,34 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_PROVINCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_PROVINCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PAIS",
+				"type": "varchar"
+			},
+			{
+				"name": "SIGLA_PROVINCIA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DF_TEST"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

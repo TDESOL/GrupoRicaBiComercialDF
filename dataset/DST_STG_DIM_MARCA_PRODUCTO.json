@@ -1,0 +1,30 @@
+{
+	"name": "DST_STG_DIM_MARCA_PRODUCTO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_MARCA_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_MARCA_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_LINEA_PRODUCTO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_DIM_MARCA_PRODUCTO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

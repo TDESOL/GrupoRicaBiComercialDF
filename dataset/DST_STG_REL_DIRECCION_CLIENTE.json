@@ -1,0 +1,54 @@
+{
+	"name": "DST_STG_REL_DIRECCION_CLIENTE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_PAIS",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PROVINCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CLIENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "DIRECCIÓN",
+				"type": "varchar"
+			},
+			{
+				"name": "REGION_EXPORT",
+				"type": "varchar"
+			},
+			{
+				"name": "COMPLEMENTO_DIRECCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CORDENADA_GEOGRAFICA_LATITUD",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 10
+			},
+			{
+				"name": "CORDENADA_GEOGRAFICA_LONGITUD",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REL_DIRECCION_CLIENTE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

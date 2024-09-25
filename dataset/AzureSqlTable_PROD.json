@@ -1,0 +1,17 @@
+{
+	"name": "AzureSqlTable_PROD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase_STG_PROD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_FACT_SUGERIDO_ALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

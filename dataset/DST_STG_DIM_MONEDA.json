@@ -1,0 +1,26 @@
+{
+	"name": "DST_STG_DIM_MONEDA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_MONEDA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_MONEDA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr00",
+			"table": "STG_DIM_MONEDA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

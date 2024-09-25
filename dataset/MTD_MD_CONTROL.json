@@ -1,0 +1,60 @@
+{
+	"name": "MTD_MD_CONTROL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase_MTD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SK_CONTROL",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "SK_MAXIMO",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			},
+			{
+				"name": "NM_ENTIDAD",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_ESQUEMA",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_BASE_DE_DATOS",
+				"type": "varchar"
+			},
+			{
+				"name": "FC_INI_CARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FC_FIN_CARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FC_PROCESO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "MD_CONTROL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

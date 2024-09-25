@@ -1,0 +1,86 @@
+{
+	"name": "DST_STG_REL_COSTOS_VENTAS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ORGANIZACION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CENTRO_BENEFICIO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CENTRO_COSTO",
+				"type": "varchar"
+			},
+			{
+				"name": "MONTO_DESCUENTOS",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_DECOMISO_EXTERNO",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_DECOMISO_INTERNO",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_DIFERENCIA_INVENTARIO",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_COSTOS_PRODUCCION",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_OTROS_CV",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_PUBLICIDAD",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_VENTAS",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REL_COSTOS_VENTAS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
