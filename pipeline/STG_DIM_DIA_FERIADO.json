@@ -1,0 +1,88 @@
+{
+	"name": "STG_DIM_DIA_FERIADO",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_DIA_FERIADO",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [Dias_feriados]\n      ,[Nombre_Dia_Feriado]\n  FROM [dbo].[TT_DIAS_FERIADOS]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_DIA_FERIADO]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Dias_feriados",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DIA_FERIADO",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "Nombre_Dia_Feriado",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "NM_DIA_FERIADO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false,
+							"dateFormat": "\"YYYYMMDD\"",
+							"dateTimeFormat": "\"YYYYMMDD\""
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlTableTT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_DIA_FERIADO",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": []
+	}
+}
