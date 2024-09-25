@@ -5493,6 +5493,8 @@
 					{
 						"name": "EXTRACT DATA FACT ORDENES",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -5956,8 +5958,6 @@
 					{
 						"name": "CARGAR STG FACT ORDEN VENTA",
 						"type": "ExecuteSSISPackage",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA FACT ORDENES",
