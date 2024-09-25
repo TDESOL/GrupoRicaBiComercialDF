@@ -1,5 +1,5 @@
 {
-	"name": "STG_DIM_FECHA",
+	"name": "DST_STG_DIM_FECHA",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",
