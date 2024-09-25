@@ -1,0 +1,29 @@
+{
+	"name": "DST_STG_DIM_PAIS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_PAIS",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_PAIS",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_NACIONALIDAD",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr00",
+			"table": "STG_DIM_PAIS"
+		}
+	}
+}

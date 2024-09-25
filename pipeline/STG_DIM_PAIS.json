@@ -1,6 +1,56 @@
 {
 	"name": "STG_DIM_PAIS",
 	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_PAIS",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT\t\n\tLAND1 AS CODIGO_PAIS,\n\tUCASE(LANDX) AS NOMBRE_PAIS,\n\tUCASE(NATIO) AS NOMBRE_NACIONALIDAD\n FROM \"SAPHANADB\".\"T005T\" \n WHERE MANDT='400' AND SPRAS= 'S'",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_PAIS]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_PAIS",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
 		"folder": {
 			"name": "STG/DIM"
 		},
