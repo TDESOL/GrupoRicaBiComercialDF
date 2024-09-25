@@ -39,7 +39,7 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "COD_PERIODO",
+									"name": "CD_PERIODO",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -58,6 +58,18 @@
 							},
 							{
 								"source": {
+									"name": "COD_PERIODO_ANTERIOR",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CD_PERIODO_ANTERIOR",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
 									"name": "CD_TIPO_PERIODO",
 									"type": "String",
 									"physicalType": "varchar"
@@ -70,24 +82,12 @@
 							},
 							{
 								"source": {
-									"name": "DESC_TIPO_PERIODO",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "DESC_TIPO_PERIODO",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
 									"name": "FECHA_INICIO",
 									"type": "DateTime",
 									"physicalType": "datetime"
 								},
 								"sink": {
-									"name": "FECHA_INICIO",
+									"name": "FC_INI_PERIODO",
 									"type": "DateTime",
 									"physicalType": "datetime"
 								}
@@ -99,21 +99,9 @@
 									"physicalType": "datetime"
 								},
 								"sink": {
-									"name": "FECHA_FIN",
+									"name": "FC_FIN_PERIODO",
 									"type": "DateTime",
 									"physicalType": "datetime"
-								}
-							},
-							{
-								"source": {
-									"name": "COD_PERIODO_ANTERIOR",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "COD_PERIODO_ANTERIOR",
-									"type": "String",
-									"physicalType": "varchar"
 								}
 							}
 						],
