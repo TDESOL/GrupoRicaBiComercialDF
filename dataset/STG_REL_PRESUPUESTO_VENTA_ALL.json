@@ -1,0 +1,59 @@
+{
+	"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_RUTA_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ORGANIZACION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PERIODO_PRESUPUESTO_VENTA",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_GERENCIA_VENTAS",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CANAL_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CANTIDAD_ITEMS_PRESUPESTO",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "VOLUMEN_DE_VENTA_PRESUPESTO",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_NETO_DE_VENTA_PRESUPESTO",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REL_PRESUPUESTO_VENTA_ALL"
+		}
+	}
+}
