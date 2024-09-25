@@ -490,7 +490,7 @@
 					},
 					"environmentPath": null,
 					"connectVia": {
-						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"referenceName": "GrupoRica-IRSSIS-Prod",
 						"type": "IntegrationRuntimeReference"
 					},
 					"loggingLevel": "Basic"
