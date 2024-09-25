@@ -458,8 +458,6 @@
 			{
 				"name": "EXTRACT DATA COSTO DESPACHO",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA FACT DESPACHO",
