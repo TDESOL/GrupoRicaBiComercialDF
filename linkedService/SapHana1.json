@@ -6,10 +6,10 @@
 		"type": "SapHana",
 		"typeProperties": {
 			"connectionString": "servernode=vhrics4pdb.hec.gruporica.com:30241;uid=TDSOL;database=S4P;current schema=SAPHANADB",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NzcyZGNlMi01NDZmLTRlNDUtYTc2Yy01NjJiMDM1MDg2YjciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzYmQ0MDVhNy03MTNlLTQ0YmQtYWE5OS0xNzIwMGNhNjg5ZmUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "GrupoRica-IRSH-Dev",
+			"referenceName": "GrupoRica-IRSH-Prod",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
