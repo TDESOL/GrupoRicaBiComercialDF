@@ -61,8 +61,8 @@
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
 							"treatBooleanAsNumber": false,
-							"dateFormat": "\"YYYYMMDD\"",
-							"dateTimeFormat": "\"YYYYMMDD\""
+							"dateFormat": "\"DDMMYYYY\"",
+							"dateTimeFormat": "\"DDMMYYYY\""
 						}
 					}
 				},
