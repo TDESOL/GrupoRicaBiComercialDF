@@ -5,6 +5,8 @@
 			{
 				"name": "EXTRACT DATA FACT SUGERIDO",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable Fecha Inicial",
@@ -355,8 +357,6 @@
 			{
 				"name": "CARGAR STG FACT SUGERIDO",
 				"type": "ExecuteSSISPackage",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA FACT SUGERIDO",
@@ -380,7 +380,7 @@
 					},
 					"environmentPath": null,
 					"connectVia": {
-						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"referenceName": "GrupoRica-IRSSIS-Prod",
 						"type": "IntegrationRuntimeReference"
 					},
 					"loggingLevel": "Basic"
