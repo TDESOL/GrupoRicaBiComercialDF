@@ -111,15 +111,6 @@
 								}
 							},
 							{
-								"sink": {
-									"name": "VOLUMEN_DE_VENTA_PRESUPESTO",
-									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 4,
-									"precision": 20
-								}
-							},
-							{
 								"source": {
 									"name": "MONTO_NETO_DE_VENTA_PRESUPUESTO",
 									"type": "Decimal"
