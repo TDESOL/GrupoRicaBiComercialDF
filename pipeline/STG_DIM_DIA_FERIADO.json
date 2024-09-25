@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT [Dias_feriados]\n      ,[Nombre_Dia_Feriado]\n  FROM [dbo].[TT_DIAS_FERIADOS]",
+						"sqlReaderQuery": "SELECT convert(DATETIME, \n       SUBSTRING(Dias_feriados, 5, 4)+\n       SUBSTRING(Dias_feriados, 3, 2)+ \n\t   SUBSTRING(Dias_feriados, 1, 2), 112) AS Dias_feriados\n\t   ,[Nombre_Dia_Feriado]\n FROM [dbo].[TT_DIAS_FERIADOS]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -35,8 +35,8 @@
 							{
 								"source": {
 									"name": "Dias_feriados",
-									"type": "String",
-									"physicalType": "varchar"
+									"type": "DateTime",
+									"physicalType": "datetime"
 								},
 								"sink": {
 									"name": "DIA_FERIADO",
