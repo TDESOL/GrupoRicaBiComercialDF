@@ -1,0 +1,90 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "GrupoRicaProdDF"
+		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase_DWH_PROD_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase_MTD_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase_STG_PROD_password": {
+			"value": ""
+		},
+		"GrupoRica_BlobStorage_Prod_connectionString": {
+			"value": ""
+		},
+		"GrupoRica_LinkedService_Prod_password": {
+			"value": ""
+		},
+		"ORACLE_SAP67_connectionString": {
+			"value": ""
+		},
+		"SapHana1_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "GrupoRicaProdSTG"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "gr_etl_stg"
+		},
+		"AzureSqlDatabase_DWH_PROD_properties_typeProperties_server": {
+			"value": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase_DWH_PROD_properties_typeProperties_database": {
+			"value": "GrupoRicaProdDWH"
+		},
+		"AzureSqlDatabase_DWH_PROD_properties_typeProperties_userName": {
+			"value": "gr_etl_dwh"
+		},
+		"AzureSqlDatabase_MTD_properties_typeProperties_server": {
+			"value": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase_MTD_properties_typeProperties_database": {
+			"value": "GrupoRicaProdMTD"
+		},
+		"AzureSqlDatabase_MTD_properties_typeProperties_userName": {
+			"value": "gr_etl_mtd"
+		},
+		"AzureSqlDatabase_STG_PROD_properties_typeProperties_server": {
+			"value": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase_STG_PROD_properties_typeProperties_database": {
+			"value": "GrupoRicaProdSTG"
+		},
+		"AzureSqlDatabase_STG_PROD_properties_typeProperties_userName": {
+			"value": "gr_etl_stg"
+		},
+		"GrupoRica_LinkedService_Prod_properties_typeProperties_host": {
+			"value": "\\\\gruporicastorageaccprod.file.core.windows.net\\gruporica-fileshare-prod"
+		},
+		"GrupoRica_LinkedService_Prod_properties_typeProperties_userId": {
+			"value": "Azure\\gruporicastorageaccprod"
+		},
+		"GrupoRica-IRSSIS-Prod_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+			"value": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"GrupoRica-IRSSIS-Prod_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+			"value": "gruporicaadmin"
+		},
+		"GrupoRica-IRSSIS-Prod_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"value": ""
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
