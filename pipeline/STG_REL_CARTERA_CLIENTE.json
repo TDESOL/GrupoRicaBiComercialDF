@@ -1,0 +1,96 @@
+{
+	"name": "STG_REL_CARTERA_CLIENTE",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_CARTERA_CLIENTE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT DISTINCT\n\tKUNNR AS COD_CLIENTE,\n\tCONDUCTOR1 AS COD_VENDEDOR,\n\tCONDUCTOR2 AS COD_ASISTENTE\n FROM \"SAPHANADB\".\"KNA1\" A\n\t  LEFT JOIN \"SAPHANADB\".\"ZSD_LIQ_INF_TRA\" B ON\n\t\tA.KUNNR = B.NUM_DOC\n WHERE A.MANDT= '400' AND A.SPRAS= 'S'\n\t\tAND A.LOEVM <> 'X' \n              AND A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')\n ORDER BY A.KUNNR",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "Truncate Table gr01.STG_REL_CARTERA_CLIENTE",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "COD_CLIENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CLIENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "COD_VENDEDOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_VENDEDOR",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "COD_ASISTENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ASISTENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_CARTERA_CLIENTE",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:16:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

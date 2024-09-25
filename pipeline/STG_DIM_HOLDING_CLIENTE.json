@@ -1,0 +1,85 @@
+{
+	"name": "STG_DIM_HOLDING_CLIENTE",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_HOLDING_CLIENTE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT \r\n\tA.KUNNR AS CD_HOLDING,\r\n\tA.NAME1 AS NM_HOLDING \r\nFROM SAPHANADB.KNA1 A \r\nWHERE A.KTOKD = '0012' \r\n\t  AND A.LOEVM <> 'X' \r\n\t  AND A.MANDT = '400'",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_HOLDING_CLIENTE]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_HOLDING",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_HOLDING_CLIENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NM_HOLDING",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_HOLDING_CLIENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_HOLDING_CLIENTE",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:15:35Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

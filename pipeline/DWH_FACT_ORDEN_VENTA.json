@@ -1,0 +1,70 @@
+{
+	"name": "DWH_FACT_ORDEN_VENTA",
+	"properties": {
+		"activities": [
+			{
+				"name": "DWH_FACT_ORDEN_VENTA",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_FACT_ORDEN_VENTA.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic"
+				}
+			},
+			{
+				"name": "DWH_FACT_ORDEN_VENTA_DETALLE",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [
+					{
+						"activity": "DWH_FACT_ORDEN_VENTA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_FACT_ORDEN_VENTA_DETALLE.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic"
+				}
+			}
+		],
+		"folder": {
+			"name": "DWH/FACT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-19T23:12:53Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

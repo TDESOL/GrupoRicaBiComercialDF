@@ -1,0 +1,96 @@
+{
+	"name": "STG_DIM_ORGANIZACION",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_ORGANIZACION",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORG,\n\tUPPER(A.VTEXT) AS NOM_ORG,\n\tBUKRS_ECC AS CD_ORG_ANT\nFROM \"SAPHANADB\".\"TVKOT\" A \n\t LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_BUKRS\" B  ON\n\t\tB.BUKRS = A.VKORG AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT = '400' AND A.SPRAS = 'S'\nORDER BY A.VKORG",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_ORGANIZACION]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_ORG",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORGANIZACION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOM_ORG",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NOM_ORGANIZACION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_ORG_ANT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORG_ANT",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_ORGANIZACION",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:15:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

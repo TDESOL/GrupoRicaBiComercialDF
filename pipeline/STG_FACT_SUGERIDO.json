@@ -1,0 +1,405 @@
+{
+	"name": "STG_FACT_SUGERIDO",
+	"properties": {
+		"activities": [
+			{
+				"name": "EXTRACT DATA FACT SUGERIDO",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set variable Fecha Inicial",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set variable Fecha_Final",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": {
+							"value": "SELECT\n\tA.ID_DOC AS CD_SUGERIDO_VENTA,\n\tB.POS AS CD_SUGERIDO_DETALLE_VENTA, \n\tA.FECHA_DOC AS FECHA_SUGERIDO_VENTA,\n\tA.BUKRS AS CD_ORGANIZACION,\n\tA.WERKS AS CD_CENTRO_DISTRIBUCION,\n\tA.ROTCODE AS CD_RUTA,\n\tA.ID_VENDEDOR AS CD_VENDEDOR,\n\tA.MONEDA AS MONEDA,\n\tB.ID_MATERIAL AS CD_PRODUCTO,\n\tB.CANTIDAD_MODIFICADA AS CANTIDAD_ITEMS,\n\tB.MONTO_PRECIO AS PRECIO_UNITARIO,\n\tB.MONTO_SUBTOTAL AS MONTO_BRUTO,\n\tB.MONTO_DESCUENTO AS DESCUENTO,\n\tB.MONTO_ITBIS AS ITBIS,\n\tB.MONTO_TOTAL AS MONTO_NETO,\n\tC.VTWEG AS CD_CANAL,\n\tC.KUNNR_SUP AS CD_VENDEDOR_SUP,\n\tC.VKGRP AS CD_ZONA_VENTA\nFROM  SAPHANADB.ZSD_LIQ_INF_FA_K A\n\t  JOIN SAPHANADB.ZSD_LIQ_INF_FA_P B ON\n\t\t  B.ID_DOC = A.ID_DOC AND\n\t\t  B.MANDT  = A.MANDT\n\t  JOIN SAPHANADB.ZSDCO_PARA_RUTA C ON\n\t\t  C.BZIRK = A.ROTCODE AND\n\t\t  C.MANDT  = A.MANDT AND\n\t  C.VKORG = A.BUKRS\t  \nWHERE A.MANDT='400' AND A.FECHA_DOC BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}\nORDER BY A.FECHA_DOC, A.ID_DOC, B.POS ",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_FACT_SUGERIDO_ALL]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_SUGERIDO_VENTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_SUGERIDO_VENTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_SUGERIDO_DETALLE_VENTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_SUGERIDO_DETALLE_VENTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FECHA_SUGERIDO_VENTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FECHA_SUGERIDO_VENTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_ORGANIZACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORGANIZACION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CENTRO_DISTRIBUCION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CENTRO_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_RUTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_RUTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_VENDEDOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_VENDEDOR",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MONEDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MONEDA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_PRODUCTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PRODUCTO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CANTIDAD_ITEMS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "CANTIDAD_ITEMS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 13
+								}
+							},
+							{
+								"source": {
+									"name": "PRECIO_UNITARIO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRECIO_UNITARIO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 13
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_BRUTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_BRUTO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 13
+								}
+							},
+							{
+								"source": {
+									"name": "DESCUENTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "DESCUENTO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 13
+								}
+							},
+							{
+								"source": {
+									"name": "ITBIS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ITBIS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 13
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_NETO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_NETO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 13
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CANAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CANAL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_VENDEDOR_SUP",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_VENDEDOR_SUP",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_ZONA_VENTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ZONA_VENTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_FACT_SUGERIDO_ALL",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Busca Fechas",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [NM_ENTIDAD]\n      ,cast(FORMAT([FC_INI_CARGA] ,'yyyyMMdd') as INT) as FECHA_INICIAL\n      ,cast(FORMAT([FC_FIN_CARGA] ,'yyyyMMdd') as INT)  as FECHA_FINAL\nFROM [dbo].[MD_CONTROL]\nWHERE NM_ENTIDAD = 'STG_FACT_SUGERIDO_VENTA_RANCHERA'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "MTD_MD_CONTROL",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set variable Fecha Inicial",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Busca Fechas",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Fecha_Ini",
+					"value": {
+						"value": "@activity('Busca Fechas').output.firstRow.FECHA_INICIAL",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable Fecha_Final",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Busca Fechas",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Fecha_Fin",
+					"value": {
+						"value": "@activity('Busca Fechas').output.firstRow.FECHA_FINAL",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "CARGAR STG FACT SUGERIDO",
+				"type": "ExecuteSSISPackage",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "EXTRACT DATA FACT SUGERIDO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_SUGERIDO_VTA_RANCH.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic"
+				}
+			}
+		],
+		"variables": {
+			"Fecha_Ini": {
+				"type": "Integer"
+			},
+			"Fecha_Fin": {
+				"type": "Integer"
+			}
+		},
+		"folder": {
+			"name": "STG/FACT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:14:39Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
