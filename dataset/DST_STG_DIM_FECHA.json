@@ -353,5 +353,6 @@
 			"schema": "gr00",
 			"table": "STG_DIM_FC"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

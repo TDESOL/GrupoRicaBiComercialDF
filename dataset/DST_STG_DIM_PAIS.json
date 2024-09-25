@@ -25,5 +25,6 @@
 			"schema": "gr00",
 			"table": "STG_DIM_PAIS"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

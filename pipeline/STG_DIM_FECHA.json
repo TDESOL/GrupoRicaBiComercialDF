@@ -54,6 +54,8 @@
 		"folder": {
 			"name": "STG/DIM"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-09-25T21:22:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

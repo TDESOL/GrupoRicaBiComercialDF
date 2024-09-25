@@ -21,5 +21,6 @@
 			"schema": "gr01",
 			"table": "STG_DIM_TIPO_DOC_VENTA"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }
