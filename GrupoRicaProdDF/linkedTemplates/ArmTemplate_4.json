@@ -113,6 +113,8 @@
 					{
 						"name": "EXTRACT DATA FACT DESPACHO",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -523,8 +525,6 @@
 					{
 						"name": "CARGAR STG FACT DESPACHO VENTA",
 						"type": "ExecuteSSISPackage",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA COSTO DESPACHO",
@@ -559,6 +559,8 @@
 					{
 						"name": "EXTRACT DATA COSTO DESPACHO",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA FACT DESPACHO",
