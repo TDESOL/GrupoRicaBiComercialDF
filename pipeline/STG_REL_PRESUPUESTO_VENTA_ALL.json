@@ -169,7 +169,6 @@
 						"preCopyScript": "TRUNCATE TABLE gr01.STG_TASA_CAMBIO_ALL",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
-						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
