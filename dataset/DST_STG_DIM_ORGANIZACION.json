@@ -1,0 +1,30 @@
+{
+	"name": "DST_STG_DIM_ORGANIZACION",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_ORGANIZACION",
+				"type": "varchar"
+			},
+			{
+				"name": "NOM_ORGANIZACION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ORG_ANT",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr00",
+			"table": "STG_DIM_ORGANIZACION"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

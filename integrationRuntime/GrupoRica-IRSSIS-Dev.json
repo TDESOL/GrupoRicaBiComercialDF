@@ -1,0 +1,59 @@
+{
+	"name": "GrupoRica-IRSSIS-Dev",
+	"properties": {
+		"type": "Managed",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "East US",
+				"nodeSize": "Standard_D2_v3",
+				"numberOfNodes": 1,
+				"maxParallelExecutionsPerNode": 5
+			},
+			"ssisProperties": {
+				"catalogInfo": {
+					"catalogServerEndpoint": "gruporica-dwhserver-desarrollo.database.windows.net",
+					"catalogAdminUserName": "gruporicaadmin",
+					"catalogAdminPassword": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"catalogPricingTier": "ELASTIC_POOL(name=\"GrupoRicaDev\")"
+				},
+				"edition": "Standard",
+				"licenseType": "LicenseIncluded",
+				"dataProxyProperties": {
+					"connectVia": {
+						"type": "IntegrationRuntimeReference",
+						"referenceName": "GrupoRica-IRSH-Dev"
+					},
+					"stagingLinkedService": {
+						"type": "LinkedServiceReference",
+						"referenceName": "GrupoRica_BlobStorage_Dev"
+					}
+				},
+				"expressCustomSetupProperties": [
+					{
+						"type": "CmdkeySetup",
+						"typeProperties": {
+							"targetName": "gruporicastorageaccdev.blob.core.windows.net",
+							"userName": "powerbi",
+							"password": {
+								"type": "SecureString",
+								"value": "**********"
+							}
+						}
+					}
+				],
+				"packageStores": [
+					{
+						"name": "GrupoRica_PackageStore_Dev",
+						"packageStoreLinkedService": {
+							"referenceName": "GrupoRica_LinkedService_Dev",
+							"type": "LinkedServiceReference"
+						}
+					}
+				]
+			}
+		}
+	}
+}

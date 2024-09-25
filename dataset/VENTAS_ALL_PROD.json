@@ -1,0 +1,168 @@
+{
+	"name": "VENTAS_ALL_PROD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase_STG_PROD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_FACT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_DESPACHO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FECHA_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORDEN_VENTAS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_DETALLE_FACTURA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VOLUMEN",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "CLIENTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGANIZACION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_GERENCIA_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ZONA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RUTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_VENDEDOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_ASISTENTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_CANAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_TIPO_CLIENTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_REGION_VENTAS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MONEDA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CENTRO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MONTO_TASA_CAMBIARIA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 5
+			},
+			{
+				"name": "PRODUCTO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CANTIDAD_ITEMS",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "DESCUENTO",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "NETWR",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "ITBIS",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "MONTO_NETO",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "MONTO_BRUTO",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "MONTO_BONIFICACION",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "CD_VENDEDOR_SUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VGBEL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MTART",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CLASE_FACTURA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PARVW",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AUART",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_FACT_VENTA_ALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

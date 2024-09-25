@@ -1,0 +1,64 @@
+{
+	"name": "DST_STG_REL_CUOTA_VENTA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_RUTA_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CLIENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_MONEDA",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PERIODO_CUOTA_VENTA",
+				"type": "varchar"
+			},
+			{
+				"name": "FC_INI_PERIODO_CUOTA_VENTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FC_FIN_PERIODO_CUOTA_VENTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CANTIDAD_ITEMS_CUOTA",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "VOLUMEN_DE_VENTA_CUOTA",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_NETO_DE_VENTA_CUOTA",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REL_CUOTA_VENTA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

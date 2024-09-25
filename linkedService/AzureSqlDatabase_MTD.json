@@ -1,0 +1,21 @@
+{
+	"name": "AzureSqlDatabase_MTD",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "gruporica-dwhserver-desarrollo.database.windows.net",
+			"database": "GrupoRicaDevMTD",
+			"encrypt": "optional",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "gruporicaadmin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDE4NzIxRjJGLTZEMEItNEZEOC04QUU3LUMyNTcwRkYwMkM2QV8wY2I5MzgwYS04MWI0LTRiZDYtYmJhNy0zMzBhMTM1M2QwNGYiDQp9"
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

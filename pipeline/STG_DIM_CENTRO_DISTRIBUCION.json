@@ -1,0 +1,96 @@
+{
+	"name": "STG_DIM_CENTRO_DISTRIBUCION",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_CENTRO_DISTRIBUCION",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT\tDISTINCT\r\n\tA.WERKS AS CD_CENTRO_DIST,\r\n\tUPPER(A.NAME1) AS NM_CENTRO_DIST,\r\n\tB.WERKS_ECC AS CD_CENTRO_DIST_EQV\r\nFROM \"SAPHANADB\".\"T001W\"  A\r\n\t LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_WERKS\"  B ON\r\n\t\tB.WERKS = A.WERKS AND B.MANDT=A.MANDT\r\nWHERE A.MANDT= '400' AND FABKL = 'ZD'\r\nORDER BY A.WERKS",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE \n[gr01].[STG_DIM_CENTRO_DISTRIBUCION]\n",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_CENTRO_DIST",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CENTRO_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NM_CENTRO_DIST",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_CENTRO_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CENTRO_DIST_EQV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CENTRO_DISTRIBUCION_EQUIVALENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_CENTRO_DISTRIBUCION",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:15:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

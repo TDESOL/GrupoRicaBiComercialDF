@@ -1,0 +1,26 @@
+{
+	"name": "DST_STG_DIM_TECNOLOGIA_PRODUCTO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_TECNOLOGIA_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_TECNOLOGIA_PRODUCTO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_DIM_TECNOLOGIA_PRODUCTO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

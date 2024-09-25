@@ -1,0 +1,66 @@
+{
+	"name": "DST_STG_DIM_RUTA_DISTRIBUCION",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_RUTA_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_RUTA_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_REGION_VENTA",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ZONA_VENTA",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ORGANIZACION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CENTRO_DISTRIBUCIÓN",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_TIPO_RUTA_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_TIPO_RUTA_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_RUTA_DISTRIBUCION_EQUIVALENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CENTRO_DISTRIBUCIÓN_EQUIVALENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_GERENCIA_VENTAS",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_SUPERVISOR",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_DIM_RUTA_DISTRIBUCION"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

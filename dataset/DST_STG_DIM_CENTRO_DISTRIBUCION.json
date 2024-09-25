@@ -1,0 +1,38 @@
+{
+	"name": "DST_STG_DIM_CENTRO_DISTRIBUCION",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_CENTRO_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_CENTRO_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CENTRO_DISTRIBUCION_EQUIVALENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ADMINISTRADOR_CENTRO_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_REGION_VENTA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_DIM_CENTRO_DISTRIBUCION"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

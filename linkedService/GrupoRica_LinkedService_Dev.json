@@ -1,0 +1,17 @@
+{
+	"name": "GrupoRica_LinkedService_Dev",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureFileStorage",
+		"typeProperties": {
+			"host": "\\\\gruporicastorageaccdev.file.core.windows.net\\gruporica-fileshare-dev",
+			"userId": "Azure\\gruporicastorageaccdev",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4ZjZkYWVmNS1mYmYwLTQ0ZTYtODljYy0zZDUzNTUyNjQ0ZTgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "GrupoRica-IRSH-Dev",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

@@ -1,0 +1,85 @@
+{
+	"name": "STG_DIM_MONEDA",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_MONEDA",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT \n\tWAERS AS CD_MONEDA,\n\tUPPER(LTEXT) AS NOM_MONEDA\nFROM SAPHANADB.TCURT A\nWHERE A.MANDT='400'  AND SPRAS = 'S'\nORDER BY WAERS",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_MONEDA]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_MONEDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOM_MONEDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_MONEDA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_MONEDA",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:15:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,60 @@
+{
+	"name": "DST_STG_REL_GASTOS_VENTAS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_ORGANIZACION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CENTRO_DISTRIB",
+				"type": "varchar"
+			},
+			{
+				"name": "MONTO_TOTAL_GASTOS_ADMINISTRATIVOS",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_TOTAL_GASTOS_COMERCIAL",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_TOTAL_GASTOS_MERCADEO",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_TOTAL_GASTOS_DISTRIBUCION",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			},
+			{
+				"name": "MONTO_TOTAL_GASTOS_DISTRIBUCION_ALIADOS",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 4
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REL_GASTOS_VENTAS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

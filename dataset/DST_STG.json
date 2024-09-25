@@ -1,0 +1,17 @@
+{
+	"name": "DST_STG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "STG_FACT_PRUEBA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,70 @@
+{
+	"name": "DST_STG_DIM_PRODUCTO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "UND_CONV_BASE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PRESENTACION_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_TECNOLOGIA_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_MARCA_PRODUCTO",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_PRODUCTO_EQV",
+				"type": "varchar"
+			},
+			{
+				"name": "FACT_LITROS",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 6
+			},
+			{
+				"name": "FACT_CAJA",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 6
+			},
+			{
+				"name": "FACT_PALETA",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 6
+			},
+			{
+				"name": "FACT_LIBRA",
+				"type": "decimal",
+				"precision": 20,
+				"scale": 6
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_DIM_PRODUCTO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,38 @@
+{
+	"name": "DST_STG_DIM_CLIENTE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_CLIENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_CLIENTE_EQUIVALENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_CLIENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_HOLDING_CLIENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_GERENCIA_VENTA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_DIM_CLIENTE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

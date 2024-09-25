@@ -1,0 +1,59 @@
+{
+	"name": "STG_REL_ATRIBUTOS_CLIENTE",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_ATRIBUTOS_CLIENTE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT\t\n            A.KUNNR AS CD_CLIENTE,\n            B.VKORG AS CD_ORGANIZACION,\n            B.VWERK AS CD_CENTRO_DIST,\n            C.IND_SECTOR AS CD_TIPO_CLIENTE,\n            B.VTWEG AS CD_CANAL,\n            B.KVGR2 as CD_REGION_VENTA\n FROM \"SAPHANADB\".\"KNA1\" A\n              LEFT JOIN \"SAPHANADB\".\"KNVV\" B ON \n                                 B.KUNNR = A.KUNNR AND\n                                 B.MANDT = A.MANDT\n\t\t\tLEFT JOIN SAPHANADB.BUT0IS C ON\n\t\t\t\t\tC.CLIENT = A.MANDT AND\n\t\t\t\t\tC.PARTNER = A.KUNNR AND \n                                                                                C.ISTYPE = 'R001'  \t\t\t\t\t \nWHERE A.MANDT='400' AND A.SPRAS= 'S'\n              AND A.LOEVM <> 'X'\n              AND A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')\n\t\t\nORDER BY A.KUNNR",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_ATRIBUTOS_CLIENTE",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:16:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

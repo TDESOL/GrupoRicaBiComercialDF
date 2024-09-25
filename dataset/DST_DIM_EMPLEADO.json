@@ -1,0 +1,26 @@
+{
+	"name": "DST_DIM_EMPLEADO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_EMPLEADO",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_EMPLEADO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr00",
+			"table": "STG_DIM_EMPLEADO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

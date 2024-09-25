@@ -1,0 +1,85 @@
+{
+	"name": "STG_DIM_PROVINCIA",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_PROVINCIA",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT DISTINCT\n\tBLAND AS CD_PROVINICIA,\n\tUPPER(BEZEI) AS NOM_PROVINCIA\nFROM \"SAPHANADB\".\"T005U\" \nWHERE MANDT='400' AND LAND1 = 'DO'\nORDER BY BLAND",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_PROVINCIA]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_PROVINICIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PROVINCIA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOM_PROVINCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_PROVINCIA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_PROVINCIA",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:15:35Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

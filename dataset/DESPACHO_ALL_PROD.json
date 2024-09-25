@@ -1,0 +1,124 @@
+{
+	"name": "DESPACHO_ALL_PROD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase_STG_PROD",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FECHA_DESPACHO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_PERIODO_DESPACHO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_ORDEN_VENTAS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_DESPACHO_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POS_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_ORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_ZONA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_GERENCIA_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_RUTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_CLIENTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_MONEDA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRODUCTO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_CENTRO_DISTRIBICION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MONTO_BONIFICACION",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 2
+			},
+			{
+				"name": "NETWR",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 2
+			},
+			{
+				"name": "CD_CANAL_DISTRIBUCION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CANT_ITEMS",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "MONTO_NETO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 2
+			},
+			{
+				"name": "TOTAL_IMPUESTO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 2
+			},
+			{
+				"name": "TOTAL_DESC_ORG",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 2
+			},
+			{
+				"name": "TASA_REF_MON",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 5
+			},
+			{
+				"name": "CD_VENDEDOR_SUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INDICADOR_BORRADO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_FACT_DESPACHO_VENTA_ALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

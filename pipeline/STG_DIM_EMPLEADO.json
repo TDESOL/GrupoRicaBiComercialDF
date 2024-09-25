@@ -1,0 +1,85 @@
+{
+	"name": "STG_DIM_EMPLEADO",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_EMPLEADO",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT DISTINCT\n\tA.KUNNR AS CODIGO_EMPLEADO,\n    UPPER(A.NAME1) AS NOMBRE_EMPLEADO \n FROM SAPHANADB.KNA1 A\n\t\tJOIN \"SAPHANADB\".\"KNVV\" B ON\n\t\t\tB.KUNNR = A.KUNNR AND \n\t\t\tB.MANDT = A.MANDT \n WHERE A.MANDT= '400' AND A.SPRAS= 'S'  AND A.LOEVM <> 'X'  \n\t   and A.KTOKD IN('ZE')\n ORDER BY A.KUNNR",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE gr00.STG_DIM_EMPLEADO",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CODIGO_EMPLEADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_EMPLEADO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOMBRE_EMPLEADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_EMPLEADO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_DIM_EMPLEADO",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:15:35Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

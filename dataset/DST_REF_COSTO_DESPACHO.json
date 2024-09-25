@@ -1,0 +1,46 @@
+{
+	"name": "DST_REF_COSTO_DESPACHO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "MATERIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CENTRO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PERIODO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONTROL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COSTO",
+				"type": "decimal",
+				"precision": 17,
+				"scale": 8
+			},
+			{
+				"name": "TASA_CAMBIARIA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 5
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REF_COSTO_DESPACHO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

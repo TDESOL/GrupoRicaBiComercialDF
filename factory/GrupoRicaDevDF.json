@@ -1,0 +1,14 @@
+{
+	"name": "GrupoRicaDevDF",
+	"properties": {
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "true"
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "97cbcb76-1052-4beb-9b1d-ddc6fd0e7bec",
+		"tenantId": "72bc4c57-77ac-45a2-b5ac-eca13d391cb9"
+	}
+}

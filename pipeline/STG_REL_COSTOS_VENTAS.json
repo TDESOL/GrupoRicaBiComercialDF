@@ -1,0 +1,222 @@
+{
+	"name": "STG_REL_COSTOS_VENTAS",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_COSTOS_VENTAS",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT \n    CONCAT(LEFT(A.ANIO,4), RIGHT(A.MES,2)) AS PERIODO,\n    A.ORGANIZACION,\n    A.CENTRO_COSTOS,\n    A.CENTRO_BENEFICIO,\n    A.MATERIAL,\n    A.DIF_INV,\n    A.COSTO_PROD,\n    A.OTROS_CV,\n    A.DECO_INT,\n    A.DECO_EXTERNO,\n    A.PUBLICIDAD,\n    A.DESCUENT,\n    A.VENTAS\nFROM \"SAPHANADB\".\"ZCDS_COSTOS\" A\nWHERE A.MANDT='400'",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_COSTOS_VENTAS]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ORGANIZACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORGANIZACION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MATERIAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PRODUCTO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CENTRO_BENEFICIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CENTRO_BENEFICIO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CENTRO_COSTOS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CENTRO_COSTO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCUENT",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_DESCUENTOS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "DECO_EXTERNO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_DECOMISO_EXTERNO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "DECO_INT",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_DECOMISO_INTERNO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "DIF_INV",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_DIFERENCIA_INVENTARIO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "COSTO_PROD",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_COSTOS_PRODUCCION",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "OTROS_CV",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_OTROS_CV",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "PUBLICIDAD",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_PUBLICIDAD",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "VENTAS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_VENTAS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_COSTOS_VENTAS",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:16:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

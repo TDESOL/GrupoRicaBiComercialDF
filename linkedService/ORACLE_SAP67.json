@@ -1,0 +1,16 @@
+{
+	"name": "ORACLE_SAP67",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=PRSDBRCP.rica.com.do;port=1521;sid=RCP;user id=TDSOL",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4Mzg1NGE5Zi0yOTFlLTQ1ZTMtYmUzNi1iZWM2NjA5MzE4OWQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "GrupoRica-IRSH-Dev",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

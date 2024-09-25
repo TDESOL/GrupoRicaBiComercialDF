@@ -1,0 +1,35 @@
+{
+	"name": "0_0_0_TDE_RICA_GR00",
+	"properties": {
+		"activities": [
+			{
+				"name": "0_0_0_TDE_RICA_GR00",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/0_0_0_TDE_RICA_GR00.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-09-04T06:25:00Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

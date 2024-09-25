@@ -1,0 +1,85 @@
+{
+	"name": "STG_DIM_TECNOLOGIA_PRODUCTO",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_TECNOLOGIA_PRODUCTO",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT \n\tA.MVGR2 AS COD_TEC_PROD,\n    UPPER(A.BEZEI) AS NOM_TEC_PROD\nFROM \"SAPHANADB\".\"TVM2T\"  A\nWHERE A.MANDT= '400' AND A.SPRAS= 'S'  \nORDER BY A.MVGR2",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_TECNOLOGIA_PRODUCTO]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "COD_TEC_PROD",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_TECNOLOGIA_PRODUCTO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOM_TEC_PROD",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_TECNOLOGIA_PRODUCTO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_DIM_TECNOLOGIA_PRODUCTO",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:15:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

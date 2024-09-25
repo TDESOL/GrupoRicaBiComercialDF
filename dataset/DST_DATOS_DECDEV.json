@@ -1,0 +1,48 @@
+{
+	"name": "DST_DATOS_DECDEV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_FACTURA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_FACTURA_DETALLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_RUTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_PRODUCTO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_TIPO_DOC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CANTIDAD_LIQ",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 3
+			},
+			{
+				"name": "FECHA_LIQ",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_DATOS_DECDEV_ALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
