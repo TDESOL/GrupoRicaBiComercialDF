@@ -527,8 +527,6 @@
 			{
 				"name": "CARGAR STG FACT VENTA",
 				"type": "ExecuteSSISPackage",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
