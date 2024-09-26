@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Execute SSIS package1",
+				"name": "2_1_2_TDE_RICA_DWH_GR01_REL",
 				"type": "ExecuteSSISPackage",
 				"dependsOn": [],
 				"policy": {
