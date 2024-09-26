@@ -1,0 +1,105 @@
+{
+	"name": "STG_REL_PROGRAMACION_VENTA",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_PROGRAMACION_VENTA",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT  DISTINCT\n\tP.KUNNR AS CODIGO_CLIENTE, \n\tH.ROUTE AS CODIGO_RUTA, \n\tH.DATFR AS FC_INI_PROG, \n\tH.DATTO AS FC_FIN_PROG \nFROM \"SAPHANADB\".\"/DSD/VC_VPP\" P \n\tINNER JOIN \"SAPHANADB\".\"/DSD/VC_VPH\" H ON\n\t\tH.VPID = P.VPID\nWHERE P.MANDT='400'",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table GR01.STG_REL_PROGRAMACION_VENTA",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CODIGO_CLIENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CLIENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CODIGO_RUTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_RUTA_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FC_INI_PROG",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FC_INI_PROGRAMACION",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "FC_FIN_PROG",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FC_FIN_PROGRAMACION",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_PROGRAMACION_VENTA",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/DIM"
+		},
+		"annotations": []
+	}
+}
