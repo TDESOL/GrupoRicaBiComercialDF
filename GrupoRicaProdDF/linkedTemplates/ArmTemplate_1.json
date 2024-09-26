@@ -13,6 +13,210 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DESPACHO_ALL_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase_STG_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "FECHA_DESPACHO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_PERIODO_DESPACHO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_ORDEN_VENTAS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_DESPACHO_VENTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POS_NUM",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_ORG",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_ZONA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_GERENCIA_VENTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_RUTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_CLIENTE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_MONEDA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PRODUCTO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_CENTRO_DISTRIBICION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MONTO_BONIFICACION",
+						"type": "decimal",
+						"precision": 2,
+						"scale": 2
+					},
+					{
+						"name": "NETWR",
+						"type": "decimal",
+						"precision": 2,
+						"scale": 2
+					},
+					{
+						"name": "CD_CANAL_DISTRIBUCION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CANT_ITEMS",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "MONTO_NETO",
+						"type": "decimal",
+						"precision": 2,
+						"scale": 2
+					},
+					{
+						"name": "TOTAL_IMPUESTO",
+						"type": "decimal",
+						"precision": 2,
+						"scale": 2
+					},
+					{
+						"name": "TOTAL_DESC_ORG",
+						"type": "decimal",
+						"precision": 2,
+						"scale": 2
+					},
+					{
+						"name": "TASA_REF_MON",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 5
+					},
+					{
+						"name": "CD_VENDEDOR_SUP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INDICADOR_BORRADO",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_FACT_DESPACHO_VENTA_ALL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_DATOS_DECDEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_FACTURA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_FACTURA_DETALLE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_RUTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_PRODUCTO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_TIPO_DOC",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CANTIDAD_LIQ",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 3
+					},
+					{
+						"name": "FECHA_LIQ",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_DATOS_DECDEV_ALL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_DIM_EMPLEADO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_EMPLEADO",
+						"type": "varchar"
+					},
+					{
+						"name": "NM_EMPLEADO",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr00",
+					"table": "STG_DIM_EMPLEADO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DST_REF_COSTO_DESPACHO')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -372,6 +576,58 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_PERIODO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "COD_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_TIPO_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_TIPO_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "FECHA_INICIO",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "FECHA_FIN",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "COD_PERIODO_ANTERIOR",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr00",
+					"table": "STG_DIM_PERIODO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_PRODUCTO')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -599,410 +855,6 @@
 				"typeProperties": {
 					"schema": "gr01",
 					"table": "STG_DIM_TECNOLOGIA_PRODUCTO"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_TIPO_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CD_TIPO_CLIENTE",
-						"type": "varchar"
-					},
-					{
-						"name": "NM_TIPO_CLIENTE",
-						"type": "varchar"
-					},
-					{
-						"name": "CD_TIPO_CLIENTE_EQUIVALENTE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "gr01",
-					"table": "STG_DIM_TIPO_CLIENTE"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DST_STG_FACT_DESPACHO_VENTA_ALL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "FECHA_DESPACHO",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_PERIODO_DESPACHO",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ORDEN_VENTAS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_DESPACHO_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "POS_NUM",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ORG",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ZONA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_GERENCIA_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_RUTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_CLIENTE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_MONEDA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PRODUCTO",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_CENTRO_DISTRIBICION",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MONTO_BONIFICACION",
-						"type": "decimal",
-						"precision": 2,
-						"scale": 2
-					},
-					{
-						"name": "NETWR",
-						"type": "decimal",
-						"precision": 2,
-						"scale": 2
-					},
-					{
-						"name": "CD_CANAL_DISTRIBUCION",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CANT_ITEMS",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 3
-					},
-					{
-						"name": "MONTO_NETO",
-						"type": "decimal",
-						"precision": 2,
-						"scale": 2
-					},
-					{
-						"name": "TOTAL_IMPUESTO",
-						"type": "decimal",
-						"precision": 2,
-						"scale": 2
-					},
-					{
-						"name": "TOTAL_DESC_ORG",
-						"type": "decimal",
-						"precision": 2,
-						"scale": 2
-					},
-					{
-						"name": "TASA_REF_MON",
-						"type": "decimal",
-						"precision": 9,
-						"scale": 5
-					},
-					{
-						"name": "CD_VENDEDOR_SUP",
-						"type": "nvarchar"
-					},
-					{
-						"name": "INDICADOR_BORRADO",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "gr01",
-					"table": "STG_FACT_DESPACHO_VENTA_ALL"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DST_STG_FACT_ORDEN_VENTA_ALL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CD_ORDEN_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ORDEN_VENTA_DETALLE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FECHA_ORDEN_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FECHA_ENTREGA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ORG",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_GERENCIA_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ZONA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_RUTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_CANAL_DIST",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_CLIENTE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_MONEDA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MONTO_TASA_CAMBIARIA",
-						"type": "decimal",
-						"precision": 9,
-						"scale": 5
-					},
-					{
-						"name": "CD_PRODUCTO",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PRECIO_UNIT",
-						"type": "decimal",
-						"precision": 11,
-						"scale": 2
-					},
-					{
-						"name": "CANT_ITEMS",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "VOLUMEN",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 3
-					},
-					{
-						"name": "DESCUENTO",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "MONTO_BONIFICACION",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ITBIS",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 2
-					},
-					{
-						"name": "MONTO_NETO",
-						"type": "decimal",
-						"precision": 15,
-						"scale": 2
-					},
-					{
-						"name": "CD_VENDEDOR_SUP",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LADGR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AUART_ANA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ABSTK",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AUART",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MTART",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PARVW",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "gr01",
-					"table": "STG_FACT_ORDEN_VENTA_ALL"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DST_STG_FACT_SUGERIDO_ALL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CD_SUGERIDO_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_SUGERIDO_DETALLE_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FECHA_SUGERIDO_VENTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ORGANIZACION",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_CENTRO_DISTRIBUCION",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_RUTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_VENDEDOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MONEDA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_PRODUCTO",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CANTIDAD_ITEMS",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 3
-					},
-					{
-						"name": "PRECIO_UNITARIO",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 2
-					},
-					{
-						"name": "MONTO_BRUTO",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 2
-					},
-					{
-						"name": "DESCUENTO",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 2
-					},
-					{
-						"name": "ITBIS",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 2
-					},
-					{
-						"name": "MONTO_NETO",
-						"type": "decimal",
-						"precision": 13,
-						"scale": 2
-					},
-					{
-						"name": "CD_CANAL",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_VENDEDOR_SUP",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CD_ZONA_VENTA",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "gr01",
-					"table": "STG_FACT_SUGERIDO_ALL"
 				}
 			},
 			"dependsOn": []

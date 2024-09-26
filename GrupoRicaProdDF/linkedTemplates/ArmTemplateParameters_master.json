@@ -17,6 +17,9 @@
 		"AzureSqlDatabase_STG_PROD_password": {
 			"value": ""
 		},
+		"AzureSqlDatabase_TT_password": {
+			"value": ""
+		},
 		"GrupoRica_BlobStorage_Prod_connectionString": {
 			"value": ""
 		},
@@ -64,6 +67,15 @@
 		},
 		"AzureSqlDatabase_STG_PROD_properties_typeProperties_userName": {
 			"value": "gr_etl_stg"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_server": {
+			"value": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_database": {
+			"value": "GrupoRicaProdTT"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_userName": {
+			"value": "gr_etl_tt"
 		},
 		"GrupoRica_LinkedService_Prod_properties_typeProperties_host": {
 			"value": "\\\\gruporicastorageaccprod.file.core.windows.net\\gruporica-fileshare-prod"

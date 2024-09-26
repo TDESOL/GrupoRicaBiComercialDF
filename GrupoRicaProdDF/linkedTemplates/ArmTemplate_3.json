@@ -6,12 +6,224 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "GrupoRicaProdDF"
+		},
+		"ORACLE_SAP67_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ORACLE_SAP67'"
+		},
+		"SapHana1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/VENTAS_ALL_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase_STG_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_FACT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_DESPACHO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FECHA_VENTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ORDEN_VENTAS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_DETALLE_FACTURA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VOLUMEN",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "CLIENTE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ORGANIZACION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_GERENCIA_VENTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ZONA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RUTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_VENDEDOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_ASISTENTE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_CANAL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_TIPO_CLIENTE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CD_REGION_VENTAS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MONEDA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CENTRO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MONTO_TASA_CAMBIARIA",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 5
+					},
+					{
+						"name": "PRODUCTO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CANTIDAD_ITEMS",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "DESCUENTO",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "NETWR",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 2
+					},
+					{
+						"name": "ITBIS",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 2
+					},
+					{
+						"name": "MONTO_NETO",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 2
+					},
+					{
+						"name": "MONTO_BRUTO",
+						"type": "decimal",
+						"precision": 15,
+						"scale": 2
+					},
+					{
+						"name": "MONTO_BONIFICACION",
+						"type": "decimal",
+						"precision": 13,
+						"scale": 2
+					},
+					{
+						"name": "CD_VENDEDOR_SUP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VGBEL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MTART",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLASE_FACTURA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PARVW",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AUART",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_FACT_VENTA_ALL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ORACLE_SAP67')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Oracle",
+				"typeProperties": {
+					"connectionString": "[parameters('ORACLE_SAP67_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "GrupoRica-IRSH-Prod",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SapHana1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SapHana",
+				"typeProperties": {
+					"connectionString": "[parameters('SapHana1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "GrupoRica-IRSH-Prod",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/COPIA_STG_ALL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -1856,6 +2068,150 @@
 				"annotations": [],
 				"lastPublishTime": "2024-09-23T00:34:18Z"
 			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/VENTAS_ALL_PROD')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_PERIODO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_PERIODO",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT [COD_PERIODO]\n      ,[DESC_PERIODO]\n      ,[CD_TIPO_PERIODO]\n      ,[DESC_TIPO_PERIODO]\n      ,[FECHA_INICIO]\n      ,[FECHA_FIN]\n      ,[COD_PERIODO_ANTERIOR]\n  FROM [dbo].[TT_PERIODO]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE gr00.STG_DIM_PERIODO",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "COD_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DESC_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "DESC_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COD_PERIODO_ANTERIOR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_PERIODO_ANTERIOR",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_TIPO_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_TIPO_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FECHA_INICIO",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "FC_INI_PERIODO",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "FECHA_FIN",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "FC_FIN_PERIODO",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTableTT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_PERIODO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": []
+			},
 			"dependsOn": []
 		},
 		{
@@ -1872,7 +2228,9 @@
 				"schema": [],
 				"typeProperties": {}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ORACLE_SAP67')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SapHanaTable1')]",
@@ -1891,7 +2249,9 @@
 					"table": "ZCDS_SD_INVOICE"
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SapHana1')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_CANAL_DISTRIBUCION')]",
@@ -3167,459 +3527,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2024-09-18T21:15:35Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_PROVINCIA')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_PROVINCIA",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT DISTINCT\n\tBLAND AS CD_PROVINICIA,\n\tUPPER(BEZEI) AS NOM_PROVINCIA\nFROM \"SAPHANADB\".\"T005U\" \nWHERE MANDT='400' AND LAND1 = 'DO'\nORDER BY BLAND",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_PROVINCIA]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_PROVINICIA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_PROVINCIA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_PROVINCIA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_PROVINCIA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_PROVINCIA",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_REGION_VENTA')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_REGION_VENTA",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT A.KVGR2 AS CD_REGION_VENTA\n\t,UPPER(A.BEZEI) AS NOM_REGION_VENTA\n\nFROM \"SAPHANADB\".\"TVV2T\" A\nWHERE A.MANDT = '400' AND A.SPRAS = 'S'",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_REGION_VENTA]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_REGION_VENTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_REGION_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_REGION_VENTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_REGION_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_REGION_VENTA",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_RUTA_DISTRIBUCION')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_RUTA_DISTRIBUCION",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORGANIZACION,\n\tA.WERKS AS CD_CENTRO,\n\tA.VKGRP AS CD_ZONA,\n\tA.ZTP_RUTA AS TIPO_RUTA,\n\tA.BZIRK AS CD_RUTA,\n\tCOALESCE(B.LTEXT, CONCAT('RUTA ',A.BZIRK)) AS NOM_RUTA,\n\tB.ROUTE_ECC AS CD_RUTA_ANTERIOR, \n\tGERENCIA,\n\tKUNNR_SUP AS CD_SUPERVISOR\nFROM \"SAPHANADB\".\"ZSDCO_PARA_RUTA\" A\n\t  LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_ROUTE\"  B ON\n\t\tB.ROUTE = A.BZIRK AND\n\t\tB.WERKS = A.WERKS AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT='400'\nORDER BY A.VKORG, A.WERKS, A.VKGRP, A.ZTP_RUTA, A.BZIRK",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_RUTA_DISTRIBUCION]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_RUTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_RUTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_ZONA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ZONA_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_ORGANIZACION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ORGANIZACION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_CENTRO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CENTRO_DISTRIBUCIÓN",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "TIPO_RUTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_TIPO_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_RUTA_ANTERIOR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_RUTA_DISTRIBUCION_EQUIVALENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "GERENCIA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_GERENCIA_VENTAS",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_SUPERVISOR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_SUPERVISOR",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_RUTA_DISTRIBUCION",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_TECNOLOGIA_PRODUCTO')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_TECNOLOGIA_PRODUCTO",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT \n\tA.MVGR2 AS COD_TEC_PROD,\n    UPPER(A.BEZEI) AS NOM_TEC_PROD\nFROM \"SAPHANADB\".\"TVM2T\"  A\nWHERE A.MANDT= '400' AND A.SPRAS= 'S'  \nORDER BY A.MVGR2",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_TECNOLOGIA_PRODUCTO]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "COD_TEC_PROD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_TECNOLOGIA_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_TEC_PROD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_TECNOLOGIA_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_TECNOLOGIA_PRODUCTO",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"

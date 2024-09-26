@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlDatabase_STG_PROD'"
 		},
+		"AzureSqlDatabase_TT_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase_TT'"
+		},
 		"GrupoRica_BlobStorage_Prod_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'GrupoRica_BlobStorage_Prod'"
@@ -86,6 +90,18 @@
 		"AzureSqlDatabase_STG_PROD_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "gr_etl_stg"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "gruporica-dwhserver-produccion.database.windows.net"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "GrupoRicaProdTT"
+		},
+		"AzureSqlDatabase_TT_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "gr_etl_tt"
 		},
 		"GrupoRica_LinkedService_Prod_properties_typeProperties_host": {
 			"type": "string",
@@ -820,6 +836,52 @@
 				"[concat(variables('factoryId'), '/pipelines/STG_REL_CUOTA_VENTA')]",
 				"[concat(variables('factoryId'), '/pipelines/STG_REL_DIRECCION_CLIENTE')]",
 				"[concat(variables('factoryId'), '/pipelines/STG_REL_RUTA_ENTREGA_CLIENTE')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_DWH_GR00')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "2_1_0_TDE_RICA_DWH_GR00",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/2_1_0_TDE_RICA_DWH_GR00.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "DWH/DIM"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
 			]
 		},
 		{
@@ -3949,6 +4011,151 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]",
 				"[concat(variables('factoryId'), '/datasets/DST_STG_DIM_ORGANIZACION')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_PERIODO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_PERIODO",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT [COD_PERIODO]\n      ,[DESC_PERIODO]\n      ,[CD_TIPO_PERIODO]\n      ,[DESC_TIPO_PERIODO]\n      ,[FECHA_INICIO]\n      ,[FECHA_FIN]\n      ,[COD_PERIODO_ANTERIOR]\n  FROM [dbo].[TT_PERIODO]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE gr00.STG_DIM_PERIODO",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "COD_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DESC_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "DESC_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COD_PERIODO_ANTERIOR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_PERIODO_ANTERIOR",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_TIPO_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_TIPO_PERIODO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FECHA_INICIO",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "FC_INI_PERIODO",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "FECHA_FIN",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "FC_FIN_PERIODO",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTableTT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_PERIODO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTableTT')]",
+				"[concat(variables('factoryId'), '/datasets/DST_STG_DIM_PERIODO')]"
 			]
 		},
 		{
@@ -8559,6 +8766,438 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTableTT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase_TT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Reference_Date",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Date_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Year",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Half_Year",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Quarter",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Quarter_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Trimester",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Trimester_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Month",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Month_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Week",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Week_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Day_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Day_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Day_Of_Half_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Day_Of_Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Day_Of_Trimester",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Day_Of_Trimester_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Day_Of_Quarter",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Day_Of_Quarter_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Day_Of_Month",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Day_Of_Month_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Day_Of_Week",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Day_Of_Week_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Week_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Week_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Month_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Month_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Month_Of_Half_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Month_Of_Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Month_Of_Trimester",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Month_Of_Trimester_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Month_Of_Quarter",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Month_Of_Quarter_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Quarter_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Quarter_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Quarter_Of_Half_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Quarter_Of_Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Trimester_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Trimester_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Half_Year_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Half_Year_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Year",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Fiscal_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Half_Year",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Fiscal_Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Quarter",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Fiscal_Quarter_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Trimester",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Fiscal_Trimester_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Month",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Fiscal_Month_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Week",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Fiscal_Week_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Day",
+						"type": "smalldatetime",
+						"precision": 16,
+						"scale": 0
+					},
+					{
+						"name": "Fiscal_Day_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Day_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Day_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Day_Of_Half_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Day_Of_Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Day_Of_Trimester",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Day_Of_Trimester_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Day_Of_Quarter",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Day_Of_Quarter_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Day_Of_Month",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Day_Of_Month_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Day_Of_Week",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Day_Of_Week_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Week_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Week_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Month_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Month_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Month_Of_Half_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Month_Of_Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Month_Of_Trimester",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Month_Of_Trimester_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Month_Of_Quarter",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Month_Of_Quarter_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Trimester_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Trimester_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Quarter_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Quarter_Of_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Quarter_Of_Half_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Quarter_Of_Half_Year_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fiscal_Half_Year_Of_Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Fiscal_Half_Year_Of_Year_Name",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FECHA"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase_TT')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -9216,6 +9855,60 @@
 				"typeProperties": {
 					"schema": "gr00",
 					"table": "STG_DIM_ORGANIZACION"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_PERIODO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "COD_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_TIPO_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_TIPO_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "FECHA_INICIO",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "FECHA_FIN",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "COD_PERIODO_ANTERIOR",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr00",
+					"table": "STG_DIM_PERIODO"
 				}
 			},
 			"dependsOn": [
@@ -11257,6 +11950,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase_TT')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabase_TT_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabase_TT_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabase_TT_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabase_TT_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/GrupoRica_BlobStorage_Prod')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -11365,52 +12080,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_DWH_GR00')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "2_1_0_TDE_RICA_DWH_GR00",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/2_1_0_TDE_RICA_DWH_GR00.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "DWH/DIM"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
-			]
 		}
 	]
 }
