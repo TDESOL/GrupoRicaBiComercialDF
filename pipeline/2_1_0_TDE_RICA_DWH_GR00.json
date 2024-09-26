@@ -1,9 +1,9 @@
 {
-	"name": "STG_FACT_ORDEN_VENTA",
+	"name": "2_1_0_TDE_RICA_DWH_GR00",
 	"properties": {
 		"activities": [
 			{
-				"name": "STG_FACT_ORDEN_VENTA",
+				"name": "2_1_0_TDE_RICA_DWH_GR00",
 				"type": "ExecuteSSISPackage",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_ORDEN_VENTAS.dtsx",
+						"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/2_1_0_TDE_RICA_DWH_GR00.dtsx",
 						"type": "SSISDB"
 					},
 					"environmentPath": null,
@@ -29,10 +29,8 @@
 			}
 		],
 		"folder": {
-			"name": "STG/FACT"
+			"name": "DWH/DIM"
 		},
-		"annotations": [],
-		"lastPublishTime": "2024-09-19T15:40:43Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }

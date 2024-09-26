@@ -5,6 +5,8 @@
 			{
 				"name": "EXTRACT DATA FACT VENTA",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable Fecha Inicial",
@@ -523,10 +525,8 @@
 				}
 			},
 			{
-				"name": "CARGAR STG FACT DESPACHO VENTA",
+				"name": "CARGAR STG FACT VENTA",
 				"type": "ExecuteSSISPackage",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
@@ -545,12 +545,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_DESPACHO_VENTAS.dtsx",
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_VENTAS_DD.dtsx",
 						"type": "SSISDB"
 					},
 					"environmentPath": null,
 					"connectVia": {
-						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"referenceName": "GrupoRica-IRSSIS-Prod",
 						"type": "IntegrationRuntimeReference"
 					},
 					"loggingLevel": "Basic"
@@ -559,6 +559,8 @@
 			{
 				"name": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA FACT VENTA",

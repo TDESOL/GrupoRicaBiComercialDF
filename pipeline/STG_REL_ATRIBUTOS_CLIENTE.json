@@ -28,6 +28,74 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_CLIENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CLIENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CANAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CANAL_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_TIPO_CLIENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_TIPO_CLIENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_ORGANIZACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORGANIZACION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CENTRO_DIST",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CENTRO_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_REGION_VENTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_REGION_VENTA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,

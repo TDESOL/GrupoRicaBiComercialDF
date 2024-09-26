@@ -16,12 +16,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_VENTAS_DD.dtsx",
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_VENTAS.dtsx",
 						"type": "SSISDB"
 					},
 					"environmentPath": null,
 					"connectVia": {
-						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"referenceName": "GrupoRica-IRSSIS-Prod",
 						"type": "IntegrationRuntimeReference"
 					},
 					"loggingLevel": "Basic"

@@ -1,0 +1,249 @@
+{
+	"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT \n    A.RUTA,\n    A.MATNR AS PRODUCTO,\n    A.VKORG AS ORGANIZACION,\n    A.PERIODO,\n       B.GERENCIA,\n    A.PRESUP_UND AS  CANTIDAD_ITEMS_PRESUPUESTO,\n    A.PRESUP_PES AS MONTO_NETO_DE_VENTA_PRESUPUESTO,\n    A.VTWEG AS CD_CANAL_DISTRIBUCION\nFROM SAPHANADB.ZPRESUPUEST_RUTB A\n\nJOIN SAPHANADB.ZSDCO_PARA_RUTA B\nON A.RUTA= B.BZIRK AND\nA.VKORG=B.VKORG\nWHERE A.MANDT = '400'\nORDER BY A.PERIODO",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_PRESUPUESTO_VENTA_ALL]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "RUTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_RUTA_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PRODUCTO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ORGANIZACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORGANIZACION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO_PRESUPUESTO_VENTA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "GERENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_GERENCIA_VENTAS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CANAL_DISTRIBUCION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CANAL_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CANTIDAD_ITEMS_PRESUPUESTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "CANTIDAD_ITEMS_PRESUPESTO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_NETO_DE_VENTA_PRESUPUESTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_NETO_DE_VENTA_PRESUPESTO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "STG_TASA_CAMBIARIA",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT \n\tFCURR AS CD_MONEDA_EXTRANJERA,\n\tTCURR AS CD_MONEDA_LOCAL,\n\tLEFT(cast((99999999 - GDATU) as varchar(8)),6)  AS CD_PERIODO,\n\tAVG(UKURS) AS TASA_CAMBIARIA\nFROM \"SAPHANADB\".\"TCURR\" A\nWHERE A.MANDT= '400'  AND FCURR = 'USD'\nGROUP BY TCURR, FCURR, LEFT(cast((99999999 - GDATU) as varchar(8)),6)  \nORDER BY 3",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE gr01.STG_TASA_CAMBIO_ALL",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_MONEDA_EXTRANJERA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA_EXTRANJERA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_MONEDA_LOCAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA_LOCAL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTable_PROD",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": []
+	}
+}
