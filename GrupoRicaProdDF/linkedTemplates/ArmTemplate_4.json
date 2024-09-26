@@ -13,6 +13,98 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_TIPO_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_TIPO_CLIENTE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \n\t\t\tIND_SECTOR AS CD_TIPO_CLIENTE,\n\t\t\tTEXT AS NM_TIPO_CLIENTE\n\t\t FROM SAPHANADB.TB038B \n\t\t WHERE CLIENT = '400' AND SPRAS = 'S'\n\t\t\t   AND IND_SECTOR LIKE 'Z%' AND LENGTH(TEXT) > 1\n\t\t\t   AND ISTYPE = '0001'\n\t\t ORDER BY IND_SECTOR",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_TIPO_CLIENTE]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_TIPO_CLIENTE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_TIPO_CLIENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NM_TIPO_CLIENTE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_TIPO_CLIENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_TIPO_CLIENTE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:35Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_TIPO_PRODUCTO')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -4142,6 +4234,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/STG_DIM_TIPO_CLIENTE')]",
 				"[concat(variables('factoryId'), '/pipelines/STG_DIM_TIPO_PRODUCTO')]",
 				"[concat(variables('factoryId'), '/pipelines/STG_DIM_ZONA_VENTA')]"
 			]
