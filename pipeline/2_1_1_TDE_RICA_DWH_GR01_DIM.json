@@ -1,0 +1,36 @@
+{
+	"name": "2_1_1_TDE_RICA_DWH_GR01_DIM",
+	"properties": {
+		"activities": [
+			{
+				"name": "2_1_1_TDE_RICA_DWH_GR01_DIM",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/2_1_1_TDE_RICA_DWH_GR01_DIM.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSSIS-Prod",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic"
+				}
+			}
+		],
+		"folder": {
+			"name": "DWH/DIM"
+		},
+		"annotations": []
+	}
+}
