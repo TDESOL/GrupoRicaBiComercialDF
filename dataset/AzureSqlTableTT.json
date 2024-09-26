@@ -1,0 +1,427 @@
+{
+	"name": "AzureSqlTableTT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase_TT",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Reference_Date",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Date_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Year",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Half_Year",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Quarter",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Quarter_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Trimester",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Trimester_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Month_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Week",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Week_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Day_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Day_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Day_Of_Half_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Day_Of_Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Day_Of_Trimester",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Day_Of_Trimester_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Day_Of_Quarter",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Day_Of_Quarter_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Day_Of_Month",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Day_Of_Month_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Day_Of_Week",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Day_Of_Week_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Week_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Week_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Month_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month_Of_Half_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Month_Of_Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month_Of_Trimester",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Month_Of_Trimester_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Month_Of_Quarter",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Month_Of_Quarter_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Quarter_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quarter_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Quarter_Of_Half_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quarter_Of_Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Trimester_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Trimester_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Half_Year_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Half_Year_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Year",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Fiscal_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Half_Year",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Fiscal_Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Quarter",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Fiscal_Quarter_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Trimester",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Fiscal_Trimester_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Month",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Fiscal_Month_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Week",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Fiscal_Week_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Day",
+				"type": "smalldatetime",
+				"precision": 16,
+				"scale": 0
+			},
+			{
+				"name": "Fiscal_Day_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Day_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Day_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Day_Of_Half_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Day_Of_Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Day_Of_Trimester",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Day_Of_Trimester_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Day_Of_Quarter",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Day_Of_Quarter_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Day_Of_Month",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Day_Of_Month_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Day_Of_Week",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Day_Of_Week_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Week_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Week_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Month_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Month_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Month_Of_Half_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Month_Of_Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Month_Of_Trimester",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Month_Of_Trimester_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Month_Of_Quarter",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Month_Of_Quarter_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Trimester_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Trimester_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Quarter_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Quarter_Of_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Quarter_Of_Half_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Quarter_Of_Half_Year_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fiscal_Half_Year_Of_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Fiscal_Half_Year_Of_Year_Name",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FECHA"
+		}
+	}
+}
