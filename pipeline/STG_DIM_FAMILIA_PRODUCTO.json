@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapHanaSource",
-						"query": "SELECT DISTINCT\r\n\t\tSUBSTR(A.PRODH,4,3) AS COD_FML_PROD,\r\n\t\tUPPER(A.VTEXT) AS NOM_FML_PROD,\r\n\t\tSUBSTR(A.PRODH,2,2) AS COD_TP_PROD\r\n\tFROM \"SAPHANADB\".\"T179T\" A\r\n\tWHERE A.MANDT = '400' AND A.SPRAS = 'S' AND LEFT(A.PRODH,1) = 'M'\r\n\tAND LENGTH(SUBSTR(A.PRODH,4,11)) = 2\r\n\r\n\tORDER BY SUBSTR(A.PRODH,2,2), SUBSTR(A.PRODH,4,3)",
+						"query": " SELECT DISTINCT\n\t\tCONCAT(CONCAT(SUBSTR(A.PRODH,2,2), '-') , SUBSTR(A.PRODH,4,3)) AS COD_FML_PROD,\n\t\tUPPER(A.VTEXT) AS NOM_FML_PROD,\n\t\tSUBSTR(A.PRODH,2,2) AS COD_TP_PROD\n\tFROM \"SAPHANADB\".\"T179T\" A\n\tWHERE A.MANDT = '400' AND A.SPRAS = 'S' AND LEFT(A.PRODH,1) = 'M'\n\tAND LENGTH(SUBSTR(A.PRODH,4,11)) = 2\n\tORDER BY SUBSTR(A.PRODH,2,2), CONCAT(CONCAT(SUBSTR(A.PRODH,2,2), '-') , SUBSTR(A.PRODH,4,3))",
 						"partitionOption": "None"
 					},
 					"sink": {
