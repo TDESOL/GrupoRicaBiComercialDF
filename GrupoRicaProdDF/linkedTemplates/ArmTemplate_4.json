@@ -13,6 +13,481 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_MARCA_PRODUCTO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_MARCA_PRODUCTO",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\n\t\tSUBSTR(A.PRODH,9,3) AS COD_MARCA_PROD,\n\t\tUPPER(A.VTEXT) AS NOM_MARCA_PROD,\n\t\tSUBSTR(A.PRODH,6,3) AS COD_LIN_PROD\n\n\tFROM \"SAPHANADB\".\"T179T\" A \n\tWHERE A.MANDT= '400' AND A.SPRAS= 'S' AND\n\tLENGTH(SUBSTR(A.PRODH,9,11)) = 3 AND LEFT(A.PRODH,1) = 'M'\n\tORDER BY SUBSTR(A.PRODH,6,3)/*LINEA*/, SUBSTR(A.PRODH,9,3) /*MARCA*/",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_MARCA_PRODUCTO]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "COD_MARCA_PROD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_MARCA_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOM_MARCA_PROD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_MARCA_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COD_LIN_PROD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_LINEA_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_MARCA_PRODUCTO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:35Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_MONEDA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_MONEDA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT \n\tWAERS AS CD_MONEDA,\n\tUPPER(LTEXT) AS NOM_MONEDA\nFROM SAPHANADB.TCURT A\nWHERE A.MANDT='400'  AND SPRAS = 'S'\nORDER BY WAERS",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_MONEDA]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_MONEDA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_MONEDA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOM_MONEDA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "DESC_MONEDA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_MONEDA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:34Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_ORGANIZACION')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_ORGANIZACION",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORG,\n\tUPPER(A.VTEXT) AS NOM_ORG,\n\tBUKRS_ECC AS CD_ORG_ANT\nFROM \"SAPHANADB\".\"TVKOT\" A \n\t LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_BUKRS\" B  ON\n\t\tB.BUKRS = A.VKORG AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT = '400' AND A.SPRAS = 'S'\nORDER BY A.VKORG",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_ORGANIZACION]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_ORG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOM_ORG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NOM_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_ORG_ANT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORG_ANT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_ORGANIZACION",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:34Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_PRODUCTO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_PRODUCTO",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\n       A.MATNR AS CD_PRODUCTO,\n       UPPER(A.MAKTX) AS NOMBRE_PRODUCTO, \n       C.CD_MARCA_PROD, \n\t   LPAD(B.BISMT,18,'0') AS CD_PRODUCTO_EQV,\n\t   D.FACTOR_LITROS,\n\t   D.FACTOR_LIBRAS,\n\t   D.FACTOR_CAJAS, \n\t   D.FACTOR_PALETAS,\n\t   CASE\n\t   WHEN C.FML IN('03', '04', '70', '80', '85')\n\t\tTHEN 'LB'\n\t\tELSE 'L'\n\tEND AS UND_MED\nFROM \"SAPHANADB\".\"MAKT\" A \n\tJOIN \"SAPHANADB\".\"MARA\" B ON\n\t\tB.MATNR = A.MATNR AND\n\t\tB.MANDT = A.MANDT\n\tJOIN (SELECT DISTINCT MATERIAL, SUBSTR(PRDHA,9,3) AS CD_MARCA_PROD, SUBSTR(PRDHA,4,2) AS FML\t\n\t\t\tFROM \"SAPHANADB\".\"ZCDS_SD_INVOICE\"  A\n\t\t\tWHERE A.MANDT= '400'  AND A.PRDHA <> '' ) C ON\n\t\tC.MATERIAL = A.MATNR \n\tLEFT JOIN (SELECT MATNR, \n\t\t\t\tSUM(CASE WHEN MEINH = 'L'  THEN UMREN/UMREZ ELSE 0 END) AS FACTOR_LITROS, \n\t\t\t\tSUM(CASE WHEN MEINH = 'LB' THEN UMREN/UMREZ ELSE 0 END) AS FACTOR_LIBRAS, \n\t\t\t\tSUM(CASE WHEN MEINH = 'CS' THEN UMREN/UMREZ ELSE 0 END) AS FACTOR_CAJAS, \n\t\t\t\tSUM(CASE WHEN MEINH = 'PAL' THEN UMREN/UMREZ ELSE 0 END) AS FACTOR_PALETAS \n\t\t\t\tFROM \"SAPHANADB\".\"MARM\" A \n\t\t\t\tWHERE A.MANDT='400'  AND MEINH IN('L', 'CS', 'PAL', 'LB') \n\t\t\t\tGROUP BY MATNR\n\t\t\t\tORDER BY MATNR\n\t\t   ) D ON\n\t\tD.MATNR = A.MATNR  \nWHERE A.MANDT='400'   AND SPRAS = 'S' \nORDER BY A.MATNR",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_PRODUCTO]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_PRODUCTO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOMBRE_PRODUCTO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UND_MED",
+											"type": "String"
+										},
+										"sink": {
+											"name": "UND_CONV_BASE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_MARCA_PROD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_MARCA_PRODUCTO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_PRODUCTO_EQV",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PRODUCTO_EQV",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FACTOR_LITROS",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "FACT_LITROS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "FACTOR_CAJAS",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "FACT_CAJA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "FACTOR_PALETAS",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "FACT_PALETA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 20
+										}
+									},
+									{
+										"source": {
+											"name": "FACTOR_LIBRAS",
+											"type": "Decimal"
+										},
+										"sink": {
+											"name": "FACT_LIBRA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 20
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_PRODUCTO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:35Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_PROVINCIA')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3743,950 +4218,6 @@
 				"lastPublishTime": "2024-09-18T21:16:23Z"
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_REL_DIRECCION_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_REL_DIRECCION_CLIENTE",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT \n\tKUNNR AS CD_CLIENTE,\n\tUPPER(CONCAT(CONCAT(CONCAT(CONCAT(STRAS,', '), ORT01), ', '), ORT02)) AS DIRECCION,\n\tREGIO AS CD_PROV,\n\tLAND1 AS CD_PAIS\nFROM \"SAPHANADB\".\"KNA1\" A\nWHERE A.MANDT= '400' AND A.SPRAS= 'S'  AND A.LOEVM <> 'X'\n\t   and A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')\nORDER BY LAND1, REGIO, KUNNR",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "Truncate Table gr01.STG_REL_DIRECCION_CLIENTE",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_PAIS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_PAIS",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_PROV",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_PROVINCIA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_CLIENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CLIENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DIRECCION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "DIRECCIÓN",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_REL_DIRECCION_CLIENTE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/REL"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:16:23Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_REL_PRESUPUESTO_VENTA_ALL')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
-						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT \n    A.RUTA,\n    A.MATNR AS PRODUCTO,\n    A.VKORG AS ORGANIZACION,\n    A.PERIODO,\n       B.GERENCIA,\n    A.PRESUP_UND AS  CANTIDAD_ITEMS_PRESUPUESTO,\n    A.PRESUP_PES AS MONTO_NETO_DE_VENTA_PRESUPUESTO,\n    A.VTWEG AS CD_CANAL_DISTRIBUCION\nFROM SAPHANADB.ZPRESUPUEST_RUTB A\n\nJOIN SAPHANADB.ZSDCO_PARA_RUTA B\nON A.RUTA= B.BZIRK AND\nA.VKORG=B.VKORG\nWHERE A.MANDT = '400'\nORDER BY A.PERIODO",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_PRESUPUESTO_VENTA_ALL]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "RUTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "PRODUCTO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "ORGANIZACION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ORGANIZACION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "PERIODO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_PERIODO_PRESUPUESTO_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "GERENCIA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_GERENCIA_VENTAS",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_CANAL_DISTRIBUCION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CANAL_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CANTIDAD_ITEMS_PRESUPUESTO",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "CANTIDAD_ITEMS_PRESUPESTO",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 4,
-											"precision": 20
-										}
-									},
-									{
-										"source": {
-											"name": "MONTO_NETO_DE_VENTA_PRESUPUESTO",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "MONTO_NETO_DE_VENTA_PRESUPESTO",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 4,
-											"precision": 20
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "STG_TASA_CAMBIARIA",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT \n\tFCURR AS CD_MONEDA_EXTRANJERA,\n\tTCURR AS CD_MONEDA_LOCAL,\n\tLEFT(cast((99999999 - GDATU) as varchar(8)),6)  AS CD_PERIODO,\n\tAVG(UKURS) AS TASA_CAMBIARIA\nFROM \"SAPHANADB\".\"TCURR\" A\nWHERE A.MANDT= '400'  AND FCURR = 'USD'\nGROUP BY TCURR, FCURR, LEFT(cast((99999999 - GDATU) as varchar(8)),6)  \nORDER BY 3",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE gr01.STG_TASA_CAMBIO_ALL",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_MONEDA_EXTRANJERA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_MONEDA_EXTRANJERA",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_MONEDA_LOCAL",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_MONEDA_LOCAL",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_PERIODO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_PERIODO",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "TASA_CAMBIARIA",
-											"type": "Decimal"
-										},
-										"sink": {
-											"name": "TASA_CAMBIARIA",
-											"type": "Decimal",
-											"physicalType": "decimal"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlTable_PROD",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/REL"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_REL_RUTA_ENTREGA_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_REL_RUTA_ENTREGA_CLIENTE",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT  \nDISTINCT\n    A.KUNNR AS CODIGO_CLIENTE,\n\t B.vkorg as CODIGO_ORGANIZACION,\n\t B.BZIRK as CODIGO_RUTA_DISTRIBUCION,\n     B.vwerk AS CODIGO_CENTRO_DISTRIBUCION,\n\tD.GERENCIA as CODIGO_GERENCIA_VENTA\nFROM \"SAPHANADB\".\"KNA1\" A\n        INNER JOIN \"SAPHANADB\".\"KNVV\" B ON \n\t\t    B.kunnr = A.kunnr and A.MANDT = b.MANDT\n\t\t\tAND B.loevm <> 'X'\n\t    INNER JOIN \"SAPHANADB\".\"ZSDCO_PARA_RUTA\" D ON D.vkorg = B.vkorg\n                       AND D.vtweg = B.vtweg\n                       AND D.werks = B.vwerk\n                       AND D.bzirk = B.bzirk\nWHERE A.LOEVM <> 'X'\nAND A.ktokd <> 'ZRSP' \n\t AND  A.MANDT='400' AND B.MANDT='400' AND D.MANDT='400'\n\t   and A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "Truncate Table gr01.STG_REL_RUTA_ENTREGA_CLIENTE",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CODIGO_CLIENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CLIENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_ORGANIZACION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ORGANIZACION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_RUTA_DISTRIBUCION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_CENTRO_DISTRIBUCION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CENTRO_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_GERENCIA_VENTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_GERENCIA_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DTS_STG_REL_RUTA_ENTREGA_CLIENTE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/REL"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-19T18:36:15Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/1_0_0_TDE_RICA_STG_DIM_ALL')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_CANAL_DISTRIBUCION",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_CANAL_DISTRIBUCION",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_CENTRO_DISTRIBUCION",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_CANAL_DISTRIBUCION",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_CENTRO_DISTRIBUCION",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_CLIENTE",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_CENTRO_DISTRIBUCION",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_CLIENTE",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_EMPLEADO",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_CLIENTE",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_EMPLEADO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_FAMILIA_PRODUCTO",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_FAMILIA_PRODUCTO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_GERENCIA_VENTA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_FAMILIA_PRODUCTO",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_GERENCIA_VENTA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_HOLDING_CLIENTE",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_GERENCIA_VENTA",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_HOLDING_CLIENTE",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_LINEA_PRODUCTO",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_HOLDING_CLIENTE",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_LINEA_PRODUCTO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_MARCA_PRODUCTO",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_ORGANIZACION",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_MARCA_PRODUCTO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_MONEDA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_MARCA_PRODUCTO",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_MONEDA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_ORGANIZACION",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_ORGANIZACION",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_PRODUCTO",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_MONEDA",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_PRODUCTO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_PROVINCIA",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_PROVINCIA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_REGION_VENTA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_PROVINCIA",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_REGION_VENTA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_RUTA_DISTRIBUCION",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_REGION_VENTA",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_RUTA_DISTRIBUCION",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_TECNOLOGIA_PRODUCTO",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_RUTA_DISTRIBUCION",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_TECNOLOGIA_PRODUCTO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_TIPO_CLIENTE",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_TIPO_CLIENTE",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_TIPO_PRODUCTO",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_TIPO_CLIENTE",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_TIPO_PRODUCTO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_ZONA_VENTA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_TIPO_PRODUCTO",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_ZONA_VENTA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_PROVINCIA')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_REGION_VENTA')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_RUTA_DISTRIBUCION')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_TECNOLOGIA_PRODUCTO')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_TIPO_CLIENTE')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_TIPO_PRODUCTO')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_ZONA_VENTA')]"
-			]
 		}
 	]
 }
