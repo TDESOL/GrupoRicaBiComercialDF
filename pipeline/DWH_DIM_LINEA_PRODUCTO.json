@@ -1,0 +1,9 @@
+{
+	"name": "DWH_DIM_LINEA_PRODUCTO",
+	"properties": {
+		"folder": {
+			"name": "DWH/DIM"
+		},
+		"annotations": []
+	}
+}
