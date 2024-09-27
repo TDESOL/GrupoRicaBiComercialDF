@@ -1,0 +1,36 @@
+{
+	"name": "DWH_DIM_MARCA_PRODUCTO",
+	"properties": {
+		"activities": [
+			{
+				"name": "DWH_DIM_MARCA_PRODUCTO",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_DIM_MARCA_PRODUCTO.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSSIS-Prod",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic"
+				}
+			}
+		],
+		"folder": {
+			"name": "DWH/DIM"
+		},
+		"annotations": []
+	}
+}
