@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapHanaSource",
-						"query": "SELECT DISTINCT\n\tA.KUNNR AS CODIGO_EMPLEADO,\n    UPPER(A.NAME1) AS NOMBRE_EMPLEADO \n FROM SAPHANADB.KNA1 A\n\t\tJOIN \"SAPHANADB\".\"KNVV\" B ON\n\t\t\tB.KUNNR = A.KUNNR AND \n\t\t\tB.MANDT = A.MANDT \n WHERE A.MANDT= '400' AND A.SPRAS= 'S'  AND A.LOEVM <> 'X'  \n\t   and A.KTOKD IN('ZE')\n ORDER BY A.KUNNR",
+						"query": "SELECT DISTINCT\n\tA.KUNNR AS CODIGO_EMPLEADO,\n    UPPER(A.NAME1) AS NOMBRE_EMPLEADO \n FROM SAPHANADB.KNA1 A\n\t\tLEFT JOIN \"SAPHANADB\".\"KNVV\" B ON\n\t\t\tB.KUNNR = A.KUNNR AND \n\t\t\tB.MANDT = A.MANDT \n WHERE A.MANDT= '400' AND A.SPRAS= 'S'  AND A.LOEVM <> 'X'  \n\t   and A.KTOKD IN('ZE')\n ORDER BY A.KUNNR",
 						"partitionOption": "None"
 					},
 					"sink": {
