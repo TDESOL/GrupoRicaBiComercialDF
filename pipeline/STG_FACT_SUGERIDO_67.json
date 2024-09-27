@@ -29,12 +29,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SapHanaSource",
-						"query": {
-							"value": "SELECT\n\tA.ID_DOC AS CD_SUGERIDO_VENTA,\n\tB.POS AS CD_SUGERIDO_DETALLE_VENTA, \n\tA.FECHA_DOC AS FECHA_SUGERIDO_VENTA,\n\tA.BUKRS AS CD_ORGANIZACION,\n\tA.WERKS AS CD_CENTRO_DISTRIBUCION,\n\tA.ROTCODE AS CD_RUTA,\n\tA.ID_VENDEDOR AS CD_VENDEDOR,\n\tA.MONEDA AS MONEDA,\n\tB.ID_MATERIAL AS CD_PRODUCTO,\n\tB.CANTIDAD_MODIFICADA AS CANTIDAD_ITEMS,\n\tB.MONTO_PRECIO AS PRECIO_UNITARIO,\n\tB.MONTO_SUBTOTAL AS MONTO_BRUTO,\n\tB.MONTO_DESCUENTO AS DESCUENTO,\n\tB.MONTO_ITBIS AS ITBIS,\n\tB.MONTO_TOTAL AS MONTO_NETO,\n\tC.VTWEG AS CD_CANAL,\n\tC.KUNNR_SUP AS CD_VENDEDOR_SUP,\n\tC.VKGRP AS CD_ZONA_VENTA\nFROM  SAPHANADB.ZSD_LIQ_INF_FA_K A\n\t  JOIN SAPHANADB.ZSD_LIQ_INF_FA_P B ON\n\t\t  B.ID_DOC = A.ID_DOC AND\n\t\t  B.MANDT  = A.MANDT\n\t  JOIN SAPHANADB.ZSDCO_PARA_RUTA C ON\n\t\t  C.BZIRK = A.ROTCODE AND\n\t\t  C.MANDT  = A.MANDT AND\n\t  C.VKORG = A.BUKRS\t  \nWHERE A.MANDT='400' AND A.FECHA_DOC BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}\nORDER BY A.FECHA_DOC, A.ID_DOC, B.POS ",
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT \nA.VBELN as CD_SUGERIDO_VENTA,\nA.POSNR AS CD_SUGERIDO_DETALLE_VENTA,\nA.ERDAT AS FECHA_SUGERIDO_VENTA,\nB.VKORG AS ORGANIZACION,\nA.WERKS AS CENTRO,\nC.BZIRK AS SUPERVISOR,\nA.ROUTE AS RUTA,\nB.WAERK AS MONEDA,\nA.MATNR AS CD_PRODUCTO,\nA.KWMENG AS CANTIDAD_ITEMS,\nA.NETPR AS PRECIO_NETO,\nA.MWSBP AS ITBIS,\nA.NETWR AS MONTO_NETO,\nB.VTWEG AS CANAL,\nB.VKBUR AS ZONA\n\n\nFROM SAPSR3.VBAP A\n\nJOIN SAPSR3.VBAK B ON\nA.VBELN=B.VBELN\n\nJOIN SAPSR3.KNVV C ON\nB.KUNNR=C.KUNNR\n \nWHERE A.MANDT='400' AND B.AUART='ZCSR'\n\tAND A.ERDAT BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}\n",
 							"type": "Expression"
 						},
-						"partitionOption": "None"
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
 					},
 					"sink": {
 						"type": "AzureSqlSink",
@@ -83,7 +85,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_ORGANIZACION",
+									"name": "ORGANIZACION",
 									"type": "String"
 								},
 								"sink": {
@@ -94,7 +96,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_CENTRO_DISTRIBUCION",
+									"name": "CENTRO",
 									"type": "String"
 								},
 								"sink": {
@@ -105,7 +107,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_RUTA",
+									"name": "RUTA",
 									"type": "String"
 								},
 								"sink": {
@@ -116,7 +118,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_VENDEDOR",
+									"name": "SUPERVISOR",
 									"type": "String"
 								},
 								"sink": {
@@ -162,7 +164,7 @@
 							},
 							{
 								"source": {
-									"name": "PRECIO_UNITARIO",
+									"name": "PRECIO_NETO",
 									"type": "Decimal"
 								},
 								"sink": {
@@ -174,10 +176,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "MONTO_BRUTO",
-									"type": "Decimal"
-								},
 								"sink": {
 									"name": "MONTO_BRUTO",
 									"type": "Decimal",
@@ -187,10 +185,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "DESCUENTO",
-									"type": "Decimal"
-								},
 								"sink": {
 									"name": "DESCUENTO",
 									"type": "Decimal",
@@ -227,7 +221,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_CANAL",
+									"name": "CANAL",
 									"type": "String"
 								},
 								"sink": {
@@ -238,7 +232,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_VENDEDOR_SUP",
+									"name": "SUPERVISOR",
 									"type": "String"
 								},
 								"sink": {
@@ -249,7 +243,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_ZONA_VENTA",
+									"name": "ZONA",
 									"type": "String"
 								},
 								"sink": {
@@ -268,7 +262,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SapHanaTable1",
+						"referenceName": "STG_FUENTES_67",
 						"type": "DatasetReference"
 					}
 				],
