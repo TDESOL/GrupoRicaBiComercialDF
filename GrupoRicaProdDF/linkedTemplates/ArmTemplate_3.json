@@ -21,6 +21,450 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_ATRIBUTOS_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CANAL_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_TIPO_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_ORGANIZACION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CENTRO_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_REGION_VENTA",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_ATRIBUTOS_CLIENTE"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_CARTERA_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_VENDEDOR",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_ASISTENTE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_CARTERA_CLIENTE"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_COSTOS_VENTAS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_ORGANIZACION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_PRODUCTO",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CENTRO_BENEFICIO",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CENTRO_COSTO",
+						"type": "varchar"
+					},
+					{
+						"name": "MONTO_DESCUENTOS",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_DECOMISO_EXTERNO",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_DECOMISO_INTERNO",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_DIFERENCIA_INVENTARIO",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_COSTOS_PRODUCCION",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_OTROS_CV",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_PUBLICIDAD",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_VENTAS",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_COSTOS_VENTAS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_CUOTA_VENTA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_RUTA_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_MONEDA",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_PERIODO_CUOTA_VENTA",
+						"type": "varchar"
+					},
+					{
+						"name": "FC_INI_PERIODO_CUOTA_VENTA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "FC_FIN_PERIODO_CUOTA_VENTA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CANTIDAD_ITEMS_CUOTA",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "VOLUMEN_DE_VENTA_CUOTA",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_NETO_DE_VENTA_CUOTA",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_CUOTA_VENTA"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_DIRECCION_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_PAIS",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_PROVINCIA",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "DIRECCIÓN",
+						"type": "varchar"
+					},
+					{
+						"name": "REGION_EXPORT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPLEMENTO_DIRECCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CORDENADA_GEOGRAFICA_LATITUD",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 10
+					},
+					{
+						"name": "CORDENADA_GEOGRAFICA_LONGITUD",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_DIRECCION_CLIENTE"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_GASTOS_VENTAS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_PERIODO",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_ORGANIZACION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CENTRO_DISTRIB",
+						"type": "varchar"
+					},
+					{
+						"name": "MONTO_TOTAL_GASTOS_ADMINISTRATIVOS",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_TOTAL_GASTOS_COMERCIAL",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_TOTAL_GASTOS_MERCADEO",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_TOTAL_GASTOS_DISTRIBUCION",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					},
+					{
+						"name": "MONTO_TOTAL_GASTOS_DISTRIBUCION_ALIADOS",
+						"type": "decimal",
+						"precision": 20,
+						"scale": 4
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_GASTOS_VENTAS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_PROGRAMACION_VENTA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_RUTA_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "FC_INI_PROGRAMACION",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "FC_FIN_PROGRAMACION",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_PROGRAMACION_VENTA"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DTS_STG_DIM_CANALA_DISTRIBUCION')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_CANAL_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "NM_CANAL_DISTRIBUCION",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_DIM_CANAL_DISTRIBUCION"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DTS_STG_DIM_TIPO_PRODUCTO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_TIPO_PRODUCTO",
+						"type": "varchar"
+					},
+					{
+						"name": "NM_TIPO_PRODUCTO",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_DIM_TIPO_PRODUCTO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DTS_STG_DIM_ZONA_VENTA')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -663,138 +1107,6 @@
 					"referenceName": "GrupoRica-IRSH-Prod",
 					"type": "IntegrationRuntimeReference"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DWH_DIM_MARCA_PRODUCTO')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "DWH_DIM_MARCA_PRODUCTO",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_DIM_MARCA_PRODUCTO.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "DWH/DIM"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DWH_DIM_PRODUCTO')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "DWH_DIM_PRODUCTO",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_DIM_PRODUCTO.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "DWH/DIM"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DWH_DIM_RUTA_DISTRIBUCION')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "DWH_DIM_RUTA_DISTRIBUCION",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_DIM_RUTA_DISTRIBUCION.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "DWH/DIM"
-				},
-				"annotations": []
 			},
 			"dependsOn": []
 		},
@@ -2647,491 +2959,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/VENTAS_ALL_PROD')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_PERIODO')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_PERIODO",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "SELECT [COD_PERIODO]\n      ,[DESC_PERIODO]\n      ,[CD_TIPO_PERIODO]\n      ,[DESC_TIPO_PERIODO]\n      ,[FECHA_INICIO]\n      ,[FECHA_FIN]\n      ,[COD_PERIODO_ANTERIOR]\n  FROM [dbo].[TT_PERIODO]",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE gr00.STG_DIM_PERIODO",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "COD_PERIODO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "CD_PERIODO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DESC_PERIODO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "DESC_PERIODO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "COD_PERIODO_ANTERIOR",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "CD_PERIODO_ANTERIOR",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_TIPO_PERIODO",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "CD_TIPO_PERIODO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "FECHA_INICIO",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										},
-										"sink": {
-											"name": "FC_INI_PERIODO",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										}
-									},
-									{
-										"source": {
-											"name": "FECHA_FIN",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										},
-										"sink": {
-											"name": "FC_FIN_PERIODO",
-											"type": "DateTime",
-											"physicalType": "datetime"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "AzureSqlTableTT",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_PERIODO",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_SUGERIDO_67')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ORACLE_SAP67",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "OracleTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ORACLE_SAP67')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapHanaTable1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SapHana1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SapHanaTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SAPHANADB",
-					"table": "ZCDS_SD_INVOICE"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SapHana1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_CANAL_DISTRIBUCION')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_CANAL_DISTRIBUCION",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT VTWEG AS CODIGO_CANAL_DIST,\r\n UPPER(VTEXT) AS NOMBRE_CANAL_DIST\r\nFROM \"SAPHANADB\".\"TVTWT\"\r\nWHERE MANDT='400' AND SPRAS = 'S'\r\nORDER BY VTWEG",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "  TRUNCATE TABLE [gr01].[STG_DIM_CANAL_DISTRIBUCION]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CODIGO_CANAL_DIST",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CANAL_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOMBRE_CANAL_DIST",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_CANAL_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DTS_STG_DIM_CANALA_DISTRIBUCION",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_CENTRO_DISTRIBUCION')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_CENTRO_DISTRIBUCION",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT\tDISTINCT\r\n\tA.WERKS AS CD_CENTRO_DIST,\r\n\tUPPER(A.NAME1) AS NM_CENTRO_DIST,\r\n\tB.WERKS_ECC AS CD_CENTRO_DIST_EQV\r\nFROM \"SAPHANADB\".\"T001W\"  A\r\n\t LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_WERKS\"  B ON\r\n\t\tB.WERKS = A.WERKS AND B.MANDT=A.MANDT\r\nWHERE A.MANDT= '400' AND FABKL = 'ZD'\r\nORDER BY A.WERKS",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE \n[gr01].[STG_DIM_CENTRO_DISTRIBUCION]\n",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_CENTRO_DIST",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CENTRO_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NM_CENTRO_DIST",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_CENTRO_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_CENTRO_DIST_EQV",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CENTRO_DISTRIBUCION_EQUIVALENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_CENTRO_DISTRIBUCION",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_CLIENTE",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT  \r\n\tA.KUNNR AS CODIGO_CLIENTE,\r\n    UPPER(A.NAME1) AS NOMBRE_CLIENTE,\t\r\n    UPPER(A.NAME2) AS NOMBRE2_CLIENTE,\r\n\tC.GERENCIA AS CD_GCIA_VTA\r\nFROM \"SAPHANADB\".\"KNA1\" A\r\n\t\tLEFT JOIN \"SAPHANADB\".\"ZTRUTA_GERENCIA\" C ON\r\n\t\t\tC.ZTP_RUTA = LEFT(A.LZONE,2)\r\nWHERE A.MANDT= '400' AND A.LOEVM <> 'X'\r\n\t   and A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC') \r\nORDER BY A.KUNNR",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_CLIENTE]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CODIGO_CLIENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CLIENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOMBRE_CLIENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_CLIENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_GCIA_VTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_GERENCIA_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_CLIENTE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
 			]
 		}
 	]
