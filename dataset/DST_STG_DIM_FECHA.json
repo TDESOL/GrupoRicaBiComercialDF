@@ -1,0 +1,358 @@
+{
+	"name": "DST_STG_DIM_FECHA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FC_REFERENCIA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_FC",
+				"type": "varchar"
+			},
+			{
+				"name": "AÑO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMESTRE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_SEMESTRE",
+				"type": "varchar"
+			},
+			{
+				"name": "TRIMESTRE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_TRIMESTRE",
+				"type": "varchar"
+			},
+			{
+				"name": "MES",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_MES",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMANA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_SEMANA",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_SEMESTRE_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_SEMESTRE_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_TRIMESTRE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_TRIMESTRE",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_MES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_MES",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_SEMANA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_SEMANA",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMANA_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_SEMANA_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "MES_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_MES_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "MES_SEMESTRE_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_MES_SEMESTRE_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "MES_TRIMESTRE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_MES_TRIMESTRE",
+				"type": "varchar"
+			},
+			{
+				"name": "TRIMESTRE_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DEL_TRIMESTRE_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "TRIMESTRE_SEMESTRE_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_TRIMESTRE_SEMESTRE_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMESTRE_AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_SEMESTRE_AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "AÑO_FISCAL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMESTRE_FISCAL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_SEMESTRE_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "TRIMESTRE_FISCAL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_TRIMESTRE_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "MES_FISCAL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_MES_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMANA_FISCAL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_SEMANA_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_FISCAL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NM_DIA_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_SEMESTRE_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_SEMESTRE_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_TRIMESTRE_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_TRIMESTRE_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_MES_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_MES_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DIA_SEMANA_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DIA_SEMANA_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMANA_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_SEMANA_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "MES_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_MES_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "MES_SEMESTRE_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_MES_SEMESTRE_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "MES_TRIMESTRE_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_MES_TRIMESTRE_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "TRIMESTRE_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_DEL_TRIMESTRE_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "TRIMESTRE_SEMESTRE_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_TRIMESTRE_SEMESTRE_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "SEMESTRE_AÑO_FISCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NM_SEMESTRE_AÑO_FISCAL",
+				"type": "varchar"
+			},
+			{
+				"name": "NM_DIA_FERIADO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr00",
+			"table": "STG_DIM_FC"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

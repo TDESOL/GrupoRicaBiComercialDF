@@ -1,0 +1,25 @@
+{
+	"name": "DST_STG_DIM_TIPO_PERIODO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_TIPO_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TIPO_PERIODO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr00",
+			"table": "STG_DIM_TIPO_PERIODO"
+		}
+	}
+}

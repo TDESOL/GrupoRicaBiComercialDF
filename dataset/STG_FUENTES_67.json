@@ -1,0 +1,13 @@
+{
+	"name": "STG_FUENTES_67",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ORACLE_SAP67",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
