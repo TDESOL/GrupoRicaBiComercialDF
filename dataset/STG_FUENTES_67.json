@@ -1,5 +1,5 @@
 {
-	"name": "STG_SUGERIDO_67",
+	"name": "STG_FUENTES_67",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ORACLE_SAP67",
