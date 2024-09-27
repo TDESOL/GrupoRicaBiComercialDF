@@ -31,7 +31,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT \nA.VBELN as CD_SUGERIDO_VENTA,\nA.POSNR AS CD_SUGERIDO_DETALLE_VENTA,\nA.ERDAT AS FECHA_SUGERIDO_VENTA,\nB.VKORG AS ORGANIZACION,\nA.WERKS AS CENTRO,\nC.BZIRK AS SUPERVISOR,\nA.ROUTE AS RUTA,\nB.WAERK AS MONEDA,\nA.MATNR AS CD_PRODUCTO,\nA.KWMENG AS CANTIDAD_ITEMS,\nA.NETPR AS PRECIO_NETO,\nA.MWSBP AS ITBIS,\nA.NETWR AS MONTO_NETO,\nB.VTWEG AS CANAL,\nB.VKBUR AS ZONA\n\n\nFROM SAPSR3.VBAP A\n\nJOIN SAPSR3.VBAK B ON\nA.VBELN=B.VBELN\n\nJOIN SAPSR3.KNVV C ON\nB.KUNNR=C.KUNNR\n \nWHERE A.MANDT='400' AND B.AUART='ZCSR'\n\tAND A.ERDAT BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}\n",
+							"value": "SELECT \nA.VBELN as CD_SUGERIDO_VENTA,\nA.POSNR AS CD_SUGERIDO_DETALLE_VENTA,\nA.ERDAT AS FECHA_SUGERIDO_VENTA,\nB.VKORG AS ORGANIZACION,\nA.WERKS AS CENTRO,\nC.BZIRK AS SUPERVISOR,\nA.ROUTE AS RUTA,\nB.WAERK AS MONEDA,\nA.MATNR AS CD_PRODUCTO,\nA.KWMENG AS CANTIDAD_ITEMS,\nA.NETPR AS PRECIO_NETO,\nA.MWSBP AS ITBIS,\nA.NETWR AS MONTO_NETO,\n0 AS DESCUENTO,\nA.MWSBP +A.NETWR AS MONTO_BRUTO,\nB.VTWEG AS CANAL,\nB.VKBUR AS ZONA\n\n\nFROM SAPSR3.VBAP A\n\nJOIN SAPSR3.VBAK B ON\nA.VBELN=B.VBELN\n\nJOIN SAPSR3.KNVV C ON\nB.KUNNR=C.KUNNR\n \nWHERE A.MANDT='400' AND B.AUART='ZCSR'\n\tAND A.ERDAT BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}\n",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -176,6 +176,10 @@
 								}
 							},
 							{
+								"source": {
+									"name": "MONTO_BRUTO",
+									"type": "Double"
+								},
 								"sink": {
 									"name": "MONTO_BRUTO",
 									"type": "Decimal",
@@ -185,6 +189,10 @@
 								}
 							},
 							{
+								"source": {
+									"name": "DESCUENTO",
+									"type": "Double"
+								},
 								"sink": {
 									"name": "DESCUENTO",
 									"type": "Decimal",
