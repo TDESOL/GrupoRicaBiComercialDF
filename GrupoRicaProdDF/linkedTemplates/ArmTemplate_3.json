@@ -711,6 +711,50 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DWH_DIM_PRODUCTO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DWH_DIM_PRODUCTO",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_DIM_PRODUCTO.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "DWH/DIM"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/COPIA_STG_ALL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3135,111 +3179,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2024-09-18T21:15:35Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_FAMILIA_PRODUCTO')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_FAMILIA_PRODUCTO",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": " SELECT DISTINCT\n\t\tCONCAT(CONCAT(SUBSTR(A.PRODH,2,2), '-') , SUBSTR(A.PRODH,4,2)) AS COD_FML_PROD,\n\t\tUPPER(A.VTEXT) AS NOM_FML_PROD,\n\t\tSUBSTR(A.PRODH,2,2) AS COD_TP_PROD\n\tFROM \"SAPHANADB\".\"T179T\" A\n\tWHERE A.MANDT = '400' AND A.SPRAS = 'S' AND LEFT(A.PRODH,1) = 'M'\n\tAND LENGTH(SUBSTR(A.PRODH,4,11)) = 2\n\tORDER BY SUBSTR(A.PRODH,2,2), CONCAT(CONCAT(SUBSTR(A.PRODH,2,2), '-') , SUBSTR(A.PRODH,4,2))",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_FAMILIA_PRODUCTO]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "COD_FML_PROD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_FAMILIA_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_FML_PROD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_FAMILIA_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "COD_TP_PROD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_TIPO_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_FAMILIA_PRODUCTO",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
