@@ -13,6 +13,98 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_GERENCIA_VENTA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_GERENCIA_VENTA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\r\n\tGERENCIA AS CD_GERENCIA_VTAS,\r\n    UPPER(CASE \r\n\t\t\t\tWHEN DESC_GERENCIA = 'LOW RF' THEN 'LOW' \r\n\t\t\t\tWHEN DESC_GERENCIA = 'LOW RA' THEN 'LOW' \r\n\t\t\t\tELSE DESC_GERENCIA \r\n\t\t\tEND) AS NOM_GERENCIA_VTAS\r\nFROM \"SAPHANADB\".\"ZTRUTA_GERENCIA\" \r\nORDER BY GERENCIA",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_GERENCIA_VENTA]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_GERENCIA_VTAS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_GERENCIA_VENTA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOM_GERENCIA_VTAS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_GERENCIA_VENTA",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_GERENCIA_VENTA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:34Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_HOLDING_CLIENTE')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3960,109 +4052,6 @@
 						"outputs": [
 							{
 								"referenceName": "DST_STG_REL_ATRIBUTOS_CLIENTE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/REL"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:16:23Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_REL_CARTERA_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_REL_CARTERA_CLIENTE",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT DISTINCT\n\tKUNNR AS COD_CLIENTE,\n\tCONDUCTOR1 AS COD_VENDEDOR,\n\tCONDUCTOR2 AS COD_ASISTENTE\n FROM \"SAPHANADB\".\"KNA1\" A\n\t  LEFT JOIN \"SAPHANADB\".\"ZSD_LIQ_INF_TRA\" B ON\n\t\tA.KUNNR = B.NUM_DOC\n WHERE A.MANDT= '400' AND A.SPRAS= 'S'\n\t\tAND A.LOEVM <> 'X' \n              AND A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')\n ORDER BY A.KUNNR",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "Truncate Table gr01.STG_REL_CARTERA_CLIENTE",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "COD_CLIENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CLIENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "COD_VENDEDOR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_VENDEDOR",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "COD_ASISTENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ASISTENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_REL_CARTERA_CLIENTE",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
