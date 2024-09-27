@@ -1,0 +1,95 @@
+{
+	"name": "DST_SUGERIDO_67_ALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_SUGERIDO_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_SUGERIDO_DETALLE_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FECHA_SUGERIDO_VENTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGANIZACION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CENTRO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUPERVISOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RUTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MONEDA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_PRODUCTO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CANTIDAD_ITEMS",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 3
+			},
+			{
+				"name": "PRECIO_NETO",
+				"type": "decimal",
+				"precision": 11,
+				"scale": 2
+			},
+			{
+				"name": "ITBIS",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "MONTO_NETO",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 2
+			},
+			{
+				"name": "DESCUENTO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "MONTO_BRUTO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CANAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ZONA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_FACT_SUGERIDO_67_ALL"
+		}
+	}
+}
