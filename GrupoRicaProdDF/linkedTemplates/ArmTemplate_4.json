@@ -13,6 +13,98 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_EMPLEADO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_EMPLEADO",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\n\tA.KUNNR AS CODIGO_EMPLEADO,\n    UPPER(A.NAME1) AS NOMBRE_EMPLEADO \n FROM SAPHANADB.KNA1 A\n\t\tJOIN \"SAPHANADB\".\"KNVV\" B ON\n\t\t\tB.KUNNR = A.KUNNR AND \n\t\t\tB.MANDT = A.MANDT \n WHERE A.MANDT= '400' AND A.SPRAS= 'S'  AND A.LOEVM <> 'X'  \n\t   and A.KTOKD IN('ZE')\n ORDER BY A.KUNNR",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE gr00.STG_DIM_EMPLEADO",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CODIGO_EMPLEADO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_EMPLEADO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOMBRE_EMPLEADO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_EMPLEADO",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_DIM_EMPLEADO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-18T21:15:35Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_FAMILIA_PRODUCTO')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3932,109 +4024,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2024-09-23T00:23:41Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_REL_ACUERDO_SERVICIO_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT DISTINCT\n\tB.KUNNR AS CD_CLIENTE,\n\tA.NAME AS ACUERDO,\n\tA.HIGH AS META_ACUERDO\n FROM \"SAPHANADB\".\"TVARVC\" A\n\t  JOIN \"SAPHANADB\".\"KNA1\" B ON\n\t\tLPAD(A.LOW, 10, '0') = B.KUNNR\n WHERE A.MANDT='400'  AND\n\t\tA.NAME IN ('ZSD_ORDERVSBILL_META_YOGURT','ZSD_ORDERVSBILL_META_UHT','ZSD_ORDERVSBILL_META_FRIOS') \n ORDER BY B.KUNNR",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "Truncate Table gr01.STG_REL_ACUERDO_SERVICIO_CLIENTE",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_CLIENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CLIENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "ACUERDO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ACUERDO_ORDER_FILL_RATE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "META_ACUERDO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "VALOR_META_ACUERDO",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_REL_ACUERDO_SERVICIO_CLIENTE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/REL"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:16:23Z"
 			},
 			"dependsOn": []
 		}
