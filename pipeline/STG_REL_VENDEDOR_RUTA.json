@@ -1,0 +1,98 @@
+{
+	"name": "STG_REL_VENDEDOR_RUTA",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_VENDEDOR_RUTA",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT * FROM (SELECT\nRUTA AS CD_RUTA,\nPOSICION,\nRIGHT('00'+[COD_EMP], 11) AS COD_EMP\nFROM [dbo].[PERSONAL_VENTAS]\nWHERE POSICION IN('VENDEDOR','ASISTENTE') ) AS P\nPIVOT (MAX(COD_EMP) FOR POSICION\nIN(VENDEDOR,ASISTENTE) ) AS PV1\nORDER BY CD_RUTA",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "Truncate Table gr01.STG_REL_VENDEDOR_RUTA",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_RUTA",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CD_RUTA_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "VENDEDOR",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CD_EMPLEADO_VENDEDOR",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ASISTENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CD_EMPLEADO_ASISTENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlTableTT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_VENDEDOR_RUTA",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": []
+	}
+}

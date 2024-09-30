@@ -1,0 +1,29 @@
+{
+	"name": "DST_STG_REL_VENDEDOR_RUTA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_RUTA_DISTRIBUCION",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_EMPLEADO_VENDEDOR",
+				"type": "varchar"
+			},
+			{
+				"name": "CD_EMPLEADO_ASISTENTE",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_REL_VENDEDOR_RUTA"
+		}
+	}
+}
