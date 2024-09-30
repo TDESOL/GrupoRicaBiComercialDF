@@ -7795,8 +7795,6 @@
 					{
 						"name": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "EXTRACT DATA FACT VENTA",
@@ -7817,7 +7815,7 @@
 							"source": {
 								"type": "SapHanaSource",
 								"query": {
-									"value": "SELECT  a.id_gestion AS CD_FACTURA, \n    b.liqlote         AS CD_FACTURA_DETALLE,\n    c.route           AS CD_RUTA,\n    b.matnr           AS CD_PRODUCTO, \n    b.liqtipo         AS CD_TIPO_DOC,\n    b.liqcantidad     AS CANTIDAD_LIQ,\n    a.liqfecha_i      AS FECHA_LIQ\n  FROM SAPHANADB.zsd_liqprod_cab AS a\n  INNER JOIN SAPHANADB.zsd_liqprod_desg AS b ON \n\t\tb.idrecepcion = a.idrecepcion\n  INNER JOIN SAPHANADB.zsd_liq_inf_gral AS c ON \n\t\tc.id_gest_liq = a.id_gestion\n        AND a.werks = c.werks\n  INNER JOIN SAPHANADB.zsd_liqprod_prod AS d ON \n\t\td.id_gestion = a.id_gestion\n        AND d.werks = a.werks\n        AND d.matnr = b.matnr\n WHERE b.liqtipo IN('RET', 'AVE', 'DEC') \n    AND a.liqfecha_i BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')} \nORDER BY a.liqfecha_i, c.route,  a.id_gestion, b.liqlote, b.matnr ",
+									"value": "SELECT  a.id_gestion AS CD_FACTURA, \n    b.liqlote         AS CD_FACTURA_DETALLE,\n    c.route           AS CD_RUTA,\n    b.matnr           AS CD_PRODUCTO, \n    b.liqtipo         AS CD_TIPO_DOC,\n    b.liqcantidad     AS CANTIDAD_LIQ,\n    a.liqfecha_i      AS FECHA_LIQ,\n    a.werks           AS CENTRO\n  FROM SAPHANADB.zsd_liqprod_cab AS a\n  INNER JOIN SAPHANADB.zsd_liqprod_desg AS b ON \n\t\tb.idrecepcion = a.idrecepcion\n  INNER JOIN SAPHANADB.zsd_liq_inf_gral AS c ON \n\t\tc.id_gest_liq = a.id_gestion\n        AND a.werks = c.werks\n  INNER JOIN SAPHANADB.zsd_liqprod_prod AS d ON \n\t\td.id_gestion = a.id_gestion\n        AND d.werks = a.werks\n        AND d.matnr = b.matnr\n WHERE b.liqtipo IN('RET', 'AVE', 'DEC') \n    AND a.liqfecha_i BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')} \nORDER BY a.liqfecha_i, c.route,  a.id_gestion, b.liqlote, b.matnr ",
 									"type": "Expression"
 								},
 								"partitionOption": "None"
@@ -7896,7 +7894,9 @@
 										"sink": {
 											"name": "CANTIDAD_LIQ",
 											"type": "Decimal",
-											"physicalType": "decimal"
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 13
 										}
 									},
 									{
@@ -7906,6 +7906,17 @@
 										},
 										"sink": {
 											"name": "FECHA_LIQ",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CENTRO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CENTRO",
 											"type": "String",
 											"physicalType": "nvarchar"
 										}
@@ -10181,6 +10192,10 @@
 					},
 					{
 						"name": "FECHA_LIQ",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CENTRO",
 						"type": "nvarchar"
 					}
 				],

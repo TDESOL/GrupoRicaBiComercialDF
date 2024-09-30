@@ -1092,6 +1092,10 @@
 					{
 						"name": "FECHA_LIQ",
 						"type": "nvarchar"
+					},
+					{
+						"name": "CENTRO",
+						"type": "nvarchar"
 					}
 				],
 				"typeProperties": {
