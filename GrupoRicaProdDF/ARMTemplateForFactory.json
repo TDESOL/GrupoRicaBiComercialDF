@@ -8772,8 +8772,6 @@
 					{
 						"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -9018,8 +9016,7 @@
 				"folder": {
 					"name": "STG/REL"
 				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-26T18:02:52Z"
+				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]",
