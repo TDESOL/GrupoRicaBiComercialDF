@@ -559,8 +559,6 @@
 			{
 				"name": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA FACT VENTA",
@@ -660,7 +658,9 @@
 								"sink": {
 									"name": "CANTIDAD_LIQ",
 									"type": "Decimal",
-									"physicalType": "decimal"
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 13
 								}
 							},
 							{
@@ -670,6 +670,17 @@
 								},
 								"sink": {
 									"name": "FECHA_LIQ",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CENTRO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CENTRO",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
