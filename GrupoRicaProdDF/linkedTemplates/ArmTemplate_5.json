@@ -3736,8 +3736,8 @@
 										},
 										"sink": {
 											"name": "FC_INI_PROGRAMACION",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
@@ -3747,8 +3747,8 @@
 										},
 										"sink": {
 											"name": "FC_FIN_PROGRAMACION",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									}
 								],

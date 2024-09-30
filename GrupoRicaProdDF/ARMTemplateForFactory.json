@@ -9077,8 +9077,8 @@
 										},
 										"sink": {
 											"name": "FC_INI_PROGRAMACION",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									},
 									{
@@ -9088,8 +9088,8 @@
 										},
 										"sink": {
 											"name": "FC_FIN_PROGRAMACION",
-											"type": "DateTime",
-											"physicalType": "datetime"
+											"type": "String",
+											"physicalType": "varchar"
 										}
 									}
 								],
@@ -12176,15 +12176,11 @@
 					},
 					{
 						"name": "FC_INI_PROGRAMACION",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
+						"type": "varchar"
 					},
 					{
 						"name": "FC_FIN_PROGRAMACION",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
+						"type": "varchar"
 					}
 				],
 				"typeProperties": {
