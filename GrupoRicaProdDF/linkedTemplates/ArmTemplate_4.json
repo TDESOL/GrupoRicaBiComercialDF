@@ -13,6 +13,777 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/COPIA_STG_ALL_02')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "VENTAS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT * FROM gr01.STG_FACT_VENTA_ALL",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_FACT",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_FACT",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_DESPACHO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_DESPACHO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FECHA_VENTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FECHA_VENTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ORDEN_VENTAS",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ORDEN_VENTAS",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_DETALLE_FACTURA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_DETALLE_FACTURA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "VOLUMEN",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
+										},
+										"sink": {
+											"name": "VOLUMEN",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
+										}
+									},
+									{
+										"source": {
+											"name": "CLIENTE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CLIENTE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ORGANIZACION",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ORGANIZACION",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_GERENCIA_VENTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_GERENCIA_VENTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ZONA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ZONA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RUTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "RUTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_VENDEDOR",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_VENDEDOR",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_ASISTENTE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_ASISTENTE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_CANAL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_CANAL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_TIPO_CLIENTE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_TIPO_CLIENTE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_REGION_VENTAS",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_REGION_VENTAS",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MONEDA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "MONEDA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CENTRO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CENTRO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MONTO_TASA_CAMBIARIA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 5,
+											"precision": 9
+										},
+										"sink": {
+											"name": "MONTO_TASA_CAMBIARIA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 5,
+											"precision": 9
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCTO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "PRODUCTO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CANTIDAD_ITEMS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
+										},
+										"sink": {
+											"name": "CANTIDAD_ITEMS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 18
+										}
+									},
+									{
+										"source": {
+											"name": "DESCUENTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										},
+										"sink": {
+											"name": "DESCUENTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										}
+									},
+									{
+										"source": {
+											"name": "NETWR",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 15
+										},
+										"sink": {
+											"name": "NETWR",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 15
+										}
+									},
+									{
+										"source": {
+											"name": "ITBIS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 13
+										},
+										"sink": {
+											"name": "ITBIS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 13
+										}
+									},
+									{
+										"source": {
+											"name": "MONTO_NETO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 15
+										},
+										"sink": {
+											"name": "MONTO_NETO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 15
+										}
+									},
+									{
+										"source": {
+											"name": "MONTO_BRUTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 15
+										},
+										"sink": {
+											"name": "MONTO_BRUTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 15
+										}
+									},
+									{
+										"source": {
+											"name": "MONTO_BONIFICACION",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 13
+										},
+										"sink": {
+											"name": "MONTO_BONIFICACION",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 13
+										}
+									},
+									{
+										"source": {
+											"name": "CD_VENDEDOR_SUP",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_VENDEDOR_SUP",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "VGBEL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "VGBEL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MTART",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "MTART",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CLASE_FACTURA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CLASE_FACTURA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PARVW",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "PARVW",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AUART",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "AUART",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "VENTAS_ALL_PROD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "DECOMISOS_DEVOLUCIONES",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT * FROM [gr01].[STG_DATOS_DECDEV_ALL]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_FACTURA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_FACTURA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_FACTURA_DETALLE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_FACTURA_DETALLE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_RUTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_RUTA",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_PRODUCTO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_PRODUCTO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_TIPO_DOC",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CD_TIPO_DOC",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CANTIDAD_LIQ",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 13
+										},
+										"sink": {
+											"name": "CANTIDAD_LIQ",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 3,
+											"precision": 13
+										}
+									},
+									{
+										"source": {
+											"name": "FECHA_LIQ",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "FECHA_LIQ",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DEC_DEV_ALL_PROD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "REF_COSTO_DESPACHO",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT * FROM [gr01].[STG_REF_COSTO_DESPACHO]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MATERIAL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "MATERIAL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CENTRO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CENTRO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIODO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "PERIODO",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CONTROL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "CONTROL",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COSTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 8,
+											"precision": 17
+										},
+										"sink": {
+											"name": "COSTO",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 8,
+											"precision": 17
+										}
+									},
+									{
+										"source": {
+											"name": "TASA_CAMBIARIA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 5,
+											"precision": 9
+										},
+										"sink": {
+											"name": "TASA_CAMBIARIA",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 5,
+											"precision": 9
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_REF_COSTO_DESPACHO",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/FACT"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-25T11:53:09Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_PERIODO')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -149,6 +920,113 @@
 				},
 				"folder": {
 					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-26T15:17:10Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_VENDEDOR_RUTA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_VENDEDOR_RUTA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT * FROM (SELECT\nRUTA AS CD_RUTA,\nPOSICION,\nRIGHT('00'+[COD_EMP], 11) AS COD_EMP\nFROM [dbo].[PERSONAL_VENTAS]\nWHERE POSICION IN('VENDEDOR','ASISTENTE') ) AS P\nPIVOT (MAX(COD_EMP) FOR POSICION\nIN(VENDEDOR,ASISTENTE) ) AS PV1\nORDER BY CD_RUTA",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "Truncate Table gr01.STG_REL_VENDEDOR_RUTA",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_RUTA",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_RUTA_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "VENDEDOR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_EMPLEADO_VENDEDOR",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ASISTENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CD_EMPLEADO_ASISTENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTableTT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_REL_VENDEDOR_RUTA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
 				},
 				"annotations": []
 			},
@@ -293,7 +1171,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -398,7 +1276,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -503,7 +1381,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -597,7 +1475,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-27T18:58:29Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -702,7 +1580,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
+				"lastPublishTime": "2024-09-26T22:38:51Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -796,7 +1674,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -890,7 +1768,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-25T11:53:08Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -995,7 +1873,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-26T23:18:52Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -1100,7 +1978,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-27T10:33:45Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -1194,7 +2072,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -1299,7 +2177,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -1478,7 +2356,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-27T10:48:29Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -1572,7 +2450,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
@@ -1666,272 +2544,7 @@
 					"name": "STG/DIM"
 				},
 				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:35Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_RUTA_DISTRIBUCION')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_RUTA_DISTRIBUCION",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORGANIZACION,\n\tA.WERKS AS CD_CENTRO,\n\tA.VKGRP AS CD_ZONA,\n\tA.ZTP_RUTA AS TIPO_RUTA,\n\tA.BZIRK AS CD_RUTA,\n\tMax(COALESCE(B.LTEXT, CONCAT('RUTA ',A.BZIRK))) AS NOM_RUTA,\n\tMin(B.ROUTE_ECC) AS CD_RUTA_ANTERIOR, \n\tGERENCIA,\n\tKUNNR_SUP AS CD_SUPERVISOR\nFROM \"SAPHANADB\".\"ZSDCO_PARA_RUTA\" A\n\t  LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_ROUTE\"  B ON\n\t\tB.ROUTE = A.BZIRK AND\n\t\tB.WERKS = A.WERKS AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT='400' and A.VKORG in ( 'DO10' , 'DO11') \ngroup by \n\tA.VKORG,\n\tA.WERKS,\n\tA.VKGRP,\n\tA.ZTP_RUTA,\n\tA.BZIRK,\n\tGERENCIA,\n\tKUNNR_SUP\nORDER BY A.BZIRK, A.VKORG, A.WERKS, A.VKGRP, A.ZTP_RUTA, A.BZIRK",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_RUTA_DISTRIBUCION]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_RUTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_RUTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_ZONA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ZONA_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_ORGANIZACION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ORGANIZACION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_CENTRO",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CENTRO_DISTRIBUCIÓN",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "TIPO_RUTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_TIPO_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_RUTA_ANTERIOR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_RUTA_DISTRIBUCION_EQUIVALENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "GERENCIA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_GERENCIA_VENTAS",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_SUPERVISOR",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_SUPERVISOR",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_RUTA_DISTRIBUCION",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_TECNOLOGIA_PRODUCTO')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_TECNOLOGIA_PRODUCTO",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT \n\tA.MVGR2 AS COD_TEC_PROD,\n    UPPER(A.BEZEI) AS NOM_TEC_PROD\nFROM \"SAPHANADB\".\"TVM2T\"  A\nWHERE A.MANDT= '400' AND A.SPRAS= 'S'  \nORDER BY A.MVGR2",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_DIM_TECNOLOGIA_PRODUCTO]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "COD_TEC_PROD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_TECNOLOGIA_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_TEC_PROD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_TECNOLOGIA_PRODUCTO",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_TECNOLOGIA_PRODUCTO",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-18T21:15:34Z"
+				"lastPublishTime": "2024-09-25T11:53:09Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
