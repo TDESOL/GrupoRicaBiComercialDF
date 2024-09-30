@@ -32,7 +32,7 @@
 			"name": "STG/FACT"
 		},
 		"annotations": [],
-		"lastPublishTime": "2024-09-19T15:40:43Z"
+		"lastPublishTime": "2024-09-25T11:53:07Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

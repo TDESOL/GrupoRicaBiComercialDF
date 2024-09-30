@@ -31,6 +31,8 @@
 		"folder": {
 			"name": "DWH/DIM"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-09-27T11:33:00Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

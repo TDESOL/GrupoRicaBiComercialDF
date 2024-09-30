@@ -164,7 +164,7 @@
 			"name": "STG/DIM"
 		},
 		"annotations": [],
-		"lastPublishTime": "2024-09-18T21:15:35Z"
+		"lastPublishTime": "2024-09-27T10:48:29Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

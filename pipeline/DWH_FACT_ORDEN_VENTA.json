@@ -64,7 +64,7 @@
 			"name": "DWH/FACT"
 		},
 		"annotations": [],
-		"lastPublishTime": "2024-09-19T23:12:53Z"
+		"lastPublishTime": "2024-09-25T11:53:07Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

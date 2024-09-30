@@ -29,5 +29,6 @@
 			"schema": "gr01",
 			"table": "STG_REL_PROGRAMACION_VENTA"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

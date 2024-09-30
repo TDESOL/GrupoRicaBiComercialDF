@@ -55,5 +55,6 @@
 			"schema": "gr01",
 			"table": "STG_REL_PRESUPUESTO_VENTA_ALL"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

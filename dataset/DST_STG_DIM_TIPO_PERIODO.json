@@ -21,5 +21,6 @@
 			"schema": "gr00",
 			"table": "STG_DIM_TIPO_PERIODO"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

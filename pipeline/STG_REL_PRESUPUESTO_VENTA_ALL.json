@@ -244,6 +244,8 @@
 		"folder": {
 			"name": "STG/REL"
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-09-26T18:02:52Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

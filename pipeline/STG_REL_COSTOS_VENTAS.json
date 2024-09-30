@@ -216,7 +216,7 @@
 			"name": "STG/REL"
 		},
 		"annotations": [],
-		"lastPublishTime": "2024-09-18T21:16:23Z"
+		"lastPublishTime": "2024-09-25T11:53:09Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
