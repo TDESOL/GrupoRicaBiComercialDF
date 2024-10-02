@@ -1,0 +1,567 @@
+{
+	"name": "STG_FACT_DESPACHO_67",
+	"properties": {
+		"activities": [
+			{
+				"name": "EXTRACT DATA FACT DESPACHO 67",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set variable Fecha Inicial",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set variable Fecha_Final",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT \n\tA.ERDAT AS FECHA_DESPACHO,\n\tLPAD(A.ERDAT,6) AS CD_PERIODO_DESPACHO,   \n    min(C.VBELV) AS CD_ORDEN_VENTAS,\n\tA.VBELN AS CD_DESPACHO_VENTA,\n\tB.POSNR AS POS_NUM,\n\tB.KOKRS AS CD_ORG,\n\t'-1' AS CD_GERENCIA_VENTA,\n\tD.ZONA AS ZONA,\n\tD.RUTA,\n\tA.KUNNR AS CD_CLIENTE,\n\tA.WAERK AS CD_MONEDA,\n\tB.MATNR AS PRODUCTO,\n    B.WERKS AS CD_CENTRO_DISTRIBICION,\n\td.bonificacion_cur AS MONTO_BONIFICACION,\n\tB.NETWR,\n\tB.VTWEG AS CD_CANAL_DISTRIBUCION,\n\tB.LGMNG AS CANT_ITEMS,  \n\tPESOS AS MONTO_NETO,\n\tITBIS AS TOTAL_IMPUESTO,\n\t0.00 AS TOTAL_DESC_ORG,\n\tCASE WHEN D.DOLARES != 0 THEN D.PESOS/D.DOLARES ELSE 0 END AS TASA_REF_MON,\n\tD.ZONA AS CD_VENDEDOR_SUP,\n\tA.spe_loekz AS INDICADOR_BORRADO \n FROM SAPSR3.LIKP A \n\tLEFT JOIN  SAPSR3.LIPS  B ON\n\t\t\tB.MANDT = A.MANDT AND\n\t\t\tB.VBELN = A.VBELN  \n\tLEFT JOIN  SAPSR3.VBFA  C ON\n\t\t\tB.VBELN = C.VBELN AND\n\t\t\tB.POSNR = C.POSNN\n\tLEFT JOIN  SAPSR3.VBFA  E ON\n\t\t\tB.VBELN = E.VBELV AND\n\t\t\tB.POSNR = E.POSNV \n    LEFT JOIN SAPSR3.ZVENTAS_GENERAL D ON\n            D.NO_FACTURA=E.VBELN  \nWHERE A.MANDT = '400' AND A.ERDAT BETWEEN  @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}\n        and C.VBTYP_N = 'J' AND C.VBTYP_V = 'C' AND E.VBTYP_N = 'M' \ngroup by A.ERDAT , LPAD(A.ERDAT,6) , A.VBELN ,B.POSNR ,B.KOKRS ,D.ZONA ,\n\t'-1',D.RUTA ,A.KUNNR ,A.WAERK ,B.MATNR ,B.WERKS, d.bonificacion_cur, B.NETWR ,B.VTWEG ,\n\tB.LGMNG, PESOS, ITBIS ,  CASE WHEN D.DOLARES != 0 THEN D.PESOS/D.DOLARES ELSE 0 END ,D.ZONA, A.spe_loekz \nORDER BY B.MATNR , B.WERKS ,LPAD(A.ERDAT,6) ",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_FACT_DESPACHO_VENTA_ALL]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FECHA_DESPACHO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FECHA_DESPACHO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_PERIODO_DESPACHO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO_DESPACHO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_ORDEN_VENTAS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORDEN_VENTAS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_DESPACHO_VENTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_DESPACHO_VENTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "POS_NUM",
+									"type": "String"
+								},
+								"sink": {
+									"name": "POS_NUM",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_ORG",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORG",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"sink": {
+									"name": "CD_ZONA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_GERENCIA_VENTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_GERENCIA_VENTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"sink": {
+									"name": "CD_RUTA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CLIENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CLIENTE",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_MONEDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PRODUCTO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CENTRO_DISTRIBICION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CENTRO_DISTRIBICION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_BONIFICACION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_BONIFICACION",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "NETWR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "NETWR",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CANAL_DISTRIBUCION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CANAL_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_ITEMS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "CANT_ITEMS",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_NETO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_NETO",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "TOTAL_IMPUESTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "TOTAL_IMPUESTO",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "TOTAL_DESC_ORG",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "TOTAL_DESC_ORG",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "TASA_REF_MON",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "TASA_REF_MON",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_VENDEDOR_SUP",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_VENDEDOR_SUP",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "INDICADOR_BORRADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "INDICADOR_BORRADO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_FUENTES_67",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_FACT_DESPACHO_VENTA_ALL",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Busca Fechas",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [NM_ENTIDAD]\n      ,cast(FORMAT([FC_INI_CARGA] ,'yyyyMMdd') as INT) as FECHA_INICIAL\n      ,cast(FORMAT([FC_FIN_CARGA] ,'yyyyMMdd') as INT)  as FECHA_FINAL\nFROM [dbo].[MD_CONTROL]\nWHERE NM_ENTIDAD = 'STG_FACT_DESPACHO_VENTA'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "MTD_MD_CONTROL",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set variable Fecha Inicial",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Busca Fechas",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Fecha_Ini",
+					"value": {
+						"value": "@activity('Busca Fechas').output.firstRow.FECHA_INICIAL",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable Fecha_Final",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Busca Fechas",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Fecha_Fin",
+					"value": {
+						"value": "@activity('Busca Fechas').output.firstRow.FECHA_FINAL",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "CARGAR STG FACT DESPACHO VENTA",
+				"type": "ExecuteSSISPackage",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "EXTRACT DATA COSTO DESPACHO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_DESPACHO_VENTAS.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSSIS-Dev",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic"
+				}
+			},
+			{
+				"name": "EXTRACT DATA COSTO DESPACHO",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "EXTRACT DATA FACT DESPACHO 67",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT DISTINCT\n       A.matnr AS material,\n      A.bwkey AS centro,\n       CONCAT(A.lfgja, A.lfmon) AS periodo,\n       A.vprsv AS control,\n       CASE vprsv\n         WHEN 'V' THEN A.verpr / A.peinh\n         WHEN 'S' THEN A.stprs / A.peinh\n       END   AS costo\n,C.TASA_CAMBIARIA\n\nFROM   SAPSR3.mbewh A\n\nJOIN SAPSR3.LIPS B\nON B.MATNR=A.MATNR\nAND B.MANDT=A.MANDT\nAND A.bwkey=B.WERKS\n\nLEFT JOIN (SELECT\nLPAD(cast((99999999 - GDATU) as varchar(8)),6)  AS CD_PERIODO,\nAVG(UKURS) AS TASA_CAMBIARIA\nFROM SAPSR3.TCURR A\nWHERE A.MANDT= '400'  AND FCURR = 'USD'\n\nGROUP BY\nLPAD(cast((99999999 - GDATU) as varchar(8)),6)  \n) C on C.CD_PERIODO =  CONCAT(A.lfgja, A.lfmon)\n\nWHERE  CONCAT(A.lfgja, A.lfmon) BETWEEN LPAD('@{variables('Fecha_Ini')}',6)  AND LPAD('@{variables('Fecha_Fin')}',6) \nORDER BY A.matnr, A.bwkey, CONCAT(A.lfgja, A.lfmon) ",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REF_COSTO_DESPACHO]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "MATERIAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MATERIAL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CENTRO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CENTRO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PERIODO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTROL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CONTROL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "COSTO",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "COSTO",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_FUENTES_67",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_REF_COSTO_DESPACHO",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"Fecha_Ini": {
+				"type": "Integer"
+			},
+			"Fecha_Fin": {
+				"type": "Integer"
+			}
+		},
+		"folder": {
+			"name": "STG/FACT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:14:39Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
