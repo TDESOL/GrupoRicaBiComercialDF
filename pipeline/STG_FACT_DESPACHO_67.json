@@ -113,6 +113,10 @@
 								}
 							},
 							{
+								"source": {
+									"name": "ZONA",
+									"type": "String"
+								},
 								"sink": {
 									"name": "CD_ZONA",
 									"type": "String",
@@ -131,6 +135,10 @@
 								}
 							},
 							{
+								"source": {
+									"name": "RUTA",
+									"type": "String"
+								},
 								"sink": {
 									"name": "CD_RUTA",
 									"type": "String",
