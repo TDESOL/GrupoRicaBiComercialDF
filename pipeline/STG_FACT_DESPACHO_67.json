@@ -400,7 +400,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "EXTRACT DATA COSTO DESPACHO 67",
+						"activity": "EXTRACT DATA COSTO DESP 67",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -428,7 +428,7 @@
 				}
 			},
 			{
-				"name": "EXTRACT DATA COSTO DESPACHO 67",
+				"name": "EXTRACT DATA COSTO DESP 67",
 				"type": "Copy",
 				"dependsOn": [
 					{
