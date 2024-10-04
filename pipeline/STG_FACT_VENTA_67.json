@@ -51,7 +51,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "CD_FACT",
+									"name": "NO_FACTURA",
 									"type": "String"
 								},
 								"sink": {
