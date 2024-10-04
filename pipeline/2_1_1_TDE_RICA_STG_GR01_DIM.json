@@ -1,0 +1,280 @@
+{
+	"name": "2_1_1_TDE_RICA_STG_GR01_DIM",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_DIM_TECNOLOGIA_PRODUCTO",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_TECNOLOGIA_PRODUCTO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_TIPO_PRODUCTO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_TECNOLOGIA_PRODUCTO",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_TIPO_PRODUCTO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_FAMILIA_PRODUCTO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_TIPO_PRODUCTO",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_FAMILIA_PRODUCTO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_PRODUCTO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_FAMILIA_PRODUCTO",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_PRODUCTO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_MARCA_PRODUCTO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_PRODUCTO",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_MARCA_PRODUCTO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_LINEA_PRODUCTO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_MARCA_PRODUCTO",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_LINEA_PRODUCTO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_REGION_VENTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_LINEA_PRODUCTO",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_REGION_VENTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_GERENCIA_VENTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_REGION_VENTA",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_GERENCIA_VENTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_CANAL_DISTRIBUCION",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_GERENCIA_VENTA",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_CANAL_DISTRIBUCION",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_RUTA_DISTRIBUCION",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_CANAL_DISTRIBUCION",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_RUTA_DISTRIBUCION",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_CENTRO_DISTRIBUCION",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_RUTA_DISTRIBUCION",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_CENTRO_DISTRIBUCION",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_ZONA_VENTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_CENTRO_DISTRIBUCION",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_ZONA_VENTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": []
+	}
+}
