@@ -270,6 +270,75 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "STG_DIM_TIPO_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_ZONA_VENTA",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_TIPO_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_HOLDING_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_TIPO_CLIENTE",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_HOLDING_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_DIM_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_HOLDING_CLIENTE",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_DIM_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"folder": {
