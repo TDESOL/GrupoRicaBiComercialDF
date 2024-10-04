@@ -44,7 +44,14 @@
 			{
 				"name": "STG_REL_COSTOS_VENTAS",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "STG_REL_CARTERA_CLIENTE",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"policy": {
 					"secureInput": false
 				},
