@@ -5,7 +5,14 @@
 			{
 				"name": "STG_DIM_TECNOLOGIA_PRODUCTO",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "STG_DIM_TIPO_DOCUMENTO",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"policy": {
 					"secureInput": false
 				},
@@ -342,19 +349,18 @@
 			},
 			{
 				"name": "STG_DIM_TIPO_DOCUMENTO",
-				"description": "Aqui: STG_DIM_TIPO_DOCUMENTO",
-				"type": "SynapseNotebook",
+				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"snapshot": true
+					"pipeline": {
+						"referenceName": "STG_DIM_TIPO_DOCUMENTO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],
