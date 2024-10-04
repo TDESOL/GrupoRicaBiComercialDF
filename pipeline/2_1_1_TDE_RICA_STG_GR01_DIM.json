@@ -339,6 +339,23 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "STG_DIM_TIPO_DOCUMENTO",
+				"description": "Aqui: STG_DIM_TIPO_DOCUMENTO",
+				"type": "SynapseNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"snapshot": true
+				}
 			}
 		],
 		"folder": {
