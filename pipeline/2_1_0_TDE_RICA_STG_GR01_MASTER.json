@@ -1,0 +1,50 @@
+{
+	"name": "2_1_0_TDE_RICA_STG_GR01_MASTER",
+	"properties": {
+		"activities": [
+			{
+				"name": "2_1_1_TDE_RICA_STG_GR01_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "2_1_1_TDE_RICA_STG_GR01_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "2_1_2_TDE_RICA_STG_GR01_REL",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "2_1_1_TDE_RICA_STG_GR01_DIM",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "2_1_2_TDE_RICA_STG_GR01_REL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": []
+	}
+}
