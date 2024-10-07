@@ -287,6 +287,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"ORACLE_SAP67_connectionString": {
+						"value": "[parameters('ORACLE_SAP67_connectionString')]"
+					},
+					"SapHana1_connectionString": {
+						"value": "[parameters('SapHana1_connectionString')]"
 					}
 				}
 			},
@@ -307,12 +313,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"ORACLE_SAP67_connectionString": {
-						"value": "[parameters('ORACLE_SAP67_connectionString')]"
-					},
-					"SapHana1_connectionString": {
-						"value": "[parameters('SapHana1_connectionString')]"
 					}
 				}
 			},

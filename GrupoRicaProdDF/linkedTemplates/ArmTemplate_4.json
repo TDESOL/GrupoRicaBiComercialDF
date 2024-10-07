@@ -6,54 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "GrupoRicaProdDF"
-		},
-		"ORACLE_SAP67_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ORACLE_SAP67'"
-		},
-		"SapHana1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SapHana1'"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/ORACLE_SAP67')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('ORACLE_SAP67_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "GrupoRica-IRSH-Prod",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SapHana1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SapHana",
-				"typeProperties": {
-					"connectionString": "[parameters('SapHana1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "GrupoRica-IRSH-Prod",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/COPIA_STG_ALL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -2257,9 +2215,7 @@
 				"schema": [],
 				"typeProperties": {}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ORACLE_SAP67')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/STG_SUGERIDO_67')]",
@@ -2275,9 +2231,7 @@
 				"schema": [],
 				"typeProperties": {}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ORACLE_SAP67')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SapHanaTable1')]",
@@ -2296,9 +2250,7 @@
 					"table": "ZCDS_SD_INVOICE"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SapHana1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_CANAL_DISTRIBUCION')]",
@@ -3290,6 +3242,215 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2024-09-25T11:53:09Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_ORGANIZACION')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_ORGANIZACION",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORG,\n\tUPPER(A.VTEXT) AS NOM_ORG,\n\tBUKRS_ECC AS CD_ORG_ANT\nFROM \"SAPHANADB\".\"TVKOT\" A \n\t LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_BUKRS\" B  ON\n\t\tB.BUKRS = A.VKORG AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT = '400' AND A.SPRAS = 'S'\nORDER BY A.VKORG",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_ORGANIZACION]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CD_ORG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOM_ORG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NOM_ORGANIZACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CD_ORG_ANT",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_ORG_ANT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_ORGANIZACION",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-25T11:53:09Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_PAIS')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_PAIS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT\t\n\tLAND1 AS CODIGO_PAIS,\n\tUCASE(LANDX) AS NOMBRE_PAIS,\n\tUCASE(NATIO) AS NOMBRE_NACIONALIDAD\n FROM \"SAPHANADB\".\"T005T\" \n WHERE MANDT='400' AND SPRAS= 'S'",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_PAIS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CODIGO_PAIS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PAIS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOMBRE_PAIS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_PAIS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOMBRE_NACIONALIDAD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_NACIONALIDAD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_PAIS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]"

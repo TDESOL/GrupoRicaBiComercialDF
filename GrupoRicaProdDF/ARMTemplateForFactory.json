@@ -128,36 +128,50 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/0_0_0_TDE_RICA_GR00')]",
+			"name": "[concat(parameters('factoryName'), '/1_0_0_TDE_RICA_GR00')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "0_0_0_TDE_RICA_GR00",
-						"type": "ExecuteSSISPackage",
+						"name": "2_1_0_TDE_RICA_STG_GR00_MASTER",
+						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
 							"secureInput": false
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/0_0_0_TDE_RICA_GR00.dtsx",
-								"type": "SSISDB"
+							"pipeline": {
+								"referenceName": "2_1_0_TDE_RICA_STG_GR00_MASTER",
+								"type": "PipelineReference"
 							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "2_1_0_TDE_RICA_DWH_GR00",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "2_1_0_TDE_RICA_STG_GR00_MASTER",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "2_1_0_TDE_RICA_DWH_GR00",
+								"type": "PipelineReference"
 							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
+							"waitOnCompletion": true,
+							"parameters": {}
 						}
 					}
 				],
@@ -168,40 +182,55 @@
 				"lastPublishTime": "2024-09-25T11:53:07Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
+				"[concat(variables('factoryId'), '/pipelines/2_1_0_TDE_RICA_STG_GR00_MASTER')]",
+				"[concat(variables('factoryId'), '/pipelines/2_1_0_TDE_RICA_DWH_GR00')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/0_0_0_TDE_RICA_GR01')]",
+			"name": "[concat(parameters('factoryName'), '/1_0_0_TDE_RICA_GR01')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "0_0_0_TDE_RICA_GR01",
-						"type": "ExecuteSSISPackage",
+						"name": "2_1_0_TDE_RICA_STG_GR01_MASTER",
+						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
 							"secureInput": false
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/0_0_0_TDE_RICA_GR01.dtsx",
-								"type": "SSISDB"
+							"pipeline": {
+								"referenceName": "2_1_0_TDE_RICA_STG_GR01_MASTER",
+								"type": "PipelineReference"
 							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "2_1_0_TDE_RICA_DWH_GR01",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "2_1_0_TDE_RICA_STG_GR01_MASTER",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "2_1_0_TDE_RICA_DWH_GR01",
+								"type": "PipelineReference"
 							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
+							"waitOnCompletion": true,
+							"parameters": {}
 						}
 					}
 				],
@@ -212,7 +241,8 @@
 				"lastPublishTime": "2024-09-25T11:53:07Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
+				"[concat(variables('factoryId'), '/pipelines/2_1_0_TDE_RICA_STG_GR01_MASTER')]",
+				"[concat(variables('factoryId'), '/pipelines/2_1_0_TDE_RICA_DWH_GR01')]"
 			]
 		},
 		{
@@ -888,6 +918,128 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_STG_GR00_MASTER')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "2_1_1_TDE_RICA_STG_GR00_DIM",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "2_1_1_TDE_RICA_STG_GR00_DIM",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/2_1_1_TDE_RICA_STG_GR00_DIM')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_STG_GR01_MASTER')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "2_1_1_TDE_RICA_STG_GR01_DIM",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "2_1_1_TDE_RICA_STG_GR01_DIM",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "2_1_2_TDE_RICA_STG_GR01_REL",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "2_1_1_TDE_RICA_STG_GR01_DIM",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "2_1_2_TDE_RICA_STG_GR01_REL",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "2_1_3_TDE_RICA_STG_GR01_DWH",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "2_1_2_TDE_RICA_STG_GR01_REL",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "2_1_3_TDE_RICA_DWH_GR01_FACT",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/2_1_1_TDE_RICA_STG_GR01_DIM')]",
+				"[concat(variables('factoryId'), '/pipelines/2_1_2_TDE_RICA_STG_GR01_REL')]",
+				"[concat(variables('factoryId'), '/pipelines/2_1_3_TDE_RICA_DWH_GR01_FACT')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/2_1_1_TDE_RICA_DWH_GR00_DIM')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -979,6 +1131,279 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/2_1_1_TDE_RICA_STG_GR00_DIM')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_EMPLEADO",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_DIA_FERIADO",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_DIM_EMPLEADO",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_DIM_DIA_FERIADO",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_DIA_FERIADO.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					},
+					{
+						"name": "STG_DIM_FC",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_EMPLEADO",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_FC.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					},
+					{
+						"name": "STG_DIM_TP_PERIODO",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_FC",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_TIPO_PERIODO.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					},
+					{
+						"name": "STG_DIM_MONEDA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_TP_PERIODO",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_DIM_MONEDA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_DIM_ORGANIZACION",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_MONEDA",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_DIM_ORGANIZACION",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_DIM_PAIS",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_ORGANIZACION",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_DIM_PAIS",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_DIM_PERIODO",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_PAIS",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_PERIODO.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					},
+					{
+						"name": "STG_DIM_PROVINCIA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_DIM_PERIODO",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_DIM_PROVINCIA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/STG_DIM_EMPLEADO')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_DIM_MONEDA')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_DIM_ORGANIZACION')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_DIM_PAIS')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_DIM_PROVINCIA')]"
 			]
 		},
 		{
@@ -1437,6 +1862,217 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/2_1_2_TDE_RICA_STG_GR01_REL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_ATRIBUTOS_CLIENTE",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_ATRIBUTOS_CLIENTE",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_CARTERA_CLIENTE",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_ATRIBUTOS_CLIENTE",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_CARTERA_CLIENTE",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_COSTOS_VENTAS",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_CARTERA_CLIENTE",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_COSTOS_VENTAS",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_CUOTA_VENTA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_COSTOS_VENTAS",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_CUOTA_VENTA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_RUTA_ENTREGA_CLIENTE",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_CUOTA_VENTA",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_RUTA_ENTREGA_CLIENTE",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_RUTA_ENTREGA_CLIENTE",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_VENDEDOR_RUTA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_PRESUPUESTO_VENTA_ALL",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_VENDEDOR_RUTA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_ACUERDO_SERVICIO_CLIENTE')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_ATRIBUTOS_CLIENTE')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_CARTERA_CLIENTE')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_COSTOS_VENTAS')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_CUOTA_VENTA')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_RUTA_ENTREGA_CLIENTE')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_PRESUPUESTO_VENTA_ALL')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_VENDEDOR_RUTA')]"
 			]
 		},
 		{
@@ -4897,6 +5533,111 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIM_PAIS')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_PAIS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT\t\n\tLAND1 AS CODIGO_PAIS,\n\tUCASE(LANDX) AS NOMBRE_PAIS,\n\tUCASE(NATIO) AS NOMBRE_NACIONALIDAD\n FROM \"SAPHANADB\".\"T005T\" \n WHERE MANDT='400' AND SPRAS= 'S'",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_PAIS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CODIGO_PAIS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_PAIS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOMBRE_PAIS",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_PAIS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NOMBRE_NACIONALIDAD",
+											"type": "String"
+										},
+										"sink": {
+											"name": "NM_NACIONALIDAD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_DIM_PAIS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/DIM"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]",
+				"[concat(variables('factoryId'), '/datasets/DST_STG_DIM_PAIS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_PERIODO')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -6070,8 +6811,6 @@
 					{
 						"name": "EXTRACT DATA FACT DESPACHO",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -7322,8 +8061,6 @@
 					{
 						"name": "EXTRACT DATA FACT SUGERIDO",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -7742,8 +8479,6 @@
 					{
 						"name": "EXTRACT DATA FACT VENTA",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -8474,50 +9209,6 @@
 				"[concat(variables('factoryId'), '/datasets/MTD_MD_CONTROL')]",
 				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]",
 				"[concat(variables('factoryId'), '/datasets/DST_DATOS_DECDEV')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_FACT_VENTA_SSIS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_FACT_VENTA",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/STG_FACT_VENTAS.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-25T11:53:07Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
 			]
 		},
 		{
@@ -13954,13 +14645,59 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/2_1_2_TDE_RICA_STG_GR01_REL')]",
+			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_DWH_GR00')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+						"name": "2_1_0_TDE_RICA_DWH_GR00",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/2_1_0_TDE_RICA_DWH_GR00.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "DWH"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/2_1_3_TDE_RICA_STG_GR01_DWH')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_FACT_SUGERIDO",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"policy": {
@@ -13969,7 +14706,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+								"referenceName": "STG_FACT_SUGERIDO",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -13977,13 +14714,13 @@
 						}
 					},
 					{
-						"name": "STG_REL_ATRIBUTOS_CLIENTE",
+						"name": "STG_FACT_ORDENES",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+								"activity": "STG_FACT_SUGERIDO",
 								"dependencyConditions": [
-									"Completed"
+									"Succeeded"
 								]
 							}
 						],
@@ -13993,7 +14730,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "STG_REL_ATRIBUTOS_CLIENTE",
+								"referenceName": "STG_FACT_ORDENES",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -14001,13 +14738,13 @@
 						}
 					},
 					{
-						"name": "STG_REL_CARTERA_CLIENTE",
+						"name": "STG_FACT_DESPACH",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "STG_REL_ATRIBUTOS_CLIENTE",
+								"activity": "STG_FACT_ORDENES",
 								"dependencyConditions": [
-									"Completed"
+									"Succeeded"
 								]
 							}
 						],
@@ -14017,7 +14754,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "STG_REL_CARTERA_CLIENTE",
+								"referenceName": "STG_FACT_DESPACHO",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -14025,13 +14762,13 @@
 						}
 					},
 					{
-						"name": "STG_REL_COSTOS_VENTAS",
+						"name": "STG_FACT_VENTA",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "STG_REL_CARTERA_CLIENTE",
+								"activity": "STG_FACT_DESPACH",
 								"dependencyConditions": [
-									"Completed"
+									"Succeeded"
 								]
 							}
 						],
@@ -14041,103 +14778,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "STG_REL_COSTOS_VENTAS",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_REL_CUOTA_VENTA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_REL_COSTOS_VENTAS",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_REL_CUOTA_VENTA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_REL_RUTA_ENTREGA_CLIENTE",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_REL_CUOTA_VENTA",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_REL_RUTA_ENTREGA_CLIENTE",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_REL_RUTA_ENTREGA_CLIENTE",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_REL_VENDEDOR_RUTA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_REL_PRESUPUESTO_VENTA_ALL",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_REL_VENDEDOR_RUTA",
+								"referenceName": "STG_FACT_VENTA",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -14154,24 +14795,20 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_ACUERDO_SERVICIO_CLIENTE')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_ATRIBUTOS_CLIENTE')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_CARTERA_CLIENTE')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_COSTOS_VENTAS')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_CUOTA_VENTA')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_RUTA_ENTREGA_CLIENTE')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_PRESUPUESTO_VENTA_ALL')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_VENDEDOR_RUTA')]"
+				"[concat(variables('factoryId'), '/pipelines/STG_FACT_SUGERIDO')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_FACT_ORDENES')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_FACT_DESPACHO')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_FACT_VENTA')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_STG_GR01_MASTER')]",
+			"name": "[concat(parameters('factoryName'), '/0_0_0_TDE_RICA')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "2_1_1_TDE_RICA_STG_GR01_DIM",
+						"name": "1_0_0_TDE_RICA_GR00",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"policy": {
@@ -14180,7 +14817,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "2_1_1_TDE_RICA_STG_GR01_DIM",
+								"referenceName": "1_0_0_TDE_RICA_GR00",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -14188,13 +14825,13 @@
 						}
 					},
 					{
-						"name": "2_1_2_TDE_RICA_STG_GR01_REL",
+						"name": "1_0_0_TDE_RICA_GR01",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "2_1_1_TDE_RICA_STG_GR01_DIM",
+								"activity": "1_0_0_TDE_RICA_GR00",
 								"dependencyConditions": [
-									"Completed"
+									"Succeeded"
 								]
 							}
 						],
@@ -14204,7 +14841,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "2_1_2_TDE_RICA_STG_GR01_REL",
+								"referenceName": "1_0_0_TDE_RICA_GR01",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -14215,428 +14852,11 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"folder": {
-					"name": "STG"
-				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/2_1_1_TDE_RICA_STG_GR01_DIM')]",
-				"[concat(variables('factoryId'), '/pipelines/2_1_2_TDE_RICA_STG_GR01_REL')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/2_1_1_TDE_RICA_STG_GR00_DIM')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_EMPLEADO",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_DIA_FERIADO",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_EMPLEADO",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_DIA_FERIADO",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_DIA_FERIADO.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "STG_DIM_FC",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_EMPLEADO",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_FC.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "STG_DIM_TP_PERIODO",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_FC",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_TIPO_PERIODO.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "STG_DIM_MONEDA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_TP_PERIODO",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_MONEDA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_ORGANIZACION",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_MONEDA",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_ORGANIZACION",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_PAIS",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_ORGANIZACION",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_PAIS",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "STG_DIM_PERIODO",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_PAIS",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/STG_DIM_PERIODO.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					},
-					{
-						"name": "STG_DIM_PROVINCIA",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_DIM_PERIODO",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "STG_DIM_PROVINCIA",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_EMPLEADO')]",
-				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSSIS-Prod')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_MONEDA')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_ORGANIZACION')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_PAIS')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_DIM_PROVINCIA')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_PAIS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_PAIS",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT\t\n\tLAND1 AS CODIGO_PAIS,\n\tUCASE(LANDX) AS NOMBRE_PAIS,\n\tUCASE(NATIO) AS NOMBRE_NACIONALIDAD\n FROM \"SAPHANADB\".\"T005T\" \n WHERE MANDT='400' AND SPRAS= 'S'",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_PAIS]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CODIGO_PAIS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_PAIS",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOMBRE_PAIS",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_PAIS",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOMBRE_NACIONALIDAD",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NM_NACIONALIDAD",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_PAIS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SapHanaTable1')]",
-				"[concat(variables('factoryId'), '/datasets/DST_STG_DIM_PAIS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_STG_GR00_MASTER')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "2_1_1_TDE_RICA_STG_GR00_DIM",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"policy": {
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "2_1_1_TDE_RICA_STG_GR00_DIM",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/2_1_1_TDE_RICA_STG_GR00_DIM')]"
+				"[concat(variables('factoryId'), '/pipelines/1_0_0_TDE_RICA_GR00')]",
+				"[concat(variables('factoryId'), '/pipelines/1_0_0_TDE_RICA_GR01')]"
 			]
 		}
 	]

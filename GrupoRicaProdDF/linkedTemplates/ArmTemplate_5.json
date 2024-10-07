@@ -13,109 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/STG_DIM_ORGANIZACION')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_DIM_ORGANIZACION",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORG,\n\tUPPER(A.VTEXT) AS NOM_ORG,\n\tBUKRS_ECC AS CD_ORG_ANT\nFROM \"SAPHANADB\".\"TVKOT\" A \n\t LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_BUKRS\" B  ON\n\t\tB.BUKRS = A.VKORG AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT = '400' AND A.SPRAS = 'S'\nORDER BY A.VKORG",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [gr00].[STG_DIM_ORGANIZACION]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CD_ORG",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ORGANIZACION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "NOM_ORG",
-											"type": "String"
-										},
-										"sink": {
-											"name": "NOM_ORGANIZACION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CD_ORG_ANT",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ORG_ANT",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DST_STG_DIM_ORGANIZACION",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/DIM"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-25T11:53:09Z"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/STG_DIM_PRODUCTO')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1022,8 +919,6 @@
 					{
 						"name": "EXTRACT DATA FACT DESPACHO",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -2216,8 +2111,6 @@
 					{
 						"name": "EXTRACT DATA FACT SUGERIDO",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -2631,8 +2524,6 @@
 					{
 						"name": "EXTRACT DATA FACT VENTA",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Set variable Fecha Inicial",
@@ -4401,6 +4292,120 @@
 					"name": "STG/REL"
 				},
 				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_REL_PROGRAMACION_VENTA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_REL_PROGRAMACION_VENTA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapHanaSource",
+								"query": "SELECT  DISTINCT\n\tP.KUNNR AS CODIGO_CLIENTE, \n\tH.ROUTE AS CODIGO_RUTA, \n\tH.DATFR AS FC_INI_PROG, \n\tH.DATTO AS FC_FIN_PROG \nFROM \"SAPHANADB\".\"/DSD/VC_VPP\" P \n\tINNER JOIN \"SAPHANADB\".\"/DSD/VC_VPH\" H ON\n\t\tH.VPID = P.VPID\nWHERE P.MANDT='400'",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table GR01.STG_REL_PROGRAMACION_VENTA",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CODIGO_CLIENTE",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_CLIENTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CODIGO_RUTA",
+											"type": "String"
+										},
+										"sink": {
+											"name": "CD_RUTA_DISTRIBUCION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FC_INI_PROG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "FC_INI_PROGRAMACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FC_FIN_PROG",
+											"type": "String"
+										},
+										"sink": {
+											"name": "FC_FIN_PROGRAMACION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SapHanaTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DST_STG_REL_PROGRAMACION_VENTA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "STG/REL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-09-30T15:14:46Z"
 			},
 			"dependsOn": []
 		}
