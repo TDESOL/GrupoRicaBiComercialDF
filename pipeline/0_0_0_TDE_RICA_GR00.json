@@ -17,6 +17,29 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "2_1_0_TDE_RICA_DWH_GR00",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "2_1_0_TDE_RICA_STG_GR00_MASTER",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "2_1_0_TDE_RICA_DWH_GR00",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"annotations": [],
