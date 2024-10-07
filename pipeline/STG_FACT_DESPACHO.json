@@ -5,8 +5,6 @@
 			{
 				"name": "EXTRACT DATA FACT DESPACHO",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable Fecha Inicial",
