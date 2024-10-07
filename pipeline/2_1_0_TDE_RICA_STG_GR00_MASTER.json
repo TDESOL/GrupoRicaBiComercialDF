@@ -1,0 +1,27 @@
+{
+	"name": "2_1_0_TDE_RICA_STG_GR00_MASTER",
+	"properties": {
+		"activities": [
+			{
+				"name": "2_1_1_TDE_RICA_STG_GR00_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "2_1_1_TDE_RICA_STG_GR00_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": []
+	}
+}
