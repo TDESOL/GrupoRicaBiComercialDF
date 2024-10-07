@@ -1,0 +1,96 @@
+{
+	"name": "2_1_3_TDE_RICA_STG_GR01_DWH",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_FACT_SUGERIDO",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_FACT_SUGERIDO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_FACT_ORDENES",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_FACT_SUGERIDO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_FACT_ORDENES",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_FACT_DESPACH",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_FACT_ORDENES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_FACT_DESPACHO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_FACT_VENTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_FACT_DESPACH",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_FACT_VENTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": []
+	}
+}
