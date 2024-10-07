@@ -3,28 +3,42 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "0_0_0_TDE_RICA_GR01",
-				"type": "ExecuteSSISPackage",
+				"name": "2_1_0_TDE_RICA_STG_GR01_MASTER",
+				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"packageLocation": {
-						"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/0_0_0_TDE_RICA_GR01.dtsx",
-						"type": "SSISDB"
+					"pipeline": {
+						"referenceName": "2_1_0_TDE_RICA_STG_GR01_MASTER",
+						"type": "PipelineReference"
 					},
-					"environmentPath": null,
-					"connectVia": {
-						"referenceName": "GrupoRica-IRSSIS-Prod",
-						"type": "IntegrationRuntimeReference"
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "2_1_0_TDE_RICA_DWH_GR01",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "2_1_0_TDE_RICA_STG_GR01_MASTER",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "2_1_0_TDE_RICA_DWH_GR01",
+						"type": "PipelineReference"
 					},
-					"loggingLevel": "Basic"
+					"waitOnCompletion": true
 				}
 			}
 		],
