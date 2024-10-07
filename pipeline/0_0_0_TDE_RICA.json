@@ -1,6 +1,47 @@
 {
 	"name": "0_0_0_TDE_RICA",
 	"properties": {
+		"activities": [
+			{
+				"name": "1_0_0_TDE_RICA_GR00",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "1_0_0_TDE_RICA_GR00",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "1_0_0_TDE_RICA_GR01",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "1_0_0_TDE_RICA_GR00",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "1_0_0_TDE_RICA_GR01",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
 		"annotations": []
 	}
 }
