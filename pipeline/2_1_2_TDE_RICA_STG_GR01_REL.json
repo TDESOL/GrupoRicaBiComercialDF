@@ -1,0 +1,188 @@
+{
+	"name": "2_1_2_TDE_RICA_STG_GR01_REL",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_ATRIBUTOS_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_ACUERDO_SERVICIO_CLIENTE",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_ATRIBUTOS_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_CARTERA_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_ATRIBUTOS_CLIENTE",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_CARTERA_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_COSTOS_VENTAS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_CARTERA_CLIENTE",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_COSTOS_VENTAS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_CUOTA_VENTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_COSTOS_VENTAS",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_CUOTA_VENTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_RUTA_ENTREGA_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_CUOTA_VENTA",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_RUTA_ENTREGA_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_RUTA_ENTREGA_CLIENTE",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_VENDEDOR_RUTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_VENDEDOR_RUTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": []
+	}
+}
