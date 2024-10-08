@@ -58,7 +58,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "2_1_3_TDE_RICA_DWH_GR01_FACT",
+						"referenceName": "2_1_3_TDE_RICA_STG_GR01_DWH",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
