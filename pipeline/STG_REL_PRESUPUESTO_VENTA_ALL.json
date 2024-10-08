@@ -1,0 +1,334 @@
+{
+	"name": "STG_REL_PRESUPUESTO_VENTA_ALL",
+	"properties": {
+		"activities": [
+			{
+				"name": "EXTRACT DATA PRESUPUESTO",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set variable Fecha Inicial",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set variable Fecha_Final",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT \r\n    A.RUTA,\r\n    A.MATNR AS PRODUCTO,\r\n    A.VKORG AS ORGANIZACION,\r\n    A.PERIODO,\r\n       B.GERENCIA,\r\n    A.PRESUP_UND AS  CANTIDAD_ITEMS_PRESUPUESTO,\r\n    A.PRESUP_PES AS MONTO_NETO_DE_VENTA_PRESUPUESTO,\r\n    A.VTWEG AS CD_CANAL_DISTRIBUCION\r\nFROM SAPHANADB.ZPRESUPUEST_RUTB A\r\n\r\nJOIN SAPHANADB.ZSDCO_PARA_RUTA B\r\nON A.RUTA= B.BZIRK AND\r\nA.VKORG=B.VKORG\r\nWHERE A.MANDT = '400' and A.PERIODO BETWEEN LPAD(@{variables('Fecha_Ini')},6)  AND LPAD(@{variables('Fecha_Fin')},6)\r\nORDER BY A.PERIODO",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_PRESUPUESTO_VENTA_ALL]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "RUTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_RUTA_DISTRIBUCION"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PRODUCTO"
+								}
+							},
+							{
+								"source": {
+									"name": "ORGANIZACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_ORGANIZACION"
+								}
+							},
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO_PRESUPUESTO_VENTA"
+								}
+							},
+							{
+								"source": {
+									"name": "GERENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_GERENCIA_VENTAS"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_CANAL_DISTRIBUCION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CANAL_DISTRIBUCION"
+								}
+							},
+							{
+								"source": {
+									"name": "CANTIDAD_ITEMS_PRESUPUESTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "CANTIDAD_ITEMS_PRESUPESTO"
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_NETO_DE_VENTA_PRESUPUESTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_NETO_DE_VENTA_PRESUPESTO"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_PRESUPUESTO_ALL",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Busca Fechas",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [NM_ENTIDAD]\n      ,cast(FORMAT([FC_INI_CARGA] ,'yyyyMMdd') as INT) as FECHA_INICIAL\n      ,cast(FORMAT([FC_FIN_CARGA] ,'yyyyMMdd') as INT)  as FECHA_FINAL\nFROM [dbo].[MD_CONTROL]\nWHERE NM_ENTIDAD = 'STG_REL_PRESUPUESTO_VENTA_67'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "MTD_MD_CONTROL",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set variable Fecha Inicial",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Busca Fechas",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Fecha_Ini",
+					"value": {
+						"value": "@activity('Busca Fechas').output.firstRow.FECHA_INICIAL",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable Fecha_Final",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Busca Fechas",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Fecha_Fin",
+					"value": {
+						"value": "@activity('Busca Fechas').output.firstRow.FECHA_FINAL",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "EXTRACT TASA CAMBIO",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "EXTRACT DATA PRESUPUESTO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "  SELECT \r\n    C.CD_MONEDA_EXTRANJERA, \r\n\tC.CD_MONEDA_LOCAL,\r\n    B.CD_PERIODO,\r\n\tC.TASA_CAMBIARIA\r\nFROM \r\n  ( SELECT DISTINCT CONCAT(LEFT(B.ANIO,4), RIGHT(B.MES,2)) as CD_PERIODO  from\r\nSAPHANADB.ZCDS_COSTOS B where RIGHT(B.MES,2) < '13') B left join \r\n(\r\n  SELECT   A.CD_MONEDA_EXTRANJERA, A.CD_MONEDA_LOCAL,  A.CD_PERIODO,\r\n\tLEAD(A.CD_PERIODO,1,'299901') over (ORDER BY A.CD_PERIODO) AS CD_PERIODO_FIN,\r\n\tA.TASA_CAMBIARIA\r\nFROM ( \r\n  SELECT \r\n\tFCURR AS CD_MONEDA_EXTRANJERA,\r\n\tTCURR AS CD_MONEDA_LOCAL,\r\n\tLEFT(cast((99999999 - GDATU) as varchar(8)),6)  AS CD_PERIODO,\r\n\tAVG(UKURS) AS TASA_CAMBIARIA\r\nFROM SAPHANADB.TCURR A\r\nWHERE A.MANDT= '400'  AND FCURR = 'USD'\r\nGROUP BY FCURR, TCURR, LEFT(cast((99999999 - GDATU) as varchar(8)),6) ) A ) C\r\n\r\non B.CD_PERIODO >= C.CD_PERIODO AND B.CD_PERIODO < C.CD_PERIODO_FIN\r\nWHERE B.CD_PERIODO <= (SELECT MAX(LEFT(cast((99999999 - GDATU) as varchar(8)),6) ) from SAPHANADB.TCURR A\r\nWHERE A.MANDT= '400'  AND FCURR = 'USD')  \r\norder by B.CD_PERIODO",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_TASA_CAMBIO_ALL]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_MONEDA_EXTRANJERA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA_EXTRANJERA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_MONEDA_LOCAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA_LOCAL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 5,
+									"precision": 9
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_TASA_CAMBIO_ALL",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"variables": {
+			"Fecha_Ini": {
+				"type": "Integer"
+			},
+			"Fecha_Fin": {
+				"type": "Integer"
+			}
+		},
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-20T23:44:48Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
