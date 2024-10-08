@@ -21,6 +21,50 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_ATRIBUTOS_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CANAL_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_TIPO_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_ORGANIZACION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_CENTRO_DISTRIBUCION",
+						"type": "varchar"
+					},
+					{
+						"name": "CD_REGION_VENTA",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_REL_ATRIBUTOS_CLIENTE"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_CARTERA_CLIENTE')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1119,50 +1163,6 @@
 					"referenceName": "GrupoRica-IRSH-Prod",
 					"type": "IntegrationRuntimeReference"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/2_1_0_TDE_RICA_DWH_GR00')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "2_1_0_TDE_RICA_DWH_GR00",
-						"type": "ExecuteSSISPackage",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"packageLocation": {
-								"packagePath": "GrupoRicaBIComercial/TDE_GR00 - COMUN/2_1_0_TDE_RICA_DWH_GR00.dtsx",
-								"type": "SSISDB"
-							},
-							"environmentPath": null,
-							"connectVia": {
-								"referenceName": "GrupoRica-IRSSIS-Prod",
-								"type": "IntegrationRuntimeReference"
-							},
-							"loggingLevel": "Basic",
-							"projectConnectionManagers": {},
-							"packageConnectionManagers": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "DWH"
-				},
-				"annotations": []
 			},
 			"dependsOn": []
 		}

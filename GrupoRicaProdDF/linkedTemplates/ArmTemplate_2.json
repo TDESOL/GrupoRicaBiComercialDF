@@ -13,6 +13,34 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_HOLDING_CLIENTE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_HOLDING_CLIENTE",
+						"type": "varchar"
+					},
+					{
+						"name": "NM_HOLDING_CLIENTE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_DIM_HOLDING_CLIENTE"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_LINEA_PRODUCTO')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1111,50 +1139,6 @@
 				"typeProperties": {
 					"schema": "gr01",
 					"table": "STG_REL_ACUERDO_SERVICIO_CLIENTE"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_ATRIBUTOS_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CD_CLIENTE",
-						"type": "varchar"
-					},
-					{
-						"name": "CD_CANAL_DISTRIBUCION",
-						"type": "varchar"
-					},
-					{
-						"name": "CD_TIPO_CLIENTE",
-						"type": "varchar"
-					},
-					{
-						"name": "CD_ORGANIZACION",
-						"type": "varchar"
-					},
-					{
-						"name": "CD_CENTRO_DISTRIBUCION",
-						"type": "varchar"
-					},
-					{
-						"name": "CD_REGION_VENTA",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "gr01",
-					"table": "STG_REL_ATRIBUTOS_CLIENTE"
 				}
 			},
 			"dependsOn": []
