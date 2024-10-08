@@ -30,7 +30,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapHanaSource",
-						"query": "SELECT \r\n    A.RUTA,\r\n    A.MATNR AS PRODUCTO,\r\n    A.VKORG AS ORGANIZACION,\r\n    A.PERIODO,\r\n       B.GERENCIA,\r\n    A.PRESUP_UND AS  CANTIDAD_ITEMS_PRESUPUESTO,\r\n    A.PRESUP_PES AS MONTO_NETO_DE_VENTA_PRESUPUESTO,\r\n    A.VTWEG AS CD_CANAL_DISTRIBUCION\r\nFROM SAPHANADB.ZPRESUPUEST_RUTB A\r\n\r\nJOIN SAPHANADB.ZSDCO_PARA_RUTA B\r\nON A.RUTA= B.BZIRK AND\r\nA.VKORG=B.VKORG\r\nWHERE A.MANDT = '400' and A.PERIODO BETWEEN LPAD(@{variables('Fecha_Ini')},6)  AND LPAD(@{variables('Fecha_Fin')},6)\r\nORDER BY A.PERIODO",
+						"query": {
+							"value": "SELECT \n    A.RUTA,\n    A.MATNR AS PRODUCTO,\n    A.VKORG AS ORGANIZACION,\n    A.PERIODO,\n       B.GERENCIA,\n    A.PRESUP_UND AS  CANTIDAD_ITEMS_PRESUPUESTO,\n    A.PRESUP_PES AS MONTO_NETO_DE_VENTA_PRESUPUESTO,\n    A.VTWEG AS CD_CANAL_DISTRIBUCION\nFROM SAPHANADB.ZPRESUPUEST_RUTB A\n\nJOIN SAPHANADB.ZSDCO_PARA_RUTA B\nON A.RUTA= B.BZIRK AND\nA.VKORG=B.VKORG\nWHERE A.MANDT = '400' and A.PERIODO BETWEEN LPAD('@{variables('Fecha_Ini')}',6)  AND LPAD('@{variables('Fecha_Fin')}',6)\nORDER BY A.PERIODO",
+							"type": "Expression"
+						},
 						"partitionOption": "None"
 					},
 					"sink": {
@@ -152,7 +155,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT [NM_ENTIDAD]\n      ,cast(FORMAT([FC_INI_CARGA] ,'yyyyMMdd') as INT) as FECHA_INICIAL\n      ,cast(FORMAT([FC_FIN_CARGA] ,'yyyyMMdd') as INT)  as FECHA_FINAL\nFROM [dbo].[MD_CONTROL]\nWHERE NM_ENTIDAD = 'STG_REL_PRESUPUESTO_VENTA_67'",
+						"sqlReaderQuery": "SELECT [NM_ENTIDAD]\n      ,cast(FORMAT([FC_INI_CARGA] ,'yyyyMMdd') as INT) as FECHA_INICIAL\n      ,cast(FORMAT([FC_FIN_CARGA] ,'yyyyMMdd') as INT)  as FECHA_FINAL\nFROM [dbo].[MD_CONTROL]\nWHERE NM_ENTIDAD = 'STG_REL_PRESUPUESTO_VENTA'",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
