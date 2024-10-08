@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapHanaSource",
-						"query": "SELECT \n    CONCAT(LEFT(A.ANIO,4), RIGHT(A.MES,2)) AS PERIODO,\n    A.ORGANIZACION,\n    A.CENTRO_COSTOS,\n    A.CENTRO_BENEFICIO,\n    A.MATERIAL,\n    sum(A.DIF_INV) as DIF_INV,\n    sum(A.COSTO_PROD) as COSTO_PROD,\n    sum(A.OTROS_CV) as OTROS_CV,\n    sum(A.DECO_INT) as DECO_INT,\n    sum(A.DECO_EXTERNO) as DECO_EXTERNO,\n    sum(A.PUBLICIDAD) as PUBLICIDAD,\n    sum(A.DESCUENT) as DESCUENT,\n    sum(A.VENTAS) as VENTAS\nFROM \"SAPHANADB\".\"ZCDS_COSTOS\" A\nWHERE A.MANDT='400'\ngroup by \n    CONCAT(LEFT(A.ANIO,4), RIGHT(A.MES,2))\n    A.ORGANIZACION,\n    A.CENTRO_COSTOS,\n    A.CENTRO_BENEFICIO,\n    A.MATERIAL,\n",
+						"query": "SELECT \n    CONCAT(LEFT(A.ANIO,4), RIGHT(A.MES,2)) AS PERIODO,\n    A.ORGANIZACION,\n    A.CENTRO_COSTOS,\n    A.CENTRO_BENEFICIO,\n    A.MATERIAL,\n    sum(A.DIF_INV) as DIF_INV,\n    sum(A.COSTO_PROD) as COSTO_PROD,\n    sum(A.OTROS_CV) as OTROS_CV,\n    sum(A.DECO_INT) as DECO_INT,\n    sum(A.DECO_EXTERNO) as DECO_EXTERNO,\n    sum(A.PUBLICIDAD) as PUBLICIDAD,\n    sum(A.DESCUENT) as DESCUENT,\n    sum(A.VENTAS) as VENTAS\nFROM \"SAPHANADB\".\"ZCDS_COSTOS\" A\nWHERE A.MANDT='400'\ngroup by \n    CONCAT(LEFT(A.ANIO,4), RIGHT(A.MES,2)),\n    A.ORGANIZACION,\n    A.CENTRO_COSTOS,\n    A.CENTRO_BENEFICIO,\n    A.MATERIAL\n",
 						"partitionOption": "None"
 					},
 					"sink": {
