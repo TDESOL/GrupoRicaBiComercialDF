@@ -234,6 +234,102 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "EXTRACT TASA CAMBIO 67",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "  SELECT \r\n    C.CD_MONEDA_EXTRANJERA, \r\n\tC.CD_MONEDA_LOCAL,\r\n    B.CD_PERIODO,\r\n\tC.TASA_CAMBIARIA\r\nFROM \r\n  ( SELECT DISTINCT CONCAT(LEFT(B.ANIO,4), RIGHT(B.MES,2)) as CD_PERIODO  from\r\nSAPHANADB.ZCDS_COSTOS B where RIGHT(B.MES,2) < '13') B left join \r\n(\r\n  SELECT   A.CD_MONEDA_EXTRANJERA, A.CD_MONEDA_LOCAL,  A.CD_PERIODO,\r\n\tLEAD(A.CD_PERIODO,1,'299901') over (ORDER BY A.CD_PERIODO) AS CD_PERIODO_FIN,\r\n\tA.TASA_CAMBIARIA\r\nFROM ( \r\n  SELECT \r\n\tFCURR AS CD_MONEDA_EXTRANJERA,\r\n\tTCURR AS CD_MONEDA_LOCAL,\r\n\tLEFT(cast((99999999 - GDATU) as varchar(8)),6)  AS CD_PERIODO,\r\n\tAVG(UKURS) AS TASA_CAMBIARIA\r\nFROM SAPHANADB.TCURR A\r\nWHERE A.MANDT= '400'  AND FCURR = 'USD'\r\nGROUP BY FCURR, TCURR, LEFT(cast((99999999 - GDATU) as varchar(8)),6) ) A ) C\r\n\r\non B.CD_PERIODO >= C.CD_PERIODO AND B.CD_PERIODO < C.CD_PERIODO_FIN\r\nWHERE B.CD_PERIODO <= (SELECT MAX(LEFT(cast((99999999 - GDATU) as varchar(8)),6) ) from SAPHANADB.TCURR A\r\nWHERE A.MANDT= '400'  AND FCURR = 'USD')  \r\norder by B.CD_PERIODO",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_TASA_CAMBIO_ALL]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CD_MONEDA_EXTRANJERA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA_EXTRANJERA",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_MONEDA_LOCAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA_LOCAL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 5,
+									"precision": 9
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_TASA_CAMBIO_ALL",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"variables": {

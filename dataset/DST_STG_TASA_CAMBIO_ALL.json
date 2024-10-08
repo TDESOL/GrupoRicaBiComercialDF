@@ -1,0 +1,35 @@
+{
+	"name": "DST_STG_TASA_CAMBIO_ALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CD_MONEDA_EXTRANJERA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_MONEDA_LOCAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CD_PERIODO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TASA_CAMBIARIA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 5
+			}
+		],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_TASA_CAMBIO_ALL"
+		}
+	}
+}
