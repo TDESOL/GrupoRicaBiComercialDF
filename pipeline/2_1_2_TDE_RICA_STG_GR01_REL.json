@@ -161,9 +161,9 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"activity": "STG_REL_PRESUPUESTO_VENTA",
 						"dependencyConditions": [
-							"Completed"
+							"Succeeded"
 						]
 					}
 				],
@@ -220,6 +220,29 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "STG_REL_PROGRAMACION_VENTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_PRESUPUESTO_VENTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_PRESUPUESTO_VENTA_ALL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_PRESUPUESTO_VENTA",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
