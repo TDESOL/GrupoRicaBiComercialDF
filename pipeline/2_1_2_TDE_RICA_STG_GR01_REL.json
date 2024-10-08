@@ -178,6 +178,29 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "STG_REL_DIRECCION_CLIENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_VENDEDOR_RUTA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_DIRECCION_CLIENTE",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"folder": {
