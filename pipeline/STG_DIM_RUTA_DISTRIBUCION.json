@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapHanaSource",
-						"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORGANIZACION,\n\tA.WERKS AS CD_CENTRO,\n\tA.VKGRP AS CD_ZONA,\n\tA.ZTP_RUTA AS TIPO_RUTA,\n\tA.BZIRK AS CD_RUTA,\n\tCOALESCE(B.LTEXT, CONCAT('RUTA ',A.BZIRK)) AS NOM_RUTA,\n\tB.ROUTE_ECC AS CD_RUTA_ANTERIOR, \n\tGERENCIA,\n\tKUNNR_SUP AS CD_SUPERVISOR\nFROM \"SAPHANADB\".\"ZSDCO_PARA_RUTA\" A\n\t  LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_ROUTE\"  B ON\n\t\tB.ROUTE = A.BZIRK AND\n\t\tB.WERKS = A.WERKS AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT='400'\nORDER BY A.VKORG, A.WERKS, A.VKGRP, A.ZTP_RUTA, A.BZIRK",
+						"query": "SELECT DISTINCT\n\tA.VKORG AS CD_ORGANIZACION,\n\tA.WERKS AS CD_CENTRO,\n\tA.VKGRP AS CD_ZONA,\n\tA.ZTP_RUTA AS CD_TIPO_RUTA,\n\tB.TIPO AS NM_TIPO_RUTA,\n\tA.BZIRK AS CD_RUTA,\n\tCOALESCE(B.LTEXT, CONCAT('RUTA ',A.BZIRK)) AS NOM_RUTA,\n\tB.ROUTE_ECC AS CD_RUTA_ANTERIOR, \n\tGERENCIA,\n\tB.VTWEG AS CD_CANAL,\n\tKUNNR_SUP AS CD_SUPERVISOR\nFROM \"SAPHANADB\".\"ZSDCO_PARA_RUTA\" A\n\t  LEFT JOIN \"SAPHANADB\".\"ZPB_CONV_ROUTE\"  B ON\n\t\tB.ROUTE = A.BZIRK AND\n\t\tB.WERKS = A.WERKS AND\n\t\tB.MANDT = A.MANDT\nWHERE A.MANDT='400'\nORDER BY A.VKORG, A.WERKS, A.VKGRP, A.ZTP_RUTA, A.BZIRK",
 						"partitionOption": "None"
 					},
 					"sink": {
@@ -44,7 +44,7 @@
 							},
 							{
 								"source": {
-									"name": "NOM_RUTA",
+									"name": "NM_TIPO_RUTA",
 									"type": "String"
 								},
 								"sink": {
@@ -77,6 +77,17 @@
 							},
 							{
 								"source": {
+									"name": "CD_CANAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CANAL_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
 									"name": "CD_CENTRO",
 									"type": "String"
 								},
@@ -88,11 +99,22 @@
 							},
 							{
 								"source": {
-									"name": "TIPO_RUTA",
+									"name": "CD_TIPO_RUTA",
 									"type": "String"
 								},
 								"sink": {
 									"name": "CD_TIPO_RUTA_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NM_TIPO_RUTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NM_TIPO_RUTA_DISTRIBUCION",
 									"type": "String",
 									"physicalType": "varchar"
 								}
