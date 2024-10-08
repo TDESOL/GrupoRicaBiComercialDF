@@ -177,7 +177,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT [NM_ENTIDAD]\n      ,cast(FORMAT([FC_INI_CARGA] ,'yyyyMMdd') as INT) as FECHA_INICIAL\n      ,cast(FORMAT([FC_FIN_CARGA] ,'yyyyMMdd') as INT)  as FECHA_FINAL\nFROM [dbo].[MD_CONTROL]\nWHERE NM_ENTIDAD = 'STG_FACT_ORDEN_67'",
+						"sqlReaderQuery": "SELECT [NM_ENTIDAD]\n      ,cast(FORMAT([FC_INI_CARGA] ,'yyyyMMdd') as INT) as FECHA_INICIAL\n      ,cast(FORMAT([FC_FIN_CARGA] ,'yyyyMMdd') as INT)  as FECHA_FINAL\nFROM [dbo].[MD_CONTROL]\nWHERE NM_ENTIDAD = 'STG_REL_PRESUPUESTO_VENTA_67'",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
