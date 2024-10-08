@@ -1,0 +1,16 @@
+{
+	"name": "AzureSqlTable_PROD1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "gr01",
+			"table": "STG_TASA_CAMBIO_ALL"
+		}
+	}
+}
