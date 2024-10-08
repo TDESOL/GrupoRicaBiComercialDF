@@ -5,6 +5,8 @@
 			{
 				"name": "EXTRACT DATA PRESUPUESTO 67",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable Fecha Inicial",
@@ -238,7 +240,14 @@
 			{
 				"name": "EXTRACT TASA CAMBIO 67",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "EXTRACT DATA PRESUPUESTO 67",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
