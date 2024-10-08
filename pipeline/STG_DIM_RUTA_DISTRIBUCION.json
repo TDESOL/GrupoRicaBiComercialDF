@@ -44,7 +44,7 @@
 							},
 							{
 								"source": {
-									"name": "NM_TIPO_RUTA",
+									"name": "NOM_RUTA",
 									"type": "String"
 								},
 								"sink": {
