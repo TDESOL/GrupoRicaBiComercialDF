@@ -2036,9 +2036,9 @@
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "STG_REL_PRESUPUESTO_VENTA_ALL",
+								"activity": "STG_REL_PRESUPUESTO_VENTA",
 								"dependencyConditions": [
-									"Completed"
+									"Succeeded"
 								]
 							}
 						],
@@ -2049,6 +2049,78 @@
 						"typeProperties": {
 							"pipeline": {
 								"referenceName": "STG_REL_VENDEDOR_RUTA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_DIRECCION_CLIENTE",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_VENDEDOR_RUTA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_DIRECCION_CLIENTE",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_PROGRAMACION_VENTA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_DIRECCION_CLIENTE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_PROGRAMACION_VENTA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "STG_REL_PRESUPUESTO_VENTA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "STG_REL_PRESUPUESTO_VENTA_ALL",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "STG_REL_PRESUPUESTO_VENTA",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -2072,7 +2144,10 @@
 				"[concat(variables('factoryId'), '/pipelines/STG_REL_CUOTA_VENTA')]",
 				"[concat(variables('factoryId'), '/pipelines/STG_REL_RUTA_ENTREGA_CLIENTE')]",
 				"[concat(variables('factoryId'), '/pipelines/STG_REL_PRESUPUESTO_VENTA_ALL')]",
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_VENDEDOR_RUTA')]"
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_VENDEDOR_RUTA')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_DIRECCION_CLIENTE')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_PROGRAMACION_VENTA')]",
+				"[concat(variables('factoryId'), '/pipelines/STG_REL_PRESUPUESTO_VENTA')]"
 			]
 		},
 		{
