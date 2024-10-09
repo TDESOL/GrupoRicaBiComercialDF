@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "OracleSource",
-						"oracleReaderQuery": "SELECT \t\r\nperiodo as periodo,\t\r\nCASE WHEN (werks = 'DRT' OR werks = 'PDR') THEN '1010'\r\n     WHEN werks = 'EXP' THEN '1012'\r\n     WHEN (werks = 'RST' OR werks = 'PRC') THEN '1020'\r\n     WHEN werks = 'ISI' THEN '1030'\r\n     WHEN werks = 'RMN' THEN '1040'\r\n     WHEN werks = 'AZU' THEN '1050'\r\n     WHEN werks = 'RPT' THEN '1060'\r\n     ELSE WERKS END\r\nas centro,\r\nruta as ruta,\t\r\n(FAMILIA1+FAMILIA2+FAMILIA3+FAMILIA4+FAMILIA5+FAMILIA6+\r\n FAMILIA7+FAMILIA8+FAMILIA9+FAMILIA0+FAMILIA11+FAMILIA12+\r\n FAMILIA13+FAMILIA14+LECHELIQ+LECHEPOLV+JUGOLL+JUGOUHT) AS MONTO_NETO\r\nFROM SAPSR3.ZTCUOTASTD\r\nWHERE MANDT='400'\r\nORDER BY PERIODO, RUTA",
+						"oracleReaderQuery": "SELECT \t\r\nperiodo as periodo,\t\r\nCASE WHEN (werks = 'DRT' OR werks = 'PDR') THEN '1010'\r\n     WHEN werks = 'EXP' THEN '1012'\r\n     WHEN (werks = 'RST' OR werks = 'PRC') THEN '1020'\r\n     WHEN werks = 'ISI' THEN '1030'\r\n     WHEN werks = 'RMN' THEN '1040'\r\n     WHEN werks = 'AZU' THEN '1050'\r\n     WHEN werks = 'RPT' THEN '1060'\r\n     ELSE WERKS END\r\nas centro,\r\nruta as ruta,\t\r\n(FAMILIA1+FAMILIA2+FAMILIA3+FAMILIA4+FAMILIA5+FAMILIA6+\r\n FAMILIA7+FAMILIA8+FAMILIA9+FAMILIA0+FAMILIA11+FAMILIA12+\r\n FAMILIA13+FAMILIA14+LECHELIQ+LECHEPOLV+JUGOLL+JUGOUHT) AS VOLUMEN_CUOTA\r\nFROM SAPSR3.ZTCUOTASTD\r\nWHERE MANDT='400' AND PERIODO BETWEEN 202301 and 202303\r\nORDER BY PERIODO, RUTA",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -34,7 +34,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "PERIODO",
+									"name": "RUTA",
 									"type": "String"
 								},
 								"sink": {
@@ -56,17 +56,6 @@
 							},
 							{
 								"source": {
-									"name": "RUTA",
-									"type": "String"
-								},
-								"sink": {
-									"name": "CD_MONEDA",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
 									"name": "PERIODO",
 									"type": "String"
 								},
@@ -78,11 +67,11 @@
 							},
 							{
 								"source": {
-									"name": "MONTO_NETO",
+									"name": "VOLUMEN_CUOTA",
 									"type": "Double"
 								},
 								"sink": {
-									"name": "MONTO_NETO_DE_VENTA_CUOTA",
+									"name": "VOLUMEN_DE_VENTA_CUOTA",
 									"type": "Decimal",
 									"physicalType": "decimal"
 								}
