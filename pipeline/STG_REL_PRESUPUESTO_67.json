@@ -238,6 +238,8 @@
 			{
 				"name": "EXTRACT TASA CAMBIO 67",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA PRESUPUESTO 67",
