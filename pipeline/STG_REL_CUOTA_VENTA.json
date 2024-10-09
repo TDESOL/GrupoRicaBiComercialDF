@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapHanaSource",
-						"query": "SELECT \nbzirk as ruta,\t\nvkbur as centro,\t\nperiodo as periodo,\t\nsum(valor) monto_neto\nFROM \"SAPHANADB\".\"ZTCUOTASTD\"\nWHERE MANDT='400'\nGROUP BY bzirk, vkbur, periodo",
+						"query": "SELECT \nbzirk as ruta,\t\nvkbur as centro,\t\nperiodo as periodo,\t\nsum(valor) volumen_cuota\nFROM \"SAPHANADB\".\"ZTCUOTASTD\"\nWHERE MANDT='400'\nGROUP BY bzirk, vkbur, periodo",
 						"partitionOption": "None"
 					},
 					"sink": {
