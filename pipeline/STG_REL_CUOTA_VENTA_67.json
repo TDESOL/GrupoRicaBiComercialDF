@@ -23,7 +23,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "Truncate Table gr01.STG_REL_CUOTA_VENTA",
+						"preCopyScript": "Truncate Table gr01.STG_REL_CUOTA_VENTA_ALL",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
@@ -73,7 +73,9 @@
 								"sink": {
 									"name": "VOLUMEN_DE_VENTA_CUOTA",
 									"type": "Decimal",
-									"physicalType": "decimal"
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 20
 								}
 							}
 						],
@@ -92,7 +94,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DST_STG_REL_CUOTA_VENTA",
+						"referenceName": "DST_STG_REL_CUOTA_VENTA_ALL",
 						"type": "DatasetReference"
 					}
 				]
