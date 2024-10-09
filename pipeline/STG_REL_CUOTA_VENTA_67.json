@@ -1,0 +1,119 @@
+{
+	"name": "STG_REL_CUOTA_VENTA_67",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_CUOTA_VENTA_67",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": "SELECT \t\r\nperiodo as periodo,\t\r\nCASE WHEN (werks = 'DRT' OR werks = 'PDR') THEN '1010'\r\n     WHEN werks = 'EXP' THEN '1012'\r\n     WHEN (werks = 'RST' OR werks = 'PRC') THEN '1020'\r\n     WHEN werks = 'ISI' THEN '1030'\r\n     WHEN werks = 'RMN' THEN '1040'\r\n     WHEN werks = 'AZU' THEN '1050'\r\n     WHEN werks = 'RPT' THEN '1060'\r\n     ELSE WERKS END\r\nas centro,\r\nruta as ruta,\t\r\n(FAMILIA1+FAMILIA2+FAMILIA3+FAMILIA4+FAMILIA5+FAMILIA6+\r\n FAMILIA7+FAMILIA8+FAMILIA9+FAMILIA0+FAMILIA11+FAMILIA12+\r\n FAMILIA13+FAMILIA14+LECHELIQ+LECHEPOLV+JUGOLL+JUGOUHT) AS MONTO_NETO\r\nFROM SAPSR3.ZTCUOTASTD\r\nWHERE MANDT='400'\r\nORDER BY PERIODO, RUTA",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "Truncate Table gr01.STG_REL_CUOTA_VENTA",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_RUTA_DISTRIBUCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CENTRO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_CLIENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "RUTA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_MONEDA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_PERIODO_CUOTA_VENTA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_NETO",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "MONTO_NETO_DE_VENTA_CUOTA",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_FUENTES_67",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_CUOTA_VENTA",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-09-18T21:16:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
