@@ -10103,7 +10103,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SapHanaSource",
-								"query": "SELECT \nbzirk as ruta,\t\nvkbur as centro,\t\nperiodo as periodo,\t\nsum(valor) monto_neto\nFROM \"SAPHANADB\".\"ZTCUOTASTD\"\nWHERE MANDT='400'\nGROUP BY bzirk, vkbur, periodo",
+								"query": "SELECT \nbzirk as ruta,\t\nvkbur as centro,\t\nperiodo as periodo,\t\nsum(valor) volumen_cuota\nFROM \"SAPHANADB\".\"ZTCUOTASTD\"\nWHERE MANDT='400'\nGROUP BY bzirk, vkbur, periodo",
 								"partitionOption": "None"
 							},
 							"sink": {
@@ -10141,11 +10141,11 @@
 									},
 									{
 										"source": {
-											"name": "MONTO_NETO",
+											"name": "VOLUMEN_CUOTA",
 											"type": "Decimal"
 										},
 										"sink": {
-											"name": "MONTO_NETO_DE_VENTA_CUOTA",
+											"name": "VOLUMEN_DE_VENTA_CUOTA",
 											"type": "Decimal",
 											"physicalType": "decimal",
 											"scale": 4,
