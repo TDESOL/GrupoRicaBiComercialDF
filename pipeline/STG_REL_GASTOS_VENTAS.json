@@ -1,0 +1,181 @@
+{
+	"name": "STG_REL_GASTOS_VENTAS",
+	"properties": {
+		"activities": [
+			{
+				"name": "STG_REL_GASTOS_VENTAS",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SapHanaSource",
+						"query": "SELECT\n   CONCAT(LEFT(A.GJAHR,4), RIGHT(A.POPER,2)) AS PERIODO,\n   A.RBUKRS AS ORGANIZACION,\n   A.PRCTR AS CENTRO_BENEFICIO,\n   A.MATNR AS MATERIAL,\n   A.WERKS AS CENTRO,\nsum(A.GASTOS_MERCADEO) as GASTOS_MERCADEO,\nSUM(A.GASTOS_ADMINISTRATIVOS) AS GASTOS_ADMINISTRATIVOS,\nSUM(A.GASTOS_DISTRIBUCION) AS GASTOS_DISTRIBUCION,\nSUM(A.GASTOS_DISTRIBUCION_ALIADOS) AS GASTOS_DISTRIBUCION_ALIADOS,\nSUM(A.GASTOS_VENTAS) AS GASTOS_VENTAS\nFROM \"SAPHANADB\".ZCDS_GASTOS A\nWHERE A.MANDT='400'\ngroup by\n   CONCAT(LEFT(A.GJAHR,4), RIGHT(A.POPER,2)),\n   A.RBUKRS,\n   A.PRCTR,\n   A.MATNR,\n   A.WERKS",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_GASTOS_VENTAS]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PERIODO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ORGANIZACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ORGANIZACION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CENTRO_BENEFICIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CENTRO_BENEFICIO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MATERIAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MATERIAL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CENTRO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CENTRO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "GASTOS_MERCADEO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "GASTOS_MERCADEO",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 28
+								}
+							},
+							{
+								"source": {
+									"name": "GASTOS_ADMINISTRATIVOS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "GASTOS_ADMINISTRATIVOS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 28
+								}
+							},
+							{
+								"source": {
+									"name": "GASTOS_DISTRIBUCION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "GASTOS_DISTRIBUCION",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 28
+								}
+							},
+							{
+								"source": {
+									"name": "GASTOS_DISTRIBUCION_ALIADOS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "GASTOS_DISTRIBUCION_ALIADOS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 28
+								}
+							},
+							{
+								"source": {
+									"name": "GASTOS_VENTAS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "GASTOS_VENTAS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 28
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SapHanaTable1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DST_STG_REL_GASTOS_VENTAS",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "STG/REL"
+		},
+		"annotations": []
+	}
+}
