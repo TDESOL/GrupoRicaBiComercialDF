@@ -44,7 +44,7 @@
 							},
 							{
 								"source": {
-									"name": "NOM_GERENCIA_VTAS",
+									"name": "NOM_GERENCIA_VENTAS",
 									"type": "String"
 								},
 								"sink": {
