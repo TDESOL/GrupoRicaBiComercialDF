@@ -13,131 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/STG_REL_RUTA_ENTREGA_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "STG_REL_RUTA_ENTREGA_CLIENTE",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SapHanaSource",
-								"query": "SELECT  \nDISTINCT\n    A.KUNNR AS CODIGO_CLIENTE,\n\t B.vkorg as CODIGO_ORGANIZACION,\n\t B.BZIRK as CODIGO_RUTA_DISTRIBUCION,\n     B.vwerk AS CODIGO_CENTRO_DISTRIBUCION,\n\tD.GERENCIA as CODIGO_GERENCIA_VENTA\nFROM \"SAPHANADB\".\"KNA1\" A\n        INNER JOIN \"SAPHANADB\".\"KNVV\" B ON \n\t\t    B.kunnr = A.kunnr and A.MANDT = b.MANDT\n\t\t\tAND B.loevm <> 'X'\n\t    INNER JOIN \"SAPHANADB\".\"ZSDCO_PARA_RUTA\" D ON D.vkorg = B.vkorg\n                       AND D.vtweg = B.vtweg\n                       AND D.werks = B.vwerk\n                       AND D.bzirk = B.bzirk\nWHERE A.LOEVM <> 'X'\nAND A.ktokd <> 'ZRSP' \n\t AND  A.MANDT='400' AND B.MANDT='400' AND D.MANDT='400'\n\t   and A.KTOKD IN('BPLO','BPIN', 'ZDST', 'ZCPD', 'ZGOB','ZE', 'ZITC')",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "Truncate Table gr01.STG_REL_RUTA_ENTREGA_CLIENTE",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CODIGO_CLIENTE",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CLIENTE",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_ORGANIZACION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_ORGANIZACION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_RUTA_DISTRIBUCION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_RUTA_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_CENTRO_DISTRIBUCION",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_CENTRO_DISTRIBUCION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "CODIGO_GERENCIA_VENTA",
-											"type": "String"
-										},
-										"sink": {
-											"name": "CD_GERENCIA_VENTA",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SapHanaTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DTS_STG_REL_RUTA_ENTREGA_CLIENTE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "STG/REL"
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-09-25T11:53:09Z"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/1_0_0_TDE_RICA_STG_DIM_ALL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -732,9 +607,7 @@
 				"annotations": [],
 				"lastPublishTime": "2024-09-25T12:42:17Z"
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_RUTA_ENTREGA_CLIENTE')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/2_1_1_TDE_RICA_STG_GR00_DIM')]",
@@ -1668,9 +1541,7 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/STG_REL_RUTA_ENTREGA_CLIENTE')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/2_1_3_TDE_RICA_STG_GR01_DWH')]",
