@@ -1,0 +1,67 @@
+{
+	"name": "DST_STG_REL_GASTOS_VENTAS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PERIODO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGANIZACION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CENTRO_BENEFICIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MATERIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CENTRO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GASTOS_MERCADEO",
+				"type": "decimal",
+				"precision": 28,
+				"scale": 2
+			},
+			{
+				"name": "GASTOS_ADMINISTRATIVOS",
+				"type": "decimal",
+				"precision": 28,
+				"scale": 2
+			},
+			{
+				"name": "GASTOS_DISTRIBUCION",
+				"type": "decimal",
+				"precision": 28,
+				"scale": 2
+			},
+			{
+				"name": "GASTOS_DISTRIBUCION_ALIADOS",
+				"type": "decimal",
+				"precision": 28,
+				"scale": 2
+			},
+			{
+				"name": "GASTOS_VENTAS",
+				"type": "decimal",
+				"precision": 28,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "STG_REL_GASTOS_VENTAS"
+		}
+	}
+}
