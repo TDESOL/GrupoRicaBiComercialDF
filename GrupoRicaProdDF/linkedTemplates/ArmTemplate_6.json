@@ -2120,14 +2120,7 @@
 					{
 						"name": "STG_FACT_DESPACH",
 						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "STG_FACT_ORDENES",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"secureInput": false
 						},
