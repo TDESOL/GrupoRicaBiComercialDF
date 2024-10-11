@@ -31,7 +31,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT DISTINCT\nA.NO_FACTURA,\nC.VBELN AS CD_DESPACHO,\nA.FECHA AS FECHA_VENTA,\n\tD.VBELN AS ORDEN_VENTAS,\n\tA.POSNR AS CD_DETALLE_FACTURA,\n\tA.CONVERTIDO AS VOLUMEN,\n\tA.CLIENTE AS CLIENTE,\n\t'-1' AS CD_GERENCIA_VENTA,\n\tA.ZONA AS ZONA,\n\tA.RUTA AS RUTA,\n\t'' AS CD_VENDEDOR,\n\t'' AS CD_ASISTENTE,\n\tA.CANAL AS CD_CANAL,\n\tA.BRSCH AS CD_TIPO_CLIENTE,\n\tA.GERENCIA AS CD_REGION_VENTAS,\n\tC.WAERK AS CD_MONEDA,\n\tA.CENTRO,\n\tCASE WHEN A.DOLARES != 0\n\t\t\t\t THEN A.PESOS/A.DOLARES\n\t\t\t\t ELSE 0 END\n\t AS MONTO_TASA_CAMBIARIA,\n\tMATERIAL AS PRODUCTO,\n\tA.UNIDADES AS CANTIDAD_ITEMS,\n\tA.DESCUENTO AS DESCUENTO,\n\t0.00 AS NETWR,\n\tA.ITBIS AS ITBIS,\n\tA.PESOS AS MONTO_NETO,\n\tA.PESOS + A.ITBIS AS MONTO_BRUTO,\n\tBONIFICACION_CUR AS MONTO_BONIFICACION,\n\tBONIFICACION AS CANT_BONIF,\n\tA.ZONA AS CD_VENDEDOR_SUP,          \n\tD.VBELN as VGBEL,\n\tI.MTART,\n\t'C' AS CLASE_FACTURA,\n\tH.PARVW, '' AS AUART,\nCASE\n        WHEN A.VKORG='8000'\n        THEN 'VIVE'\n        ELSE 'RICA'\n    END AS ORGANIZACION\n\nFROM SAPSR3.ZVENTAS_GENERAL A\n\tLEFT JOIN SAPSR3.VBAP C\n\t\tON C.VGBEL=A.NO_FACTURA AND\n\t\tC.MATNR=A.MATERIAL AND\n\t\tC.MANDT='400'\n\tLEFT JOIN SAPSR3.LIPS D ON\n\t\tD.VGBEL=C.VGBEL\n\t\tAND D.MANDT='400' AND\n\t\tD.MATNR=C.MATNR\n   LEFT JOIN (SELECT DISTINCT MANDT, VBELN, PARVW from SAPSR3.VBPA WHERE PARVW = 'WE') H ON\n                A.NO_FACTURA = H.VBELN AND\n                        A.MANDT = H.MANDT AND \n\t\t\t\t\t\tH.MANDT='400'\n   LEFT JOIN SAPSR3.MARA I ON\n                        I.MANDT = A.MANDT AND\n                        I.MATNR = A.MATERIAL  \nWHERE A.MANDT='400' AND A.CONTABILIZADO = 'C'\n      AND A.FECHA BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}  ",
+							"value": "SELECT DISTINCT\n\tA.NO_FACTURA,\n\tC.VGBEL AS CD_DESPACHO,\n\tA.FECHA AS FECHA_VENTA,\n\tC.AUBEL AS ORDEN_VENTAS,\n\tA.POSNR AS CD_DETALLE_FACTURA,\n\tA.CONVERTIDO AS VOLUMEN,\n\tA.CLIENTE AS CLIENTE,\n\t'-1' AS CD_GERENCIA_VENTA,\n\tA.ZONA AS ZONA,\n\tA.RUTA AS RUTA,\n\t'' AS CD_VENDEDOR,\n\t'' AS CD_ASISTENTE,\n\tA.CANAL AS CD_CANAL,\n\tA.BRSCH AS CD_TIPO_CLIENTE,\n\tA.GERENCIA AS CD_REGION_VENTAS,\n\tD.WAERK AS CD_MONEDA,\n\tA.CENTRO,\n\tCASE WHEN A.DOLARES != 0\n\t\t\t\t THEN A.PESOS/A.DOLARES\n\t\t\t\t ELSE 0 END\n\t AS MONTO_TASA_CAMBIARIA,\n\tMATERIAL AS PRODUCTO,\n\tA.UNIDADES AS CANTIDAD_ITEMS,\n\tA.DESCUENTO AS DESCUENTO,\n\t0.00 AS NETWR,\n\tA.ITBIS AS ITBIS,\n\tA.PESOS AS MONTO_NETO,\n\tA.PESOS + A.ITBIS AS MONTO_BRUTO,\n\tBONIFICACION_CUR AS MONTO_BONIFICACION,\n\tA.ZONA AS CD_VENDEDOR_SUP,           \n\tC.VGBEL, \n\tI.MTART,\n\t'C' AS CLASE_FACTURA, \n\tH.PARVW,\n\tCASE \n\t\tWHEN A.VKORG='8000' \n\t\tTHEN 'VIVE'\n\t\tELSE 'RICA'\n\tEND AS ORGANIZACION,\n\tD.AUART\n\nFROM SAPSR3.ZVENTAS_GENERAL A\n   LEFT JOIN SAPSR3.VBRP C\n\t   ON C.VBELN=A.NO_FACTURA AND\n\t   C.MATNR=A.MATERIAL AND\n\t   C.MANDT='400'\n   LEFT JOIN SAPSR3.VBAK D ON\n\t   D.VBELN=C.AUBEL\n\t   AND D.MANDT='400' \n   LEFT JOIN (SELECT DISTINCT MANDT, VBELN, PARVW from SAPSR3.VBPA WHERE PARVW = 'WE') H ON\n\t\tA.NO_FACTURA = H.VBELN AND\n\t\tA.MANDT = H.MANDT\n\t\tAND H.MANDT='400'\n   LEFT JOIN SAPSR3.MARA I ON\n                        I.MANDT = A.MANDT AND\n                        I.MATNR = A.MATERIAL  \nWHERE A.MANDT='400' AND A.CONTABILIZADO = 'C'\n\t AND A.FECHA BETWEEN  @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}  ",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -112,9 +112,7 @@
 								"sink": {
 									"name": "VOLUMEN",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 3,
-									"precision": 18
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -257,9 +255,7 @@
 								"sink": {
 									"name": "MONTO_TASA_CAMBIARIA",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 5,
-									"precision": 9
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -281,22 +277,7 @@
 								"sink": {
 									"name": "CANTIDAD_ITEMS",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 3,
-									"precision": 18
-								}
-							},
-							{
-								"source": {
-									"name": "CANT_BONIF",
-									"type": "Decimal"
-								},
-								"sink": {
-									"name": "CANT_BONIF",
-									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 3,
-									"precision": 18
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -307,9 +288,7 @@
 								"sink": {
 									"name": "DESCUENTO",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 2,
-									"precision": 18
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -320,9 +299,7 @@
 								"sink": {
 									"name": "NETWR",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 2,
-									"precision": 15
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -333,9 +310,7 @@
 								"sink": {
 									"name": "ITBIS",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 2,
-									"precision": 13
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -346,9 +321,7 @@
 								"sink": {
 									"name": "MONTO_NETO",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 2,
-									"precision": 15
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -359,9 +332,7 @@
 								"sink": {
 									"name": "MONTO_BRUTO",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 2,
-									"precision": 15
+									"physicalType": "decimal"
 								}
 							},
 							{
@@ -372,9 +343,7 @@
 								"sink": {
 									"name": "MONTO_BONIFICACION",
 									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 2,
-									"precision": 13
+									"physicalType": "decimal"
 								}
 							},
 							{
