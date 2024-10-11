@@ -32,8 +32,8 @@
 						]
 					},
 					"authentication": {
-						"type": "MSI",
-						"resource": "https://*.asazure.windows.net"
+						"resource": "https://*.asazure.windows.net",
+						"userTenant": "72bc4c57-77ac-45a2-b5ac-eca13d391cb9"
 					}
 				}
 			}
