@@ -60,7 +60,7 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "dbo",
+			"schema": "gr01",
 			"table": "STG_REL_GASTOS_VENTAS"
 		}
 	}
