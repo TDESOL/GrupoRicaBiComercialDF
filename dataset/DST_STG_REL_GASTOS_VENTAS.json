@@ -10,19 +10,19 @@
 		"schema": [
 			{
 				"name": "PERIODO",
-				"type": "nvarchar"
+				"type": "varchar"
 			},
 			{
 				"name": "ORGANIZACION",
-				"type": "nvarchar"
+				"type": "varchar"
 			},
 			{
 				"name": "CENTRO_BENEFICIO",
-				"type": "nvarchar"
+				"type": "varchar"
 			},
 			{
 				"name": "MATERIAL",
-				"type": "nvarchar"
+				"type": "varchar"
 			},
 			{
 				"name": "CENTRO",
