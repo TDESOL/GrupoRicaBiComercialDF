@@ -92,7 +92,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "STG_REL_COSTOS_VENTAS",
+						"activity": "STG_REL_GASTOS_VENTAS",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -243,6 +243,29 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "STG_REL_PRESUPUESTO_VENTA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "STG_REL_GASTOS_VENTAS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "STG_REL_COSTOS_VENTAS",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "STG_REL_GASTOS_VENTAS",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
