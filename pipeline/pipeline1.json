@@ -32,7 +32,8 @@
 						]
 					},
 					"authentication": {
-						"type": "UserAssignedManagedIdentity"
+						"type": "MSI",
+						"resource": "https://*.asazure.windows.net"
 					}
 				}
 			}
