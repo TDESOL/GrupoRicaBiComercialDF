@@ -543,6 +543,8 @@
 			{
 				"name": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA FACT VENTA 67",
