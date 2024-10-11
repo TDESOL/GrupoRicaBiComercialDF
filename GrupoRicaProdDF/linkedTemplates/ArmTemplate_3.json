@@ -349,23 +349,23 @@
 				"schema": [
 					{
 						"name": "PERIODO",
-						"type": "nvarchar"
+						"type": "varchar"
 					},
 					{
 						"name": "ORGANIZACION",
-						"type": "nvarchar"
+						"type": "varchar"
 					},
 					{
 						"name": "CENTRO_BENEFICIO",
-						"type": "nvarchar"
+						"type": "varchar"
 					},
 					{
 						"name": "MATERIAL",
-						"type": "nvarchar"
+						"type": "varchar"
 					},
 					{
 						"name": "CENTRO",
-						"type": "nvarchar"
+						"type": "varchar"
 					},
 					{
 						"name": "GASTOS_MERCADEO",
@@ -399,7 +399,7 @@
 					}
 				],
 				"typeProperties": {
-					"schema": "dbo",
+					"schema": "gr01",
 					"table": "STG_REL_GASTOS_VENTAS"
 				}
 			},
