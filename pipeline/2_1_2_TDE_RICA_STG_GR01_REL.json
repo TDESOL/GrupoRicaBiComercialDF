@@ -250,6 +250,7 @@
 			},
 			{
 				"name": "STG_REL_GASTOS_VENTAS",
+				"description": "NN",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
