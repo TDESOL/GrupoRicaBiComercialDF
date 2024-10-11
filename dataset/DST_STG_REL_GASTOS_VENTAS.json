@@ -26,7 +26,7 @@
 			},
 			{
 				"name": "CENTRO",
-				"type": "nvarchar"
+				"type": "varchar"
 			},
 			{
 				"name": "GASTOS_MERCADEO",
