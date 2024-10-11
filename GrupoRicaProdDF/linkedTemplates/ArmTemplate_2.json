@@ -13,6 +13,34 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_GERENCIA_VENTA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CD_GERENCIA_VENTA",
+						"type": "varchar"
+					},
+					{
+						"name": "NM_GERENCIA_VENTA",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "gr01",
+					"table": "STG_DIM_GERENCIA_VENTA"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_HOLDING_CLIENTE')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1106,39 +1134,6 @@
 				"typeProperties": {
 					"schema": "gr01",
 					"table": "STG_FACT_VENTA_ALL"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DST_STG_REL_ACUERDO_SERVICIO_CLIENTE')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CD_CLIENTE",
-						"type": "varchar"
-					},
-					{
-						"name": "ACUERDO_ORDER_FILL_RATE",
-						"type": "varchar"
-					},
-					{
-						"name": "VALOR_META_ACUERDO",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "gr01",
-					"table": "STG_REL_ACUERDO_SERVICIO_CLIENTE"
 				}
 			},
 			"dependsOn": []

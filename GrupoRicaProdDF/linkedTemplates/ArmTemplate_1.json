@@ -171,6 +171,50 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DWH_REL_GASTO_VENTA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DWH_REL_GASTO_VENTA",
+						"type": "ExecuteSSISPackage",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"packageLocation": {
+								"packagePath": "GrupoRicaBIComercial/TDE_GR01 - VENTAS/DWH_REL_GASTOS_VENTAS.dtsx",
+								"type": "SSISDB"
+							},
+							"environmentPath": null,
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSSIS-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
+							"loggingLevel": "Basic",
+							"projectConnectionManagers": {},
+							"packageConnectionManagers": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "DWH/REL"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DWH_REL_PRESUPUESTO_VENTA')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1611,34 +1655,6 @@
 				"typeProperties": {
 					"schema": "gr00",
 					"table": "STG_DIM_FC"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DST_STG_DIM_GERENCIA_VENTA')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CD_GERENCIA_VENTA",
-						"type": "varchar"
-					},
-					{
-						"name": "NM_GERENCIA_VENTA",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "gr01",
-					"table": "STG_DIM_GERENCIA_VENTA"
 				}
 			},
 			"dependsOn": []
