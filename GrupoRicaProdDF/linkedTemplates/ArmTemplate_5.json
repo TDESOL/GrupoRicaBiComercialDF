@@ -4168,7 +4168,7 @@
 							},
 							"sink": {
 								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE [dbo].[STG_REL_GASTOS_VENTAS]",
+								"preCopyScript": "TRUNCATE TABLE [gr01].[STG_REL_GASTOS_VENTAS]",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false,
 								"disableMetricsCollection": false
