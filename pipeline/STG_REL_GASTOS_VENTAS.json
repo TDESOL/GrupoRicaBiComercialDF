@@ -39,7 +39,7 @@
 								"sink": {
 									"name": "PERIODO",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								}
 							},
 							{
@@ -50,7 +50,7 @@
 								"sink": {
 									"name": "ORGANIZACION",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								}
 							},
 							{
@@ -61,7 +61,7 @@
 								"sink": {
 									"name": "CENTRO_BENEFICIO",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								}
 							},
 							{
@@ -72,7 +72,7 @@
 								"sink": {
 									"name": "MATERIAL",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								}
 							},
 							{
@@ -83,7 +83,7 @@
 								"sink": {
 									"name": "CENTRO",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "varchar"
 								}
 							},
 							{
