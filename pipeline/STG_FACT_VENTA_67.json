@@ -304,17 +304,6 @@
 							},
 							{
 								"source": {
-									"name": "BONIFICACION",
-									"type": "String"
-								},
-								"sink": {
-									"name": "MONTO_BONIFICACION",
-									"type": "Decimal",
-									"physicalType": "decimal"
-								}
-							},
-							{
-								"source": {
 									"name": "CD_VENDEDOR_SUP",
 									"type": "String"
 								},
