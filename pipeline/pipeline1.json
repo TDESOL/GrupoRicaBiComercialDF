@@ -22,14 +22,7 @@
 						"CommitMode": "transactional",
 						"MaxParallelism": 2,
 						"RetryCount": 2,
-						"Objects": [
-							{
-								"table": "Dim Pais"
-							},
-							{
-								"table": "Dim Fecha"
-							}
-						]
+						"Objects": []
 					},
 					"authentication": {
 						"resource": "https://*.asazure.windows.net"
