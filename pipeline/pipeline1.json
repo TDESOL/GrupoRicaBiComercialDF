@@ -1,0 +1,46 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Process Cube",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://eastus.asazure.windows.net/servers/gruporicadevast/models/GrupoRicaBIComercial/refreshes",
+					"connectVia": {
+						"referenceName": "AutoResolveIntegrationRuntime",
+						"type": "IntegrationRuntimeReference"
+					},
+					"body": {
+						"Type": "Full",
+						"CommitMode": "transactional",
+						"MaxParallelism": 2,
+						"RetryCount": 2,
+						"Objects": [
+							{
+								"table": "Dim Pais"
+							},
+							{
+								"table": "Dim Fecha"
+							}
+						]
+					},
+					"authentication": {
+						"resource": "https://*.asazure.windows.net"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
