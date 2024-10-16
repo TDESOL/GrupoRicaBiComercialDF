@@ -32,6 +32,9 @@
 		"SapHana1_connectionString": {
 			"value": ""
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://ProducconKeyValue.vault.azure.net/"
+		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"value": "gruporica-dwhserver-produccion.database.windows.net"
 		},
