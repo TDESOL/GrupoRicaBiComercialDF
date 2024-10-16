@@ -9350,6 +9350,10 @@
 							"method": "POST",
 							"headers": {},
 							"url": "https://eastus.asazure.windows.net/servers/gruporicaprodast/models/GrupoRicaBIComercial/refreshes",
+							"connectVia": {
+								"referenceName": "GrupoRica-IRSH-Prod",
+								"type": "IntegrationRuntimeReference"
+							},
 							"body": {
 								"Type": "Full",
 								"CommitMode": "transactional",
@@ -9375,7 +9379,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/GrupoRica-IRSH-Prod')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
