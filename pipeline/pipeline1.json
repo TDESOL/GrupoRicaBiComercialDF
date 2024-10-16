@@ -17,6 +17,10 @@
 				"typeProperties": {
 					"method": "POST",
 					"url": "https://eastus.asazure.windows.net/servers/gruporicaprodast/models/GrupoRicaBIComercial/refreshes",
+					"connectVia": {
+						"referenceName": "GrupoRica-IRSH-Prod",
+						"type": "IntegrationRuntimeReference"
+					},
 					"body": {
 						"Type": "Full",
 						"CommitMode": "transactional",
