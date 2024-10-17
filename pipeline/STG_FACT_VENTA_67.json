@@ -31,7 +31,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT\n    A.vbeln AS NO_FACTURA,\n    A.vgbel AS CD_DESPACHO,\n    A.AUBEL AS CD_ORDEN,\n    B.FKDAT AS FECHA,\n    A.POSNR AS DETALLE_FACTURA,\n    --'' AS VOLUMEN,\n    B.KUNRG AS CLIENTE,\n    '-1' AS CD_GERENCIA_VENTA,\n    E.bzirk AS ZONA,\n    B.BZIRK AS RUTA,\n    '' AS CD_VENDEDOR,\n    '' AS CD_ASISTENTE,\n    B.VTWEG AS CANAL,\n    --CD_TIPO_CLIENTE,\n    A.kvgr2 CD_REGION_VENTAS_CREO,\n    B.waerk AS MONEDA,\n    A.WERKS AS CENTRO,\n    B.kurrf AS TASA_CAMBIARIA,\n    A.MATNR AS MATERIAL,\n    A.FKIMG AS UNIDADES,\n    A.kzwi6 AS DESCUENTO,\n    0.00 AS NETWR,\n    A.mwsbp AS ITBIS,\n    A.netwr AS MONTO_NETO,\n    A.netwr-A.mwsbp AS MONTO_BRUTO,\n    A.pstyv AS BONIFICACION,\n    E.bzirk AS CD_VENDEDOR_SUP,\n    B.VKORG AS ORGANIZACION,\n    B.rfbsk AS CONTABILIZADO,\n    D.AUART,\n    H.PARVW,\n    I.MTART\nFROM SAPSR3.VBRP A\n    JOIN SAPSR3.VBRK B ON\n        A.VBELN=B.VBELN\n        AND B.MANDT='400' \n    JOIN SAPSR3.VBAK D ON\n        D.VBELN=A.AUBEL AND\n        D.MANDT='400'\n    JOIN SAPSR3.KNVV E ON\n        E.KUNNR=B.KUNRG \n        AND E.MANDT='400'\n    LEFT JOIN (SELECT DISTINCT MANDT, VBELN, PARVW from SAPSR3.VBPA WHERE PARVW = 'WE') H ON\n        A.VBELN = H.VBELN AND\n        A.MANDT = H.MANDT\n        AND H.MANDT='400'    \n    LEFT JOIN SAPSR3.MARA I ON\n        I.MANDT = A.MANDT AND\n        I.MATNR = A.MATNR AND\n        I.mtart IN ('ZPRT','ZMER','ZSER')\n\nWHERE B.rfbsk='C' AND A.MANDT='400' AND B.FKDAT BETWEEN  @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}  ",
+							"value": "SELECT DISTINCT\n\tA.NO_FACTURA,\n\tC.VGBEL AS CD_DESPACHO,\n\tA.FECHA AS FECHA_VENTA,\n\tC.AUBEL AS ORDEN_VENTAS,\n\tA.POSNR AS CD_DETALLE_FACTURA,\n\tA.CONVERTIDO AS VOLUMEN,\n\tA.CLIENTE AS CLIENTE,\n\t'-1' AS CD_GERENCIA_VENTA,\n\tA.ZONA AS ZONA,\n\tA.RUTA AS RUTA,\n\t'' AS CD_VENDEDOR,\n\t'' AS CD_ASISTENTE,\n\tA.CANAL AS CD_CANAL,\n\tA.BRSCH AS CD_TIPO_CLIENTE,\n\tA.GERENCIA AS CD_REGION_VENTAS,\n\tD.WAERK AS CD_MONEDA,\n\tA.CENTRO,\n\tCASE WHEN A.DOLARES != 0\n\t\t\t\t THEN A.PESOS/A.DOLARES\n\t\t\t\t ELSE 0 END\n\t AS MONTO_TASA_CAMBIARIA,\n\tMATERIAL AS PRODUCTO,\n\tA.UNIDADES AS CANTIDAD_ITEMS,\n\tA.DESCUENTO AS DESCUENTO,\n\t0.00 AS NETWR,\n\tA.ITBIS AS ITBIS,\n\tA.PESOS AS MONTO_NETO,\n\tA.PESOS + A.ITBIS AS MONTO_BRUTO,\n\tBONIFICACION_CUR AS MONTO_BONIFICACION,\n\tA.ZONA AS CD_VENDEDOR_SUP,           \n\tC.VGBEL, \n\tI.MTART,\n\t'C' AS CLASE_FACTURA, \n\tH.PARVW,\n\tCASE \n\t\tWHEN A.VKORG='8000' \n\t\tTHEN 'VIVE'\n\t\tELSE 'RICA'\n\tEND AS ORGANIZACION,\n\tD.AUART\n\nFROM SAPSR3.ZVENTAS_GENERAL A\n   LEFT JOIN SAPSR3.VBRP C\n\t   ON C.VBELN=A.NO_FACTURA AND\n\t   C.MATNR=A.MATERIAL AND\n\t   C.MANDT='400'\n   LEFT JOIN SAPSR3.VBAK D ON\n\t   D.VBELN=C.AUBEL\n\t   AND D.MANDT='400' \n   LEFT JOIN (SELECT DISTINCT MANDT, VBELN, PARVW from SAPSR3.VBPA WHERE PARVW = 'WE') H ON\n\t\tA.NO_FACTURA = H.VBELN AND\n\t\tA.MANDT = H.MANDT\n\t\tAND H.MANDT='400'\n   LEFT JOIN SAPSR3.MARA I ON\n                        I.MANDT = A.MANDT AND\n                        I.MATNR = A.MATERIAL  \nWHERE A.MANDT='400' AND A.CONTABILIZADO = 'C'\n\t AND A.FECHA BETWEEN  @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}  \t  ",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -73,7 +73,7 @@
 							},
 							{
 								"source": {
-									"name": "FECHA",
+									"name": "FECHA_VENTA",
 									"type": "String"
 								},
 								"sink": {
@@ -84,7 +84,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_ORDEN",
+									"name": "ORDEN_VENTAS",
 									"type": "String"
 								},
 								"sink": {
@@ -95,7 +95,7 @@
 							},
 							{
 								"source": {
-									"name": "DETALLE_FACTURA",
+									"name": "CD_DETALLE_FACTURA",
 									"type": "String"
 								},
 								"sink": {
@@ -106,6 +106,17 @@
 							},
 							{
 								"source": {
+									"name": "VOLUMEN",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VOLUMEN",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
 									"name": "CLIENTE",
 									"type": "String"
 								},
@@ -183,7 +194,7 @@
 							},
 							{
 								"source": {
-									"name": "CANAL",
+									"name": "CD_CANAL",
 									"type": "String"
 								},
 								"sink": {
@@ -194,7 +205,29 @@
 							},
 							{
 								"source": {
-									"name": "MONEDA",
+									"name": "CD_TIPO_CLIENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_TIPO_CLIENTE",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_REGION_VENTAS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CD_REGION_VENTAS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CD_MONEDA",
 									"type": "String"
 								},
 								"sink": {
@@ -216,8 +249,8 @@
 							},
 							{
 								"source": {
-									"name": "TASA_CAMBIARIA",
-									"type": "Decimal"
+									"name": "MONTO_TASA_CAMBIARIA",
+									"type": "Double"
 								},
 								"sink": {
 									"name": "MONTO_TASA_CAMBIARIA",
@@ -227,7 +260,7 @@
 							},
 							{
 								"source": {
-									"name": "MATERIAL",
+									"name": "PRODUCTO",
 									"type": "String"
 								},
 								"sink": {
@@ -238,7 +271,7 @@
 							},
 							{
 								"source": {
-									"name": "UNIDADES",
+									"name": "CANTIDAD_ITEMS",
 									"type": "Decimal"
 								},
 								"sink": {
@@ -304,6 +337,17 @@
 							},
 							{
 								"source": {
+									"name": "MONTO_BONIFICACION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MONTO_BONIFICACION",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
 									"name": "CD_VENDEDOR_SUP",
 									"type": "String"
 								},
@@ -315,11 +359,33 @@
 							},
 							{
 								"source": {
+									"name": "VGBEL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "VGBEL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
 									"name": "MTART",
 									"type": "String"
 								},
 								"sink": {
 									"name": "MTART",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CLASE_FACTURA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CLASE_FACTURA",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
