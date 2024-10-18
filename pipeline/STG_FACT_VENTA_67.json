@@ -31,7 +31,7 @@
 					"source": {
 						"type": "OracleSource",
 						"oracleReaderQuery": {
-							"value": "SELECT DISTINCT\n\tA.NO_FACTURA,\n\tC.VGBEL AS CD_DESPACHO,\n\tA.FECHA AS FECHA_VENTA,\n\tC.AUBEL AS ORDEN_VENTAS,\n\tA.POSNR AS CD_DETALLE_FACTURA,\n\tA.CONVERTIDO AS VOLUMEN,\n\tA.CLIENTE AS CLIENTE,\n\t'-1' AS CD_GERENCIA_VENTA,\n\tA.ZONA AS ZONA,\n\tA.RUTA AS RUTA,\n\t'' AS CD_VENDEDOR,\n\t'' AS CD_ASISTENTE,\n\tA.CANAL AS CD_CANAL,\n\tA.BRSCH AS CD_TIPO_CLIENTE,\n\tA.GERENCIA AS CD_REGION_VENTAS,\n\tD.WAERK AS CD_MONEDA,\n\tA.CENTRO,\n\tCASE WHEN A.DOLARES != 0\n\t\t\t\t THEN A.PESOS/A.DOLARES\n\t\t\t\t ELSE 0 END\n\t AS MONTO_TASA_CAMBIARIA,\n\tMATERIAL AS PRODUCTO,\n\tA.UNIDADES AS CANTIDAD_ITEMS,\n\tA.DESCUENTO AS DESCUENTO,\n\t0.00 AS NETWR,\n\tA.ITBIS AS ITBIS,\n\tA.PESOS AS MONTO_NETO,\n\tA.PESOS + A.ITBIS AS MONTO_BRUTO,\n\tBONIFICACION_CUR AS MONTO_BONIFICACION,\n\tA.ZONA AS CD_VENDEDOR_SUP,           \n\tC.VGBEL, \n\tI.MTART,\n\t'C' AS CLASE_FACTURA, \n\tH.PARVW,\n\tCASE \n\t\tWHEN A.VKORG='8000' \n\t\tTHEN 'VIVE'\n\t\tELSE 'RICA'\n\tEND AS ORGANIZACION,\n\tD.AUART\n\nFROM SAPSR3.ZVENTAS_GENERAL A\n   LEFT JOIN (SELECT DISTINCT \n                C1.MANDT, C1.VBELN, \n                C1.VGBEL , C1.AUBEL\n              FROM SAPSR3.VBRP C1) C ON\n\t   C.VBELN = A.NO_FACTURA AND\n\t   C.MANDT = A.MANDT\n   LEFT JOIN SAPSR3.VBAK D ON\n\t   D.VBELN=C.AUBEL\n\t   AND D.MANDT=A.MANDT \n   LEFT JOIN (SELECT DISTINCT MANDT, VBELN, PARVW from SAPSR3.VBPA WHERE PARVW = 'WE') H ON\n\t\tA.NO_FACTURA = H.VBELN AND\n\t\tA.MANDT = H.MANDT\n\t\tAND H.MANDT=A.MANDT\n   LEFT JOIN SAPSR3.MARA I ON\n\t\tI.MANDT = A.MANDT AND\n\t\tI.MATNR = A.MATERIAL AND\n        I.mtart IN ('ZPRT','ZMER','ZSER') \nWHERE A.MANDT='400' AND A.CONTABILIZADO = 'C'\n\t AND A.FECHA BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}  \t  ",
+							"value": "SELECT DISTINCT\n    c.vbeln AS NO_FACTURA,\n    MAX(C.VGBEL) AS CD_DESPACHO,\n    A.fkdat AS fECHA,\n    MAX(C.AUBEL) AS ORDEN_VENTAS,\n    C.POSNR AS CD_DETALLE_FACTURA,\n    A.KUNAG AS CLIENTE,\n    '-1' AS CD_GERENCIA_VENTA,\n    a.BZIRK as zona,\n    '' AS CD_VENDEDOR,\n    '' AS CD_ASISTENTE,\n    C.KVGR1 AS TIPO_CLIENTE,\n    E.KUNNR AS RUTA,\n    C.kvgr2 AS REGION,\n    a.vtweg as canal,\n    C.WERKS AS CENTRO,\n    A.STWAE AS CD_MONEDA,\n    a.kurrf AS TASA_CAMBIARIA,\n    C.MATNR AS MATERIAL,\n    C.VGBEL,\n    I.MTART,\n    a.BZIRK as CD_VENDEDOR_SUP,\n    'C' AS CLASE_FACTURA, \n    B.PARVW,\n    CASE WHEN A.VKORG='8000' THEN 'VIVE' ELSE 'RICA' END AS ORGANIZACION,\n    G.AUART,\n    C.NETWR AS NETWR,\n    C.FKIMG AS UNIDADES,\n    C.FKLMG AS VOLUMEN,\n    C.BRTWR AS MONTO_BRUTO_PESOS,\n    A.MWSBK AS ITBIS,\n    0.00 AS BONIFICACION,\n    C.kzwi6 AS DESCUENTO,\n    CASE when A.VBTYP  IN ('N','O') THEN ((A.NETWR*a.kurrf)*-1) ELSE (A.NETWR*a.kurrf) END AS MONTO_NETO_PESOS\nFROM SAPSR3.VBRP C\n    full outer JOIN SAPSR3.VBAK G ON\n        G.VBELN=C.AUBEL AND\n        G.MANDT='400'\n    JOIN SAPSR3.VBRK A ON\n        a.vbeln=C.vbeln\n    LEFT JOIN SAPSR3.VBPA B ON B.VBELN=A.VBELN AND B.PARVW ='WE'AND B.MANDT='400'\n    LEFT JOIN SAPSR3.vbpa e ON e.vbeln = a.VBELN  AND e.parvw = 'SB' AND E.MANDT='400'\n    LEFT JOIN SAPSR3.vbpa f ON f.vbeln =a.VBELN AND f.parvw = 'RH' AND F.MANDT='400'\n    LEFT JOIN SAPSR3.vbpa e ON e.vbeln = a.VBELN  AND e.parvw = 'RP' AND E.MANDT='400'\n    LEFT JOIN SAPSR3.MARA I ON\n        I.MANDT = '400' AND\n        I.MATNR = C.MATNR and\n        I.mtart IN ('ZPRT','ZMER','ZSER')\nWHERE A.fkdat BETWEEN @{variables('Fecha_Ini')}  AND @{variables('Fecha_Fin')}  and \na.rfbsk='C' AND A.FKTYP <> 'A'\n\nGROUP BY\n    c.vbeln,\n    A.fkdat,\n    C.POSNR,\n    A.KUNAG,\n    a.BZIRK,\n    C.KVGR1,\n    E.KUNNR,\n    C.kvgr2,\n    a.vtweg,\n    C.WERKS,\n    A.STWAE,\n    a.kurrf,\n    C.MATNR,\n    C.VGBEL,\n    I.MTART,\n    a.BZIRK ,\n    B.PARVW,\n    CASE WHEN A.VKORG='8000' THEN 'VIVE' ELSE 'RICA' END,\n    G.AUART,\n    C.FKIMG,\n    C.FKLMG,\n    C.BRTWR,\n    A.MWSBK,\n    C.NETWR,\n    C.kzwi6,\n     CASE when A.VBTYP  IN ('N','O') THEN ((A.NETWR*a.kurrf)*-1) ELSE (A.NETWR*a.kurrf) END",
 							"type": "Expression"
 						},
 						"partitionOption": "None",
@@ -73,7 +73,7 @@
 							},
 							{
 								"source": {
-									"name": "FECHA_VENTA",
+									"name": "FECHA",
 									"type": "String"
 								},
 								"sink": {
@@ -194,7 +194,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_CANAL",
+									"name": "CANAL",
 									"type": "String"
 								},
 								"sink": {
@@ -205,7 +205,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_TIPO_CLIENTE",
+									"name": "TIPO_CLIENTE",
 									"type": "String"
 								},
 								"sink": {
@@ -216,7 +216,7 @@
 							},
 							{
 								"source": {
-									"name": "CD_REGION_VENTAS",
+									"name": "REGION",
 									"type": "String"
 								},
 								"sink": {
@@ -249,8 +249,8 @@
 							},
 							{
 								"source": {
-									"name": "MONTO_TASA_CAMBIARIA",
-									"type": "Double"
+									"name": "TASA_CAMBIARIA",
+									"type": "Decimal"
 								},
 								"sink": {
 									"name": "MONTO_TASA_CAMBIARIA",
@@ -260,7 +260,7 @@
 							},
 							{
 								"source": {
-									"name": "PRODUCTO",
+									"name": "MATERIAL",
 									"type": "String"
 								},
 								"sink": {
@@ -271,7 +271,7 @@
 							},
 							{
 								"source": {
-									"name": "CANTIDAD_ITEMS",
+									"name": "UNIDADES",
 									"type": "Decimal"
 								},
 								"sink": {
@@ -294,7 +294,7 @@
 							{
 								"source": {
 									"name": "NETWR",
-									"type": "Double"
+									"type": "Decimal"
 								},
 								"sink": {
 									"name": "NETWR",
@@ -315,21 +315,21 @@
 							},
 							{
 								"source": {
-									"name": "MONTO_NETO",
-									"type": "Decimal"
-								},
-								"sink": {
-									"name": "MONTO_NETO",
-									"type": "Decimal",
-									"physicalType": "decimal"
-								}
-							},
-							{
-								"source": {
-									"name": "MONTO_BRUTO",
+									"name": "MONTO_NETO_PESOS",
 									"type": "Double"
 								},
 								"sink": {
+									"name": "MONTO_NETO",
+									"type": "Decimal",
+									"physicalType": "decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "MONTO_BRUTO_PESOS",
+									"type": "Decimal"
+								},
+								"sink": {
 									"name": "MONTO_BRUTO",
 									"type": "Decimal",
 									"physicalType": "decimal"
@@ -337,8 +337,8 @@
 							},
 							{
 								"source": {
-									"name": "MONTO_BONIFICACION",
-									"type": "Decimal"
+									"name": "BONIFICACION",
+									"type": "Double"
 								},
 								"sink": {
 									"name": "MONTO_BONIFICACION",
@@ -543,8 +543,6 @@
 			{
 				"name": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA FACT VENTA 67",
