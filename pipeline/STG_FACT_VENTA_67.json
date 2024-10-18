@@ -5,6 +5,8 @@
 			{
 				"name": "EXTRACT DATA FACT VENTA 67",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable Fecha Inicial",
