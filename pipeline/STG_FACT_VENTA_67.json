@@ -572,7 +572,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "/^TRUNCATE TABLE [gr01].[STG_DATOS_DECDEV_ALL]*/",
+						"preCopyScript": "/*TRUNCATE TABLE [gr01].[STG_DATOS_DECDEV_ALL]*/",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
