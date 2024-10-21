@@ -40,7 +40,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "/*TRUNCATE TABLE [gr01].[STG_FACT_VENTA_ALL] */",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_FACT_VENTA_ALL] ",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
@@ -543,6 +543,8 @@
 			{
 				"name": "EXTRACT DATA DECOMISOS Y DEVOLUCIONES",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "EXTRACT DATA FACT VENTA 67",
