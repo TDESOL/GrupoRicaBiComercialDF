@@ -40,7 +40,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "/* TRUNCATE TABLE [gr01].[STG_FACT_VENTA_ALL] */",
+						"preCopyScript": "TRUNCATE TABLE [gr01].[STG_FACT_VENTA_ALL] ",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
